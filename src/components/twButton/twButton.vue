@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <h1>Meeting Form</h1>
-    <tw-button>Teste 2</tw-button>
-  </div>
+  <button>
+    <slot></slot>
+  </button>
 </template>
 
 <script>
 export default {
+  name: 'twButton',
   data() {
     return {};
   },
