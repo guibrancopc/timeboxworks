@@ -8,16 +8,22 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: { name: 'meetingForm' },
+    },
+    {
+      path: '/meeting/form',
       name: 'meetingForm',
       component: MeetingForm,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './pages/About.vue'),
+      path: '/meeting/dashboard',
+      name: 'meetingDashboard',
+      component: () => import(/* webpackChunkName: "meetingDashboard" */ './pages/meetingDashboard/meetingDashboard.vue'),
+    },
+    {
+      path: '/meeting/report',
+      name: 'meetingReport',
+      component: () => import(/* webpackChunkName: "meetingReport" */ './pages/meetingReport/meetingReport.vue'),
     },
   ],
 });
