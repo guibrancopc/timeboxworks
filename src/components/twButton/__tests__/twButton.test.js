@@ -1,17 +1,8 @@
 import { mount } from '@vue/test-utils';
 import sinon from 'sinon';
-import TwButton from '@/components/twButton/twButton.vue';
+import TwButton from '../twButton.vue';
 
 describe('Tw Button component', () => {
-  it('should add active class when required', () => {
-    const active = true;
-    const callback = () => {};
-    const wrapper = mount(TwButton, {
-      propsData: { active, callback },
-    });
-    expect(wrapper.classes()).toContain('active');
-  });
-
   it('should add disabled class when required', () => {
     const disabled = true;
     const callback = () => {};
@@ -88,6 +79,7 @@ describe('Tw Button component', () => {
     wrapper.trigger('click');
     expect(callback.called).toBe(true);
   });
+
   it('should not do action when button is clicked and it is disabled', () => {
     const callback = sinon.spy();
     const disabled = true;
