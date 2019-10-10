@@ -2,17 +2,20 @@
   <div class="form-group">
     <label :for="`input-text-${_uid}`">
       {{label}}
-      <span v-if="required" class="required-star">*</span>
+      <span v-if="required" class="form-control__required-star">*</span>
     </label>
-    <input
-      type="text"
+    <component :is="currentNativeElement"
+      :type="currentInputType"
+      :rows="rows"
+      :placeholder="placeholder"
+      :name="`input-text-${_uid}`"
       :id="`input-text-${_uid}`"
       class="form-control form-control-lg"
       :class="{'form-control-invalid': !inputValidation.isValid}"
       :value="value"
       :maxlength="maxLength"
       @input="twoWayBinding($event)"
-      @keyup="onKeyUp(value, $event)" />
+      @keyup="onKeyUp(value, $event)">{{textareaInitialValue}}</component>
     <small v-if="!inputValidation.isValid">{{currentErrorMessage}}</small>
   </div>
 </template>
@@ -25,6 +28,9 @@ export default {
         isValid: true,
         isDirty: false,
       },
+      textareaInitialValue: '',
+      currentNativeElement: 'input',
+      currentInputType: 'text',
       currentErrorMessage: '',
       errorMessages: {
         invalidValue: 'Valor inválido',
@@ -38,9 +44,21 @@ export default {
       type: [String, Number],
       default: '',
     },
+    type: {
+      type: String,
+      default: 'text',
+    },
     label: {
       type: String,
       default: '',
+    },
+    placeholder: {
+      type: String,
+      default: '',
+    },
+    rows: {
+      type: Number,
+      default: 8,
     },
     required: {
       type: Boolean,
@@ -62,9 +80,9 @@ export default {
     },
     onKeyUp(value, event) {
       this.setupIsInputDirty();
-      this.validationHandler(value, event);
+      this.formValidationHandler(value, event);
     },
-    validationHandler(value, event) {
+    formValidationHandler(value, event) {
       this.runValidation(value, event);
       this.sendValidationForParent();
     },
@@ -112,16 +130,27 @@ export default {
     },
     sendValidationForParent() {
       this.$emit('input-validation', this.inputValidation);
+    },
+    typeValidationHandler() {
+      const validTypes = ['text', 'email', 'password', 'number', 'textarea'];
+      if (validTypes.includes(this.type)) {
+        this.currentInputType = this.type;
+      } else {
+        throw new Error('TW Error: Wrong type passed as prop to input text!');
+      }
+    },
+    currentNativeElementValidationHandler() {
+      if (this.type === 'textarea') {
+        this.currentNativeElement = 'textarea';
+        this.textareaInitialValue = this.value;
+      }
     }
   },
   mounted() {
-    this.validationHandler(this.value, {});
+    this.typeValidationHandler();
+    this.currentNativeElementValidationHandler()
+    this.formValidationHandler(this.value, {});
   }
 };
 </script>
 
-<style scoped>
-.required-star {
-  color: #e24040;
-}
-</style>

@@ -38,7 +38,8 @@ export default {
   }
 
   .form-control.form-control-invalid+small,
-  .form-control.form-control-invalid:focus+small {
+  .form-control.form-control-invalid:focus+small,
+  .form-control__required-star {
     color: #e24040;
   }
 

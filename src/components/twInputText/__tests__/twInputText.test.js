@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import sinon from 'sinon';
 import TwInputText from '../twInputText.vue';
 
 describe('Tw Input Component', () => {
@@ -78,12 +79,65 @@ describe('Tw Input Component', () => {
     const wrapper = mount(TwInputText, {
       propsData: {
         value: 'forbidden_value',
-        customValidation: (value) => {
-          console.log('value', value, value === '');
-          return value !== 'forbidden_value';
-        },
+        customValidation: value => value !== 'forbidden_value',
       },
     });
     expect(wrapper.emitted()['input-validation'][0][0].isValid).toBe(false);
+  });
+
+  it('should throw error when wrong type is passed by prop', () => {
+    const consoleErrorTemp = global.console.error;
+    global.console.error = sinon.spy();
+    const errorMessage = 'TW Error: Wrong type passed as prop to input text!';
+    const wrapperSetup = {
+      propsData: {
+        type: 'any_wrong_type',
+      },
+    };
+    expect(() => { mount(TwInputText, wrapperSetup); }).toThrowError(errorMessage);
+    expect(global.console.error.called).toBe(true);
+    global.console.error = consoleErrorTemp;
+  });
+
+  it('should set a right input type on element attribute', () => {
+    const wrapper = mount(TwInputText, {
+      propsData: {
+        type: 'password',
+      },
+    });
+    const input = wrapper.find('input');
+    expect(input.attributes('type')).toBe('password');
+  });
+
+  it('should change input element to textarea when received type textarea', () => {
+    const wrapper = mount(TwInputText, {
+      propsData: {
+        type: 'textarea',
+      },
+    });
+    const textAreaElement = wrapper.find('textarea');
+    expect(wrapper.vm.currentNativeElement).toBe('textarea');
+    expect(textAreaElement.exists()).toBe(true);
+  });
+
+  it('should set placeholder on input element attribute', () => {
+    const wrapper = mount(TwInputText, {
+      propsData: {
+        placeholder: 'sample_placeholder',
+      },
+    });
+    const input = wrapper.find('input');
+    expect(input.attributes('placeholder')).toBe('sample_placeholder');
+  });
+
+  it('should set rows on input element attribute', () => {
+    const wrapper = mount(TwInputText, {
+      propsData: {
+        type: 'textarea',
+        rows: 5,
+      },
+    });
+    const input = wrapper.find('textarea');
+    expect(Number(input.attributes('rows'))).toBe(5);
   });
 });
