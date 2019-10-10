@@ -1,5 +1,4 @@
 import { mount } from '@vue/test-utils';
-import sinon from 'sinon';
 import TwInputText from '../twInputText.vue';
 
 describe('Tw Input Component', () => {
