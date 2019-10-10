@@ -22,13 +22,15 @@ describe('Tw Button component', () => {
   });
 
   it('should show error when wrong size class is passed', () => {
-    console.error = sinon.spy();
+    const consoleErrorTemp = global.console.error;
+    global.console.error = sinon.spy();
     const size = 'other-value';
     const callback = () => {};
     mount(TwButton, {
       propsData: { size, callback },
     });
-    expect(console.error.called).toBe(true);
+    expect(global.console.error.called).toBe(true);
+    global.console.error = consoleErrorTemp;
   });
 
   it('should add primary type class when no type is passed by prop', () => {
@@ -40,13 +42,15 @@ describe('Tw Button component', () => {
   });
 
   it('should show error when wrong type class is passed', () => {
-    console.error = sinon.spy();
+    const consoleErrorTemp = global.console.error;
+    global.console.error = sinon.spy();
     const type = 'other-value';
     const callback = () => {};
     mount(TwButton, {
       propsData: { type, callback },
     });
-    expect(console.error.called).toBe(true);
+    expect(global.console.error.called).toBe(true);
+    global.console.error = consoleErrorTemp;
   });
 
   it('should add normal type class when required', () => {
