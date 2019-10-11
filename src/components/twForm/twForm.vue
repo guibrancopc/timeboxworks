@@ -37,9 +37,7 @@ export default {
     box-shadow: 0 0 0 0.2rem rgba(253, 13, 13, 0.25);
   }
 
-  .form-control.form-control-invalid+small,
-  .form-control.form-control-invalid:focus+small,
-  .form-control__required-star {
+  .form-control__color--danger {
     color: #e24040;
   }
 

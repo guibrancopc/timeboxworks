@@ -2,7 +2,7 @@
   <div class="form-group">
     <label :for="`input-text-${_uid}`">
       {{label}}
-      <span v-if="required" class="form-control__required-star">*</span>
+      <span v-if="required" class="form-control__color--danger">*</span>
     </label>
     <component :is="currentNativeElement"
       :type="currentInputType"
@@ -16,7 +16,11 @@
       :maxlength="maxLength"
       @input="twoWayBinding($event)"
       @keyup="onKeyUp(value, $event)">{{textareaInitialValue}}</component>
-    <small v-if="!inputValidation.isValid">{{currentErrorMessage}}</small>
+    <small
+      v-if="!inputValidation.isValid"
+      class="form-control__color--danger">
+      {{currentErrorMessage}}
+    </small>
   </div>
 </template>
 
@@ -98,32 +102,32 @@ export default {
     cleanErrorMessageWhenInputIsValid() {
       if (this.inputValidation.isValid) { this.currentErrorMessage = ''; };
     },
-    customValidationResult(value, event) {
-      const customValidation = this.customValidation ? this.customValidation(value, event) : true;
-      this.customValidationErrorMessage(customValidation)
-      return customValidation;
-    },
-    customValidationErrorMessage(customValidation) {
-      if (!customValidation) {
-        this.currentErrorMessage = this.errorMessages.invalidValue;
-      }
-    },
     requiredResult(value) {
       const requiredResult = !this.required || value != '';
-      this.requiredResultErrorMessage(requiredResult);
+      this.requiredResultErrorMessageSetup(requiredResult);
       return requiredResult;
     },
-    requiredResultErrorMessage(requiredResult) {
+    requiredResultErrorMessageSetup(requiredResult) {
       if (!requiredResult) {
         this.currentErrorMessage = this.errorMessages.requiredField;
       }
     },
+    customValidationResult(value, event) {
+      const customValidation = this.customValidation ? this.customValidation(value, event) : true;
+      this.customValidationErrorMessageSetup(customValidation)
+      return customValidation;
+    },
+    customValidationErrorMessageSetup(customValidation) {
+      if (!customValidation) {
+        this.currentErrorMessage = this.errorMessages.invalidValue;
+      }
+    },
     minLengthResult(value) {
       const minLengthResult = value.length >= this.minLength;
-      this.minLengthErrorMessage(minLengthResult)
+      this.minLengthErrorMessageSetup(minLengthResult)
       return minLengthResult;
     },
-    minLengthErrorMessage(minLengthResult) {
+    minLengthErrorMessageSetup(minLengthResult) {
       if (!minLengthResult) {
         this.currentErrorMessage = this.errorMessages.minLength;
       }
