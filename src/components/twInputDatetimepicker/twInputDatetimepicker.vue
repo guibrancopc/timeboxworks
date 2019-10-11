@@ -22,7 +22,7 @@
         {{currentErrorMessage}}
       </small>
       <template slot="button-confirm" slot-scope="scope">
-        <span v-if='scope.step === "date"'>Next ></span>
+        <span v-if='scope.step === "date"'>Next <span>&#8227;</span></span>
         <span v-else>Ok</span>
       </template>
   </Datetime>
@@ -35,6 +35,7 @@ import { Settings } from 'luxon';
 Settings.defaultLocale = 'pt';
 
 export default {
+  name: 'twInputDatetimepicker',
   data() {
     return {
       scopedValue: '',
