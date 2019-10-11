@@ -3,7 +3,9 @@
     <div class="header__wrapper">
       <div class="header__content">
         <div class="header__logo-side">
-          <tw-logo width="150px" />
+          <router-link to="/">
+            <tw-logo width="150px" />
+          </router-link>
         </div>
         <div class="header__nav-side">
           <nav>
@@ -31,8 +33,9 @@
 
 .header__nav-side a {
   display: inline-block;
-  padding: 20px;
+  padding: 15px;
   color: #3a3d47;
+  text-decoration: none;
 }
 
 @media screen and (min-width: 1000px) {
