@@ -1,5 +1,9 @@
 <template>
-  <img :src="`img/logos/${currentLogo}`" alt="Timebox Works Logo">
+  <img
+    :src="`img/logos/${currentLogo}`"
+    :style="currentStyle"
+    alt="Timebox Works Logo"
+    class="tw__logo">
 </template>
 
 <script>
@@ -19,11 +23,24 @@ export default {
       type: String,
       default: 'default',
     },
+    width: {
+      type: String,
+      default: '',
+    }
   },
   computed: {
     currentLogo() {
       return this.logos[this.type];
     },
+    currentStyle() {
+      return this.width ? { width: this.width } : {};
+    },
   },
 };
 </script>
+
+<style lang="scss">
+  .tw__logo {
+    vertical-align: middle;
+  }
+</style>
