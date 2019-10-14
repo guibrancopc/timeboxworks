@@ -5,6 +5,7 @@ import twInputDatetimepicker from './twInputDatetimepicker/twInputDatetimepicker
 import twLogo from './twLogo/twLogo.vue';
 import twTitle from './twTitle/twTitle.vue';
 import twPage from './twPage/twPage.vue';
+import twContainer from './twContainer/twContainer.vue';
 
 export default (Vue) => {
   Vue.component('tw-form', twForm);
@@ -14,4 +15,5 @@ export default (Vue) => {
   Vue.component('tw-logo', twLogo);
   Vue.component('tw-title', twTitle);
   Vue.component('tw-page', twPage);
+  Vue.component('tw-container', twContainer);
 };
