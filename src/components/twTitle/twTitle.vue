@@ -23,7 +23,7 @@ export default {
       if (this.isSizeValid(this.size)) {
         return `h${this.size}`;
       }
-      console.error('TW: Wrong size was passed as prop for Tw Title component.')
+      console.error('TW: Wrong size was passed as prop for Tw Title component.');
       return 'h1';
     }
   }
