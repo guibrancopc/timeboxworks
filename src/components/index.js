@@ -6,6 +6,8 @@ import twLogo from './twLogo/twLogo.vue';
 import twTitle from './twTitle/twTitle.vue';
 import twPage from './twPage/twPage.vue';
 import twContainer from './twContainer/twContainer.vue';
+import twRow from './twRow/twRow.vue';
+import twCol from './twCol/twCol.vue';
 
 export default (Vue) => {
   Vue.component('tw-form', twForm);
@@ -16,4 +18,6 @@ export default (Vue) => {
   Vue.component('tw-title', twTitle);
   Vue.component('tw-page', twPage);
   Vue.component('tw-container', twContainer);
+  Vue.component('tw-row', twRow);
+  Vue.component('tw-col', twCol);
 };

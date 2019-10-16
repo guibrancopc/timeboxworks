@@ -9,7 +9,7 @@
     border: solid 1px #DDD;
     border-radius: 0.3rem;
     margin: 15px 0;
-    padding: 15px 0;
+    padding: 15px;
     box-shadow: 0px 2px 13px #DDD;
   }
 </style>
