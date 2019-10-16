@@ -1,11 +1,10 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Meeting Form</router-link> |
-      <router-link to="/meeting/dashboard">Meeting Dashboard</router-link> |
-      <router-link to="/meeting/report">Meeting Report</router-link>
-    </div>
-    <router-view/>
+    <tw-header/>
+    <main>
+      <router-view/>
+    </main>
+    <tw-footer/>
   </div>
 </template>
 
@@ -58,5 +57,10 @@
 
   [tabindex="-1"]:focus:not(:focus-visible) {
     outline: 0 !important;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
   }
 </style>

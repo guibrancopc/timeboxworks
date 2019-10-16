@@ -1,20 +1,18 @@
 <template>
   <header>
     <div class="header__wrapper">
-      <div class="header__content">
-        <div class="header__logo-side">
-          <router-link to="/">
-            <tw-logo width="150px" />
-          </router-link>
+      <tw-container>
+        <div class="header__content">
+          <div class="header__logo-side">
+            <router-link to="/">
+              <tw-logo width="150px" />
+            </router-link>
+          </div>
+          <div class="header__nav-side">
+            <tw-menu />
+          </div>
         </div>
-        <div class="header__nav-side">
-          <nav>
-            <router-link to="/">Meeting Form</router-link> |
-            <router-link to="/meeting/dashboard">Meeting Dashboard</router-link> |
-            <router-link to="/meeting/report">Meeting Report</router-link>
-          </nav>
-        </div>
-      </div>
+      </tw-container>
     </div>
   </header>
 </template>
@@ -23,10 +21,10 @@
 
 .header__wrapper {
   background-color: #E8E8E8;
+  margin-bottom: 45px;
 }
 
 .header__content {
-  max-width: 1000px;
   margin: 0 auto;
   padding: 10px;
 }
