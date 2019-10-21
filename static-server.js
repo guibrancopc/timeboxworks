@@ -1,8 +1,11 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const express = require('express');
 
 const app = express();
 
-app.use(express.static(`${__dirname}/coverage/lcov-report/`));
+const mountPublicSource = () => `${__dirname}/${process.argv[2]}`;
+
+app.use(express.static(mountPublicSource()));
 
 app.listen(process.env.port || 6519);
 
