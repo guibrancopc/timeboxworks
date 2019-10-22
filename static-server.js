@@ -2,13 +2,13 @@
 const express = require('express');
 
 const app = express();
-
+const port = process.env.port || 6519;
 const mountPublicSource = () => `${__dirname}/${process.argv[2]}`;
 
 app.use(express.static(mountPublicSource()));
 
-app.listen(process.env.port || 6519);
+app.listen(port);
 
-console.log('Running at Port 6519');
+console.log(`Running at Port ${port}`);
 console.log('');
-console.log('>>> http://localhost:6519 <<<');
+console.log(`Just click here with Ctrl pressed: >>> http://localhost:${port} <<<`);
