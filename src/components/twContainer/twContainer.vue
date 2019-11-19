@@ -9,7 +9,7 @@ export default {
   props: {
     fullwidth: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   computed: {
@@ -19,7 +19,7 @@ export default {
         'container-fluid': this.fullwidth,
       };
     },
-  }
+  },
 };
 </script>
 

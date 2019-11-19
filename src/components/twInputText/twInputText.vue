@@ -40,8 +40,8 @@ export default {
         invalidValue: 'Valor inválido',
         requiredField: 'Campo obrigatório',
         minLength: `Mínimo de ${this.minLength} dígitos`,
-      }
-    }
+      },
+    };
   },
   props: {
     value: {
@@ -70,7 +70,7 @@ export default {
     },
     maxLength: {
       type: Number,
-      default: -1
+      default: -1,
     },
     minLength: {
       type: Number,
@@ -94,16 +94,16 @@ export default {
       this.inputValidation.isDirty = true;
     },
     runValidation(value, event) {
-      this.inputValidation.isValid = this.requiredResult(value) &&
-        this.customValidationResult(value, event) &&
-        this.minLengthResult(value);
+      this.inputValidation.isValid = this.requiredResult(value)
+        && this.customValidationResult(value, event)
+        && this.minLengthResult(value);
       this.cleanErrorMessageWhenInputIsValid();
     },
     cleanErrorMessageWhenInputIsValid() {
-      if (this.inputValidation.isValid) { this.currentErrorMessage = ''; };
+      if (this.inputValidation.isValid) { this.currentErrorMessage = ''; }
     },
     requiredResult(value) {
-      const requiredResult = !this.required || value != '';
+      const requiredResult = !this.required || value !== '';
       this.requiredResultErrorMessageSetup(requiredResult);
       return requiredResult;
     },
@@ -114,7 +114,7 @@ export default {
     },
     customValidationResult(value, event) {
       const customValidation = this.customValidation ? this.customValidation(value, event) : true;
-      this.customValidationErrorMessageSetup(customValidation)
+      this.customValidationErrorMessageSetup(customValidation);
       return customValidation;
     },
     customValidationErrorMessageSetup(customValidation) {
@@ -124,7 +124,7 @@ export default {
     },
     minLengthResult(value) {
       const minLengthResult = value.length >= this.minLength;
-      this.minLengthErrorMessageSetup(minLengthResult)
+      this.minLengthErrorMessageSetup(minLengthResult);
       return minLengthResult;
     },
     minLengthErrorMessageSetup(minLengthResult) {
@@ -148,13 +148,12 @@ export default {
         this.currentNativeElement = 'textarea';
         this.textareaInitialValue = this.value;
       }
-    }
+    },
   },
   mounted() {
     this.typeValidationHandler();
-    this.currentNativeElementValidationHandler()
+    this.currentNativeElementValidationHandler();
     this.formValidationHandler(this.value, {});
-  }
+  },
 };
 </script>
-

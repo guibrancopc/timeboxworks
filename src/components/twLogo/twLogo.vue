@@ -26,7 +26,7 @@ export default {
     width: {
       type: String,
       default: '',
-    }
+    },
   },
   computed: {
     currentLogo() {

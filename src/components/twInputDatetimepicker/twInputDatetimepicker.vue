@@ -75,9 +75,9 @@ export default {
   computed: {
     styleClasses() {
       return {
-        "form-control": true,
-        "form-control-lg": true,
-        "form-control-invalid": this.inputValidation.shouldShowErrorMessages
+        'form-control': true,
+        'form-control-lg': true,
+        'form-control-invalid': this.inputValidation.shouldShowErrorMessages,
       };
     },
   },
@@ -107,8 +107,8 @@ export default {
       this.sendValidationForParent();
     },
     runValidation(scopedValue) {
-      this.inputValidation.isValid = this.requiredResult(scopedValue) &&
-        this.customValidationResult(scopedValue);
+      this.inputValidation.isValid = this.requiredResult(scopedValue)
+        && this.customValidationResult(scopedValue);
       this.setupErrorMessages();
       this.cleanErrorMessageWhenInputIsValid();
     },
@@ -117,10 +117,10 @@ export default {
         && this.inputValidation.isDirty;
     },
     cleanErrorMessageWhenInputIsValid() {
-      if (this.inputValidation.isValid) { this.currentErrorMessage = ''; };
+      if (this.inputValidation.isValid) { this.currentErrorMessage = ''; }
     },
     requiredResult(scopedValue) {
-      const requiredResult = !this.required || scopedValue != '';
+      const requiredResult = !this.required || scopedValue !== '';
       this.requiredResultErrorMessageSetup(requiredResult);
       return requiredResult;
     },
@@ -131,7 +131,7 @@ export default {
     },
     customValidationResult(scopedValue) {
       const customValidation = this.customValidation ? this.customValidation(scopedValue) : true;
-      this.customValidationErrorMessageSetup(customValidation)
+      this.customValidationErrorMessageSetup(customValidation);
       return customValidation;
     },
     customValidationErrorMessageSetup(customValidation) {
@@ -146,7 +146,7 @@ export default {
   components: {
     Datetime,
   },
-}
+};
 </script>
 
 <style lang="scss">

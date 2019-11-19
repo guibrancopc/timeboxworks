@@ -25,9 +25,9 @@ export default {
       }
       console.error('TW: Wrong size was passed as prop for Tw Title component.');
       return 'h1';
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
