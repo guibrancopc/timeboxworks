@@ -1,23 +1,9 @@
-import twForm from './twForm/twForm.vue';
-import twButton from './twButton/twButton.vue';
-import twInputText from './twInputText/twInputText.vue';
-import twInputDatetimepicker from './twInputDatetimepicker/twInputDatetimepicker.vue';
-import twLogo from './twLogo/twLogo.vue';
-import twTitle from './twTitle/twTitle.vue';
-import twPage from './twPage/twPage.vue';
-import twContainer from './twContainer/twContainer.vue';
-import twRow from './twRow/twRow.vue';
-import twCol from './twCol/twCol.vue';
+import Vue from 'vue';
 
-export default (Vue) => {
-  Vue.component('tw-form', twForm);
-  Vue.component('tw-button', twButton);
-  Vue.component('tw-input-text', twInputText);
-  Vue.component('tw-input-datetimepicker', twInputDatetimepicker);
-  Vue.component('tw-logo', twLogo);
-  Vue.component('tw-title', twTitle);
-  Vue.component('tw-page', twPage);
-  Vue.component('tw-container', twContainer);
-  Vue.component('tw-row', twRow);
-  Vue.component('tw-col', twCol);
-};
+const requireComponent = require.context('.', true, /.vue$/);
+
+requireComponent.keys().forEach((fileName) => {
+  const componentConfigWrapper = requireComponent(fileName);
+  const componentConfig = componentConfigWrapper.default || componentConfigWrapper;
+  Vue.component(componentConfig.name, componentConfig);
+});

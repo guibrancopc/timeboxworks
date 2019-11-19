@@ -17,11 +17,11 @@
                 :rows="3"/>
               <tw-row>
                 <tw-col>
-                  <tw-input-datetimepicker
+                  <tw-input-datetime-picker
                     label="Start time"/>
                 </tw-col>
                 <tw-col>
-                  <tw-input-datetimepicker
+                  <tw-input-datetime-picker
                     label="End time"/>
                 </tw-col>
               </tw-row>
@@ -37,6 +37,7 @@
 
 <script>
 export default {
+  name: 'tw-meeting-form',
   data() {
     return {
       shouldShow: true,

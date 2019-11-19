@@ -1,9 +1,9 @@
-import twHeader from './twHeader/twHeader.vue';
-import twFooter from './twFooter/twFooter.vue';
-import twMenu from './twMenu/twMenu.vue';
+import Vue from 'vue';
 
-export default (Vue) => {
-  Vue.component('tw-header', twHeader);
-  Vue.component('tw-footer', twFooter);
-  Vue.component('tw-menu', twMenu);
-};
+const requireComponent = require.context('.', true, /.vue$/);
+
+requireComponent.keys().forEach((fileName) => {
+  const componentConfigWrapper = requireComponent(fileName);
+  const componentConfig = componentConfigWrapper.default || componentConfigWrapper;
+  Vue.component(componentConfig.name, componentConfig);
+});
