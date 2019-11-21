@@ -2,7 +2,7 @@ const setOverflowHidden = (el) => {
   el.style.overflow = 'hidden';
 };
 
-const setMinHeghtIfRequested = (el, binding) => {
+const setMinHeghtWhenRequested = (el, binding) => {
   if (binding.value && binding.value.minHeight) {
     el.style['min-height'] = binding.value.minHeight;
   }
@@ -17,7 +17,7 @@ export default {
   bind: (el, binding) => {
     if (binding.value && binding.value.disabled) { return; }
     setOverflowHidden(el);
-    setMinHeghtIfRequested(el, binding);
+    setMinHeghtWhenRequested(el, binding);
     el.addEventListener('input', updateElementHeight);
   },
   unbind: (el, binding) => {
