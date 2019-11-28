@@ -1,38 +1,77 @@
 <template>
-    <tw-container>
+  <tw-container>
+    <tw-row>
+      <tw-col>
+        <tw-title :size="1">Meeting Form</tw-title>
+      </tw-col>
+    </tw-row>
+    <tw-page>
+      <tw-form>
         <tw-row>
           <tw-col>
-            <tw-title :size="1">Meeting Form</tw-title>
+            <tw-row>
+              <tw-col>
+                <tw-form-field
+                  label="Meeting name">
+                  <tw-input-text
+                    v-model="name"
+                    :minLength="10"
+                    :required="false"/>
+                </tw-form-field>
+                {{ name }}
+              </tw-col>
+            </tw-row>
+            <tw-row>
+              <tw-col>
+                <tw-form-field
+                  label="Start time">
+                  <tw-input-datetime-picker
+                    type="time"
+                    v-model="startTime"
+                    :required="true"/>
+                </tw-form-field>
+                {{ startTime }}
+              </tw-col>
+              <tw-col>
+                <tw-form-field
+                  label="End time">
+                  <tw-input-datetime-picker
+                    type="time"
+                    v-model="endTime"
+                    :required="true"/>
+                </tw-form-field>
+                {{ endTime }}
+              </tw-col>
+            </tw-row>
+            <tw-row>
+              <tw-col>
+                <tw-form-field
+                  label="Description">
+                  <tw-input-text
+                    label="Meeting Description"
+                    type="textarea"
+                    v-model="description"
+                    dynamicMinHeight="100"
+                    :required="true"/>
+                </tw-form-field>
+                {{ description }}
+              </tw-col>
+            </tw-row>
+            <tw-row>
+              <tw-col class="tw-utils-text-right">
+                <tw-gutter :right="false">
+                  <tw-button template="info" :outline="true">Clean Form</tw-button>
+                </tw-gutter>
+                <tw-gutter :right="false">
+                  <tw-button type="submit">Start Meeting</tw-button>
+                </tw-gutter>
+              </tw-col>
+            </tw-row>
           </tw-col>
         </tw-row>
-        <tw-page>
-          <tw-row>
-            <tw-col>
-              <tw-input-text
-                label="Meeting name"
-                :required="false"/>
-              <tw-input-text
-                label="Meeting Description"
-                type="textarea"
-                :rows="3"/>
-              <tw-row>
-                <tw-col>
-                  <tw-input-datetime-picker
-                    label="Start time"/>
-                </tw-col>
-                <tw-col>
-                  <tw-input-datetime-picker
-                    label="End time"/>
-                </tw-col>
-              </tw-row>
-            </tw-col>
-          </tw-row>
-        </tw-page>
-        <button @click="shouldShow = !shouldShow">Teste</button>
-        <transition name="fade">
-          <div v-if="shouldShow">IAIHEWFAIUHE</div>
-        </transition>
-    </tw-container>
+      </tw-form>
+    </tw-page>
+  </tw-container>
 </template>
 
 <script>
@@ -40,17 +79,11 @@ export default {
   name: 'tw-meeting-form',
   data() {
     return {
-      shouldShow: true,
+      name: '',
+      description: '',
+      startTime: '',
+      endTime: '',
     };
   },
 };
 </script>
-
-<style lang="scss">
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active em versões anteriores a 2.1.8 */ {
-  opacity: 0;
-}
-</style>

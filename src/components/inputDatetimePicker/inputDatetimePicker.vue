@@ -1,26 +1,14 @@
 <template>
   <Datetime
-    type="datetime"
-    class="form-group"
-    :input-class="styleClasses"
+    :type="validatedType"
+    :input-class="inputClasses()"
     :placeholder="placeholder"
     :minute-step="5"
     :input-id="`input-datetime-${_uid}`"
+    :use12-hour="true"
     @input="onChangeEvent(scopedValue)"
     @close="onCloseEvent()"
     v-model="scopedValue">
-      <label
-        slot="before"
-        :for="`input-datetime-${_uid}`">
-        {{label}}
-        <span v-if="required" class="form-control__color--danger">*</span>
-      </label>
-      <small
-        slot="after"
-        v-if="inputValidation.shouldShowErrorMessages"
-        class="form-control__color--danger">
-        {{currentErrorMessage}}
-      </small>
       <template slot="button-confirm" slot-scope="scope">
         <span v-if='scope.step === "date"'>Next <span>&#8227;</span></span>
         <span v-else>Ok</span>
@@ -32,14 +20,12 @@
 import { Datetime } from 'vue-datetime';
 import { Settings } from 'luxon';
 
-Settings.defaultLocale = 'pt';
+Settings.defaultLocale = 'en';
 
 export default {
   name: 'tw-input-datetime-picker',
   data() {
     return {
-      scopedValue: '',
-      currentErrorMessage: '',
       inputValidation: {
         isValid: true,
         isDirty: false,
@@ -52,6 +38,10 @@ export default {
     };
   },
   props: {
+    type: {
+      type: String,
+      default: 'date',
+    },
     value: {
       type: String,
       default: new Date().toISOString(),
@@ -68,36 +58,32 @@ export default {
       type: Boolean,
       default: false,
     },
-    customValidation: {
-      type: Function,
-    },
+    customValidation: Function,
   },
   computed: {
-    styleClasses() {
-      return {
-        'form-control': true,
-        'form-control-lg': true,
-        'form-control-invalid': this.inputValidation.shouldShowErrorMessages,
-      };
+    validatedType() {
+      const validTypes = ['datetime', 'date', 'time'];
+      if (validTypes.includes(this.type)) { return this.type; }
+      throw new Error('TW Error: Wrong type passed as prop to datetime input!');
+    },
+    scopedValue: {
+      get() {
+        return this.value;
+      },
+      set(newValue) {
+        this.$emit('input', newValue);
+      },
     },
   },
   mounted() {
-    this.bindValueProp();
     this.formValidationHandler(this.scopedValue);
   },
   methods: {
-    bindValueProp() {
-      this.scopedValue = this.value;
-    },
     onChangeEvent(scopedValue) {
-      this.twoWayBinding(scopedValue);
       this.formValidationHandler(scopedValue);
     },
     onCloseEvent() {
       this.setupIsInputDirty();
-    },
-    twoWayBinding(scopedValue) {
-      this.$emit('input', scopedValue);
     },
     setupIsInputDirty() {
       this.inputValidation.isDirty = true;
@@ -141,6 +127,12 @@ export default {
     },
     sendValidationForParent() {
       this.$emit('input-validation', this.inputValidation);
+    },
+    inputClasses() {
+      return {
+        'form-control': true,
+        'form-control-lg': true,
+      };
     },
   },
   components: {

@@ -1,5 +1,8 @@
 <template>
-  <form novalidate="true">
+  <form
+    class="ca-form__container"
+    @submit.prevent="onSubmit()"
+    novalidate="true">
     <slot></slot>
   </form>
 </template>
@@ -7,6 +10,30 @@
 <script>
 export default {
   name: 'tw-form',
+  data() {
+    return {
+      isValid: false,
+      isDirty: false,
+      isSubmitted: false,
+      inputs: [],
+    };
+  },
+  provide() {
+    return {
+      formVm: this,
+    };
+  },
+  computed: {
+    shouldShowAllValidations() {
+      return this.isSubmitted && !this.isValid;
+    },
+  },
+  methods: {
+    onSubmit() {
+      this.isSubmitted = true;
+      console.log('deu boa');
+    },
+  },
 };
 </script>
 
@@ -27,11 +54,11 @@ export default {
     transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   }
 
-  .form-control.form-control-invalid {
+  .form-control-invalid .form-control {
     border: solid 1px #e24040;
   }
 
-  .form-control.form-control-invalid:focus {
+  .form-control-invalid .form-control:focus {
     border-color: #e24040;
     -webkit-box-shadow: 0 0 0 0.2rem rgba(253, 13, 13, 0.25);
     box-shadow: 0 0 0 0.2rem rgba(253, 13, 13, 0.25);
@@ -119,5 +146,9 @@ export default {
     padding: 0.5rem 1rem;
     font-size: 1.25rem;
     border-radius: 0.3rem;
+  }
+
+  textarea.form-control {
+    resize: none;
   }
 </style>

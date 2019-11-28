@@ -63,4 +63,8 @@
     margin-top: 0;
     margin-bottom: 1rem;
   }
+
+  .tw-utils-text-right {
+    text-align: right;
+  }
 </style>

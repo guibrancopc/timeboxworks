@@ -1,69 +1,50 @@
 <template>
-  <div class="form-group">
-    <label :for="`input-text-${_uid}`">
-      {{label}}
-      <span v-if="required" class="form-control__color--danger">*</span>
-    </label>
-    <component :is="currentNativeElement"
-      :type="currentInputType"
-      :rows="rows"
-      :placeholder="placeholder"
-      :name="`input-text-${_uid}`"
-      :id="`input-text-${_uid}`"
-      class="form-control form-control-lg"
-      :class="{'form-control-invalid': !inputValidation.isValid}"
-      :value="value"
-      :maxlength="maxLength"
-      @input="twoWayBinding($event)"
-      @keyup="onKeyUp(value, $event)">{{textareaInitialValue}}</component>
-    <small
-      v-if="!inputValidation.isValid"
-      class="form-control__color--danger">
-      {{currentErrorMessage}}
-    </small>
-  </div>
+  <component :is="currentNativeElement"
+    :type="currentInputType"
+    :placeholder="placeholder"
+    :name="`input-text-${_uid}`"
+    :id="setupInputHtmlId(_uid)"
+    class="form-control form-control-lg"
+    :value="value"
+    :maxlength="maxLength"
+    @input="onInput($event)"
+    @blur="onBlur()"
+    v-dynamic-height="vDynamicHeightSetup()">{{textareaInitialValue}}</component>
 </template>
 
 <script>
+import dynamicHeight from '../../directives/dynamicHeight/dynamicHeight';
+
 export default {
   name: 'tw-input-text',
   data() {
     return {
-      inputValidation: {
-        isValid: true,
-        isDirty: false,
-      },
+      // isValid: true,
       textareaInitialValue: '',
-      currentNativeElement: 'input',
-      currentInputType: 'text',
-      currentErrorMessage: '',
       errorMessages: {
-        invalidValue: 'Valor inválido',
-        requiredField: 'Campo obrigatório',
-        minLength: `Mínimo de ${this.minLength} dígitos`,
+        invalidValue: 'Invalid value',
+        requiredField: 'Required field',
+        minLength: `Min of ${this.minLength} digits`,
       },
     };
   },
+  inject: ['formVm', 'formFieldVm'],
   props: {
     value: {
-      type: [String, Number],
+      type: [Number, String],
       default: '',
     },
     type: {
       type: String,
       default: 'text',
     },
-    label: {
-      type: String,
-      default: '',
-    },
     placeholder: {
       type: String,
       default: '',
     },
-    rows: {
-      type: Number,
-      default: 8,
+    dynamicMinHeight: {
+      type: [Number, String],
+      default: 100,
     },
     required: {
       type: Boolean,
@@ -79,82 +60,93 @@ export default {
     },
     customValidation: Function,
   },
-  methods: {
-    twoWayBinding(event) {
-      this.$emit('input', event.target.value);
-    },
-    onKeyUp(value, event) {
-      this.setupIsInputDirty();
-      this.formValidationHandler(value, event);
-    },
-    formValidationHandler(value, event) {
-      this.runValidation(value, event);
-      this.sendValidationForParent();
-    },
-    setupIsInputDirty() {
-      this.inputValidation.isDirty = true;
-    },
-    runValidation(value, event) {
-      this.inputValidation.isValid = this.requiredResult(value)
-        && this.customValidationResult(value, event)
-        && this.minLengthResult(value);
-      this.cleanErrorMessageWhenInputIsValid();
-    },
-    cleanErrorMessageWhenInputIsValid() {
-      if (this.inputValidation.isValid) { this.currentErrorMessage = ''; }
-    },
-    requiredResult(value) {
-      const requiredResult = !this.required || value !== '';
-      this.requiredResultErrorMessageSetup(requiredResult);
-      return requiredResult;
-    },
-    requiredResultErrorMessageSetup(requiredResult) {
-      if (!requiredResult) {
-        this.currentErrorMessage = this.errorMessages.requiredField;
+  computed: {
+    currentNativeElement() {
+      if (this.isTypeTextarea()) {
+        this.setupTextAreaInitialValue();
+        return 'textarea';
       }
+      return 'input';
     },
-    customValidationResult(value, event) {
-      const customValidation = this.customValidation ? this.customValidation(value, event) : true;
-      this.customValidationErrorMessageSetup(customValidation);
-      return customValidation;
-    },
-    customValidationErrorMessageSetup(customValidation) {
-      if (!customValidation) {
-        this.currentErrorMessage = this.errorMessages.invalidValue;
-      }
-    },
-    minLengthResult(value) {
-      const minLengthResult = value.length >= this.minLength;
-      this.minLengthErrorMessageSetup(minLengthResult);
-      return minLengthResult;
-    },
-    minLengthErrorMessageSetup(minLengthResult) {
-      if (!minLengthResult) {
-        this.currentErrorMessage = this.errorMessages.minLength;
-      }
-    },
-    sendValidationForParent() {
-      this.$emit('input-validation', this.inputValidation);
-    },
-    typeValidationHandler() {
+    currentInputType() {
       const validTypes = ['text', 'email', 'password', 'number', 'textarea'];
       if (validTypes.includes(this.type)) {
-        this.currentInputType = this.type;
-      } else {
-        throw new Error('TW Error: Wrong type passed as prop to input text!');
+        return this.type;
+      }
+      throw new Error('TW Error: Wrong type passed as prop to input text!');
+    },
+  },
+  methods: {
+    onInput(event) {
+      if (event && event.target) {
+        this.$emit('input', event.target.value);
+        this.setInputAndFormDirty();
+        this.runValidation(event.target.value, event);
       }
     },
-    currentNativeElementValidationHandler() {
-      if (this.type === 'textarea') {
-        this.currentNativeElement = 'textarea';
-        this.textareaInitialValue = this.value;
+    onBlur() {
+      this.formFieldVm.input.isBlurred = true;
+    },
+    setupTextAreaInitialValue() {
+      this.textareaInitialValue = this.value;
+    },
+    setInputAndFormDirty() {
+      this.formVm.isDirty = true;
+      this.formFieldVm.input.isDirty = true;
+    },
+    runValidation(value, event) {
+      this.formFieldVm.input.isValid = this.isRequiredValidationValid(value)
+        && this.isCustomValidationValid(value, event)
+        && this.isMinLengthValid(value);
+      this.cleanErrorMessageWhenInputIsValid();
+    },
+    isRequiredValidationValid(value) {
+      const isRequiredValidationValid = !this.required || value !== '';
+      this.setupErrorMessage(!isRequiredValidationValid, this.errorMessages.requiredField);
+      return isRequiredValidationValid;
+    },
+    isCustomValidationValid(value, event) {
+      const customValidation = this.customValidation ? this.customValidation(value, event) : true;
+      this.setupErrorMessage(!customValidation, this.errorMessages.invalidValue);
+      return customValidation;
+    },
+    isMinLengthValid(value) {
+      const isMinLengthValid = value.length >= this.minLength;
+      this.setupErrorMessage(!isMinLengthValid, this.errorMessages.minLength);
+      return isMinLengthValid;
+    },
+    cleanErrorMessageWhenInputIsValid() {
+      if (this.formFieldVm.input.isValid) { this.formFieldVm.errorMessage = ''; }
+    },
+    setupErrorMessage(shouldShow, message) {
+      if (shouldShow) {
+        this.formFieldVm.errorMessage = message;
       }
+    },
+    vDynamicHeightSetup() {
+      return {
+        minHeight: `${this.dynamicMinHeight}px`,
+        disabled: !this.isTypeTextarea(),
+      };
+    },
+    isTypeTextarea() {
+      return this.type === 'textarea';
+    },
+    setupInputHtmlId(inputId) {
+      const inputHtmlId = `input-${inputId}`;
+      this.formFieldVm.inputHtmlId = inputHtmlId;
+      return inputHtmlId;
+    },
+    updateFormField() {
+      this.formFieldVm.input.isRequired = this.required;
     },
   },
   mounted() {
-    this.typeValidationHandler();
-    this.currentNativeElementValidationHandler();
-    this.formValidationHandler(this.value, {});
+    this.updateFormField();
+    this.runValidation(this.value, {});
+  },
+  directives: {
+    dynamicHeight,
   },
 };
 </script>

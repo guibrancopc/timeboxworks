@@ -1,5 +1,5 @@
 <template>
-  <button class="btn" @click.prevent="doAction()" :class="styleClasses">
+  <button class="btn" :type="type" @click="doAction($event)" :class="styleClasses">
     <slot></slot>
   </button>
 </template>
@@ -10,7 +10,7 @@ export default {
   data() {
     return {
       styleClasses: {},
-      validTypes: [
+      validTemplates: [
         'primary',
         'seconday',
         'success',
@@ -25,15 +25,19 @@ export default {
     };
   },
   beforeMount() {
-    this.propsValidations('type', this.validTypes);
+    this.propsValidations('template', this.validTemplates);
     this.propsValidations('size', this.validSizes);
     this.addSizeClass();
     this.addBlockClass();
     this.addDisabledClass();
-    this.addTypeClass();
+    this.addTemplateClass();
   },
   props: {
     type: {
+      type: String,
+      default: 'button',
+    },
+    template: {
       type: String,
       default: 'primary',
     },
@@ -55,7 +59,6 @@ export default {
     },
     callback: {
       type: Function,
-      required: true,
     },
   },
   methods: {
@@ -65,10 +68,15 @@ export default {
         console.error(`TW ERROR! There is an unexpected value received on prop "${propName}" from button component.`);
       }
     },
-    doAction() {
-      if (!this.disabled) {
-        this.callback();
-      }
+    doAction(event) {
+      this.shouldPreventDefault(event);
+      this.shouldRunCallback();
+    },
+    shouldRunCallback() {
+      if (this.callback && !this.disabled) { this.callback(); }
+    },
+    shouldPreventDefault(event) {
+      if (this.disabled || this.type !== 'submit') { event.preventDefault(); }
     },
     addDisabledClass() {
       this.styleClasses.disabled = this.disabled;
@@ -80,10 +88,10 @@ export default {
     addBlockClass() {
       this.styleClasses['btn-block'] = this.block;
     },
-    addTypeClass() {
-      const typeClassPrefix = this.addOutlineStyle();
-      const typeClass = typeClassPrefix + this.type;
-      this.styleClasses[typeClass] = true;
+    addTemplateClass() {
+      const templateClassPrefix = this.addOutlineStyle();
+      const templateClass = templateClassPrefix + this.template;
+      this.styleClasses[templateClass] = true;
     },
     addOutlineStyle() {
       return this.outline ? 'btn-outline-' : 'btn-';
@@ -111,7 +119,7 @@ export default {
     font-size: 1rem;
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 
   @media (prefers-reduced-motion: reduce) {
