@@ -1,14 +1,15 @@
 <template>
   <Datetime
+    :name="name"
     :type="validatedType"
     :input-class="inputClasses()"
     :placeholder="placeholder"
     :minute-step="5"
-    :input-id="`input-datetime-${_uid}`"
+    :input-id="getInputHtmlId()"
     :use12-hour="true"
-    @input="onChangeEvent(scopedValue)"
-    @close="onCloseEvent()"
-    v-model="scopedValue">
+    :value="formFieldVm.input.value"
+    @input="onInput"
+    @close="onClose">
       <template slot="button-confirm" slot-scope="scope">
         <span v-if='scope.step === "date"'>Next <span>&#8227;</span></span>
         <span v-else>Ok</span>
@@ -19,34 +20,32 @@
 <script>
 import { Datetime } from 'vue-datetime';
 import { Settings } from 'luxon';
+import {
+  initForm,
+  runValidation,
+  setIsBlurred,
+  setupInputHtmlId,
+  setInputAndFormDirty,
+} from '../../services/formHelpers/formHelpers';
 
 Settings.defaultLocale = 'en';
 
 export default {
   name: 'tw-input-datetime-picker',
   data() {
-    return {
-      inputValidation: {
-        isValid: true,
-        isDirty: false,
-        shouldShowErrorMessages: false,
-      },
-      errorMessages: {
-        requiredField: 'Campo obrigatório',
-        invalidValue: 'Valor inválido',
-      },
-    };
+    return {};
   },
+  inject: ['formVm', 'formFieldVm'],
   props: {
+    name: {
+      type: String,
+      required: true,
+    },
     type: {
       type: String,
       default: 'date',
     },
     value: {
-      type: String,
-      default: new Date().toISOString(),
-    },
-    label: {
       type: String,
       default: '',
     },
@@ -66,74 +65,28 @@ export default {
       if (validTypes.includes(this.type)) { return this.type; }
       throw new Error('TW Error: Wrong type passed as prop to datetime input!');
     },
-    scopedValue: {
-      get() {
-        return this.value;
-      },
-      set(newValue) {
-        this.$emit('input', newValue);
-      },
+  },
+  methods: {
+    onInput(value) {
+      this.$emit('input', value);
+      setInputAndFormDirty(this);
+      runValidation(this.convertToEventFormat(value), this);
+    },
+    onClose() {
+      setIsBlurred(this);
+    },
+    inputClasses() {
+      return 'form-control form-control-lg';
+    },
+    getInputHtmlId() {
+      return setupInputHtmlId(this);
+    },
+    convertToEventFormat(value) {
+      return { target: { value } };
     },
   },
   mounted() {
-    this.formValidationHandler(this.scopedValue);
-  },
-  methods: {
-    onChangeEvent(scopedValue) {
-      this.formValidationHandler(scopedValue);
-    },
-    onCloseEvent() {
-      this.setupIsInputDirty();
-    },
-    setupIsInputDirty() {
-      this.inputValidation.isDirty = true;
-    },
-    formValidationHandler(scopedValue) {
-      this.runValidation(scopedValue);
-      this.sendValidationForParent();
-    },
-    runValidation(scopedValue) {
-      this.inputValidation.isValid = this.requiredResult(scopedValue)
-        && this.customValidationResult(scopedValue);
-      this.setupErrorMessages();
-      this.cleanErrorMessageWhenInputIsValid();
-    },
-    setupErrorMessages() {
-      this.inputValidation.shouldShowErrorMessages = !this.inputValidation.isValid
-        && this.inputValidation.isDirty;
-    },
-    cleanErrorMessageWhenInputIsValid() {
-      if (this.inputValidation.isValid) { this.currentErrorMessage = ''; }
-    },
-    requiredResult(scopedValue) {
-      const requiredResult = !this.required || scopedValue !== '';
-      this.requiredResultErrorMessageSetup(requiredResult);
-      return requiredResult;
-    },
-    requiredResultErrorMessageSetup(requiredResult) {
-      if (!requiredResult) {
-        this.currentErrorMessage = this.errorMessages.requiredField;
-      }
-    },
-    customValidationResult(scopedValue) {
-      const customValidation = this.customValidation ? this.customValidation(scopedValue) : true;
-      this.customValidationErrorMessageSetup(customValidation);
-      return customValidation;
-    },
-    customValidationErrorMessageSetup(customValidation) {
-      if (!customValidation) {
-        this.currentErrorMessage = this.errorMessages.invalidValue;
-      }
-    },
-    sendValidationForParent() {
-      this.$emit('input-validation', this.inputValidation);
-    },
-    inputClasses() {
-      return {
-        'form-control': true,
-        'form-control-lg': true,
-      };
-    },
+    initForm(this.value, this);
   },
   components: {
     Datetime,

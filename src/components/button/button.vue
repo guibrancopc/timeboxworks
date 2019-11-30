@@ -1,5 +1,5 @@
 <template>
-  <button class="btn" :type="type" @click="doAction($event)" :class="styleClasses">
+  <button class="btn" :type="validType" @click="onClick($event)" :class="styleClasses">
     <slot></slot>
   </button>
 </template>
@@ -57,8 +57,12 @@ export default {
       type: Boolean,
       default: false,
     },
-    callback: {
-      type: Function,
+  },
+  computed: {
+    validType() {
+      const validTypes = ['button', 'submit', 'reset'];
+      if (validTypes.includes(this.type)) { return this.type; }
+      throw new Error('TW Error: Wrong type passed as prop to button!');
     },
   },
   methods: {
@@ -68,15 +72,13 @@ export default {
         console.error(`TW ERROR! There is an unexpected value received on prop "${propName}" from button component.`);
       }
     },
-    doAction(event) {
+    onClick(event) {
       this.shouldPreventDefault(event);
-      this.shouldRunCallback();
-    },
-    shouldRunCallback() {
-      if (this.callback && !this.disabled) { this.callback(); }
+      this.$emit('click', event);
     },
     shouldPreventDefault(event) {
-      if (this.disabled || this.type !== 'submit') { event.preventDefault(); }
+      const currentTypeUsesDefaultOption = ['submit', 'reset'].includes(this.type);
+      if (this.disabled || !currentTypeUsesDefaultOption) { event.preventDefault(); }
     },
     addDisabledClass() {
       this.styleClasses.disabled = this.disabled;

@@ -1,21 +1,22 @@
 <template>
   <form
-    class="ca-form__container"
-    @submit.prevent="onSubmit()"
+    @submit.prevent="onSubmit"
+    @reset="onReset"
     novalidate="true">
     <slot></slot>
   </form>
 </template>
 
 <script>
+import { initForm } from '../../services/formHelpers/formHelpers';
+
 export default {
   name: 'tw-form',
   data() {
     return {
-      isValid: false,
       isDirty: false,
       isSubmitted: false,
-      inputs: [],
+      formFields: [],
     };
   },
   provide() {
@@ -31,7 +32,28 @@ export default {
   methods: {
     onSubmit() {
       this.isSubmitted = true;
-      console.log('deu boa');
+      if (this.isFormValid()) {
+        this.$emit('submit', this.buildOutput()); 
+      }
+    },
+    isFormValid() {
+      return !this.formFields.some(formField => !formField.input.isValid );
+    },
+    buildOutput() {
+      return this.formFields.reduce((acumulator, formField) => {
+        acumulator[formField.input.name] = formField.input.value;
+        return acumulator;
+      }, {});
+    },
+    onReset() {
+      this.isDirty = false;
+      this.isSubmitted = false;
+      this.formFields.forEach((formField) => {
+        initForm(null, formField.$children[0]);
+        formField.input.value = null;
+        formField.input.isBlurred = false;
+        formField.input.dirty = false;
+      });
     },
   },
 };

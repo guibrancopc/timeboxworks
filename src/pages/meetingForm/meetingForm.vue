@@ -6,7 +6,7 @@
       </tw-col>
     </tw-row>
     <tw-page>
-      <tw-form>
+      <tw-form @submit="onSubmit">
         <tw-row>
           <tw-col>
             <tw-row>
@@ -14,11 +14,9 @@
                 <tw-form-field
                   label="Meeting name">
                   <tw-input-text
-                    v-model="name"
-                    :minLength="10"
-                    :required="false"/>
+                    name="meeting-name"
+                    :required="true"/>
                 </tw-form-field>
-                {{ name }}
               </tw-col>
             </tw-row>
             <tw-row>
@@ -26,21 +24,23 @@
                 <tw-form-field
                   label="Start time">
                   <tw-input-datetime-picker
+                    name="meeting-start"
                     type="time"
+                    :customValidation="timeGapCustomValidation"
                     v-model="startTime"
                     :required="true"/>
                 </tw-form-field>
-                {{ startTime }}
               </tw-col>
               <tw-col>
                 <tw-form-field
                   label="End time">
                   <tw-input-datetime-picker
+                    name="meeting-end"
                     type="time"
                     v-model="endTime"
+                    :customValidation="timeGapCustomValidation"
                     :required="true"/>
                 </tw-form-field>
-                {{ endTime }}
               </tw-col>
             </tw-row>
             <tw-row>
@@ -48,22 +48,20 @@
                 <tw-form-field
                   label="Description">
                   <tw-input-text
-                    label="Meeting Description"
+                    name="meeting-description"
                     type="textarea"
-                    v-model="description"
                     dynamicMinHeight="100"
-                    :required="true"/>
+                    :required="false"/>
                 </tw-form-field>
-                {{ description }}
               </tw-col>
             </tw-row>
             <tw-row>
               <tw-col class="tw-utils-text-right">
                 <tw-gutter :right="false">
-                  <tw-button template="info" :outline="true">Clean Form</tw-button>
+                  <tw-form-reset-button>Clean Form</tw-form-reset-button>
                 </tw-gutter>
                 <tw-gutter :right="false">
-                  <tw-button type="submit">Start Meeting</tw-button>
+                  <tw-form-submit-button>Start Meeting</tw-form-submit-button>
                 </tw-gutter>
               </tw-col>
             </tw-row>
@@ -79,11 +77,22 @@ export default {
   name: 'tw-meeting-form',
   data() {
     return {
-      name: '',
-      description: '',
-      startTime: '',
-      endTime: '',
+      startTime: null,
+      endTime: null,
     };
+  },
+  methods: {
+    onSubmit(result) {
+      console.log('Form result: ', result);
+    },
+    timeGapCustomValidation(value) {
+      const startDateTime = new Date(this.startTime);
+      const endDateTime = new Date(this.endTime);
+      if (!(this.startTime && this.endTime) || startDateTime < endDateTime) {
+        return true;
+      }
+      return 'Start time should be before End time';
+    },
   },
 };
 </script>

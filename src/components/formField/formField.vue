@@ -2,7 +2,7 @@
   <div
     class="tw-form-field__container form-group"
     :class="{'form-control-invalid': shouldShowIndividualValidation}">
-    <label :for="inputHtmlId">
+    <label :for="input.htmlId">
       {{label}}
       <span
         v-if="input.isRequired"
@@ -22,10 +22,12 @@ export default {
   name: 'tw-form-field',
   data() {
     return {
-      inputHtmlId: '',
       errorMessage: '',
       input: {
-        isValid: true,
+        name: null,
+        value: null,
+        htmlId: null,
+        isValid: false,
         isDirty: false,
         isRequired: false,
         isBlurred: false,
@@ -53,14 +55,6 @@ export default {
     shouldShowErrorMessage() {
       return this.shouldShowIndividualValidation && this.errorMessage;
     },
-  },
-  methods: {
-    pushStateInFormInputList() {
-      this.formVm.inputs.push(this);
-    },
-  },
-  mounted() {
-    this.pushStateInFormInputList();
   },
 };
 </script>
