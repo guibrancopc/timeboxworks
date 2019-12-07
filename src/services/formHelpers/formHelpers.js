@@ -35,7 +35,7 @@ const isCustomValidationValid = (event, scope) => {
 const replaceParam = (string, param) => string.replace('%s', param);
 
 const isMinLengthValid = (value, scope) => {
-  if (!scope.minLength) { return true; }
+  if (!scope.minLength || !value) { return true; }
   const isValid = value.length >= scope.minLength;
   setupErrorMessage(!isValid, replaceParam(errorMessages.minLength, scope.minLength), scope);
   return isValid;

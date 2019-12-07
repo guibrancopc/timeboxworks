@@ -13,7 +13,7 @@
               <tw-col>
                 <tw-form-field
                   label="Meeting name">
-                  <tw-input-text
+                  <tw-form-input
                     name="meeting-name"
                     :required="true"/>
                 </tw-form-field>
@@ -47,9 +47,8 @@
               <tw-col>
                 <tw-form-field
                   label="Description">
-                  <tw-input-text
+                  <tw-form-textarea
                     name="meeting-description"
-                    type="textarea"
                     dynamicMinHeight="100"
                     :required="false"/>
                 </tw-form-field>
@@ -57,10 +56,10 @@
             </tw-row>
             <tw-row>
               <tw-col class="tw-utils-text-right">
-                <tw-gutter :right="false">
+                <tw-gutter :right="false" :top="false">
                   <tw-form-reset-button>Clean Form</tw-form-reset-button>
                 </tw-gutter>
-                <tw-gutter :right="false">
+                <tw-gutter :right="false" :top="false">
                   <tw-form-submit-button>Start Meeting</tw-form-submit-button>
                 </tw-gutter>
               </tw-col>

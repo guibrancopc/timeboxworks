@@ -1,6 +1,5 @@
 <template>
-  <component :is="currentNativeElement"
-    :type="currentInputType"
+  <textarea
     :placeholder="placeholder"
     :name="name"
     :id="getInputHtmlId()"
@@ -9,7 +8,7 @@
     :maxlength="maxLength"
     @input="onInput"
     @blur="onBlur"
-    v-dynamic-height="vDynamicHeightSetup()">{{textareaInitialValue}}</component>
+    v-dynamic-height="vDynamicHeightSetup()" />
 </template>
 
 <script>
@@ -23,11 +22,7 @@ import {
 } from '../../services/formHelpers/formHelpers';
 
 export default {
-  name: 'tw-input-text',
-  data() {
-    return {
-    };
-  },
+  name: 'tw-form-textarea',
   inject: ['formVm', 'formFieldVm'],
   props: {
     name: {
@@ -38,10 +33,6 @@ export default {
       type: [Number, String],
       default: '',
     },
-    type: {
-      type: String,
-      default: 'text',
-    },
     placeholder: {
       type: String,
       default: '',
@@ -49,6 +40,10 @@ export default {
     dynamicMinHeight: {
       type: [Number, String],
       default: 100,
+    },
+    disableDynamicHeight: {
+      type: Boolean,
+      default: false,
     },
     required: {
       type: Boolean,
@@ -64,28 +59,6 @@ export default {
     },
     customValidation: Function,
   },
-  computed: {
-    currentNativeElement() {
-      if (this.isTypeTextarea()) {
-        return 'textarea';
-      }
-      return 'input';
-    },
-    currentInputType() {
-      const validTypes = ['text', 'email', 'password', 'number', 'textarea'];
-      if (validTypes.includes(this.type)) { return this.type; }
-      throw new Error('TW Error: Wrong type passed as prop to input text!');
-    },
-    textareaInitialValue: {
-      get() {
-        if (this.isTypeTextarea()) { return this.formFieldVm.input.value; }
-        return '';
-      },
-      set(newValue) {
-        this.formFieldVm.input.value = newValue;
-      }
-    },
-  },
   methods: {
     onInput(event) {
       if (event && event.target) {
@@ -100,11 +73,8 @@ export default {
     vDynamicHeightSetup() {
       return {
         minHeight: `${this.dynamicMinHeight}px`,
-        disabled: !this.isTypeTextarea(),
+        disabled: this.disableDynamicHeight,
       };
-    },
-    isTypeTextarea() {
-      return this.type === 'textarea';
     },
     getInputHtmlId() {
       return setupInputHtmlId(this);
