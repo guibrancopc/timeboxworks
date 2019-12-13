@@ -41,11 +41,30 @@ export default {
     },
     buildOutput() {
       return this.formFields.reduce((acumulator, formField) => {
-        acumulator[formField.input.name] = formField.input.value;
+        const { inputsGroupKey, name, value } = formField.input;
+        if (inputsGroupKey) {
+          this.initInputGroupArrayWhenNeeded(acumulator, inputsGroupKey);
+          acumulator[inputsGroupKey].push({ name, value });
+        } else {
+          acumulator[formField.input.name] = formField.input.value;
+        }
         return acumulator;
       }, {});
     },
-    onReset() {
+    initInputGroupArrayWhenNeeded(acumulator, inputsGroupKey) {
+      if (!Array.isArray(acumulator[inputsGroupKey])) {
+        acumulator[inputsGroupKey] = [];
+      }
+    },
+    onReset(event) {
+      const confirmMessage = "Are you sure about reset form?";
+      if (confirm(confirmMessage)) {
+        this.resetForm();
+      } else {
+        event.preventDefault();
+      }
+    },
+    resetForm() {
       this.isDirty = false;
       this.isSubmitted = false;
       this.formFields.forEach((formField) => {
@@ -54,7 +73,7 @@ export default {
         formField.input.isBlurred = false;
         formField.input.dirty = false;
       });
-    },
+    }
   },
 };
 </script>

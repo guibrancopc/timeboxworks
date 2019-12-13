@@ -1,5 +1,5 @@
 <template>
-  <tw-button :outline="true" type="reset">
+  <tw-button :outline="true" type="reset" size="lg">
     <slot />
   </tw-button>
 </template>

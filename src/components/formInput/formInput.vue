@@ -4,8 +4,8 @@
     :placeholder="placeholder"
     :name="name"
     :id="getInputHtmlId()"
-    class="form-control form-control-lg"
-    :value="formFieldVm.input.value"
+    class="tw-form-input form-control form-control-lg"
+    :value="inputValue"
     :maxlength="maxLength"
     @input="onInput"
     @blur="onBlur"/>
@@ -19,15 +19,21 @@ import {
   setupInputHtmlId,
   setInputAndFormDirty,
 } from '../../services/formHelpers/formHelpers';
+import getUid from '../../services/uidGenerator/uidGenerator';
 
 export default {
   name: 'tw-form-input',
   data() {
     return {
+      localId: getUid(),
     };
   },
   inject: ['formVm', 'formFieldVm'],
   props: {
+    id: {
+      value: Number,
+      default: 0,
+    },
     name: {
       type: String,
       required: true,
@@ -57,13 +63,26 @@ export default {
       default: 0,
     },
     customValidation: Function,
+    inputsGroupKey: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
+    inputValue() {
+      if (this.disableAutomaticValidationAndBinding) {
+        return this.value;
+      }
+      return this.formFieldVm.input.value;
+    },
     currentInputType() {
       const validTypes = ['text', 'email', 'password', 'number'];
       if (validTypes.includes(this.type)) { return this.type; }
       throw new Error('TW Error: Wrong type passed as prop to input text!');
     },
+    computedId() {
+      return this.id ? this.id : this.localId;
+    }
   },
   methods: {
     onInput(event) {

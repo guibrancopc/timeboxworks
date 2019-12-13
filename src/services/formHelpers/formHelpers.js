@@ -4,11 +4,6 @@ const errorMessages = {
   minLength: 'Min of %s digits',
 };
 
-const setInputAndFormDirty = (scope) => {
-  scope.formVm.isDirty = true;
-  scope.formFieldVm.input.isDirty = true;
-};
-
 const setupErrorMessage = (shouldShow, message, scope) => {
   if (shouldShow) { scope.formFieldVm.errorMessage = message; }
 };
@@ -60,6 +55,10 @@ const bindInputName = (scope) => {
   scope.formFieldVm.input.name = scope.name;
 };
 
+const bindInputsGroupKey = (scope) => {
+  scope.formFieldVm.input.inputsGroupKey = scope.inputsGroupKey;
+};
+
 const bindInputValue = (event, scope) => {
   const { value } = event.target;
   scope.formFieldVm.input.value = value;
@@ -69,7 +68,11 @@ const bindInputInFormList = (scope) => {
   scope.formVm.formFields.push(scope.formFieldVm);
 };
 
-const runValidation = (event, scope) => {
+const bindInputId = (scope) => {
+  scope.formFieldVm.input.id = scope.computedId;
+};
+
+export const runValidation = (event, scope) => {
   const isInputValid = applyRules(event, scope);
   scope.formFieldVm.input.isValid = isInputValid;
   if (isInputValid) {
@@ -78,29 +81,30 @@ const runValidation = (event, scope) => {
   }
 };
 
-const initForm = (initialValue, scope) => {
+export const initForm = (initialValue, scope) => {
   const event = { target: { value: initialValue } };
   bindRequiredValidation(scope);
   bindInputName(scope);
+  bindInputsGroupKey(scope);
   bindInputInFormList(scope);
+  bindInputId(scope);
   runValidation(event, scope);
 };
 
-const setIsBlurred = (scope) => {
+export const setIsBlurred = (scope) => {
   scope.formFieldVm.input.isBlurred = true;
 };
 
-const setupInputHtmlId = (scope) => {
-  const inputId = scope._uid;
-  const inputHtmlId = `input-${inputId}`;
+export const setupInputHtmlId = (scope) => {
+  const inputId = scope.id
+    || scope.computedId
+    || scope.localId;
+  const inputHtmlId = `form-item-${inputId}`;
   scope.formFieldVm.input.htmlId = inputHtmlId;
   return inputHtmlId;
 };
 
-export {
-  initForm,
-  runValidation,
-  setIsBlurred,
-  setupInputHtmlId,
-  setInputAndFormDirty,
+export const setInputAndFormDirty = (scope) => {
+  scope.formVm.isDirty = true;
+  scope.formFieldVm.input.isDirty = true;
 };

@@ -1,5 +1,5 @@
 <template>
-  <tw-button template="success" type="submit">
+  <tw-button template="success" type="submit" size="lg">
     <slot />
   </tw-button>
 </template>

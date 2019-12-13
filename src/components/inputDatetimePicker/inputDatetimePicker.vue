@@ -27,13 +27,16 @@ import {
   setupInputHtmlId,
   setInputAndFormDirty,
 } from '../../services/formHelpers/formHelpers';
+import getUid from '../../services/uidGenerator/uidGenerator';
 
 Settings.defaultLocale = 'en';
 
 export default {
   name: 'tw-input-datetime-picker',
   data() {
-    return {};
+    return {
+      id: getUid(),
+    };
   },
   inject: ['formVm', 'formFieldVm'],
   props: {

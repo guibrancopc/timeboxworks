@@ -31,6 +31,7 @@ export default {
         isDirty: false,
         isRequired: false,
         isBlurred: false,
+        inputsGroupKey: '',
       },
     };
   },

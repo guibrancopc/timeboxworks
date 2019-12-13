@@ -1,5 +1,5 @@
 <template>
-  <div :class="dynamicClasses()" class="tw-gutter__container">
+  <div :class="dynamicClasses()" :style="dynamicStyle">
     <slot></slot>
   </div>
 </template>
@@ -23,6 +23,22 @@ export default {
     right: {
       value: Boolean,
       default: true,
+    },
+    display: {
+      value: String,
+      default: '',
+    }
+  },
+  computed: {
+    dynamicStyle() {
+      const validDisplayValues = [ 'block', 'inline-block' ];
+      if (validDisplayValues.includes(this.display)) {
+        return { display: this.display };
+      }
+      if (this.display) {
+        console.error('TW ERROR: Wrong display value was passed to Gutter component: ', this.display);
+      }
+      return {};
     },
   },
   methods: {
@@ -55,9 +71,5 @@ $gutter: 15px;
 
 .tw-gutter__margin--right {
   margin-right: $gutter;
-}
-
-.tw-gutter__container {
-  display: inline-block;
 }
 </style>

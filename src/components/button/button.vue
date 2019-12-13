@@ -47,7 +47,7 @@ export default {
     },
     size: {
       type: String,
-      default: 'lg',
+      default: 'md',
     },
     block: {
       type: Boolean,

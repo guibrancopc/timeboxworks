@@ -2,7 +2,7 @@
   <tw-container>
     <tw-row>
       <tw-col>
-        <tw-title :size="1">Meeting Form</tw-title>
+        <tw-title :size="1">Meeting Setup</tw-title>
       </tw-col>
     </tw-row>
     <tw-page>
@@ -45,6 +45,15 @@
             </tw-row>
             <tw-row>
               <tw-col>
+                <tw-form-inputs-list
+                  label="Goal"
+                  inputName="meeting-goal"
+                  inputsGroupKey="meeting-goals"
+                  :required="true"/>
+              </tw-col>
+            </tw-row>
+            <tw-row>
+              <tw-col>
                 <tw-form-field
                   label="Description">
                   <tw-form-textarea
@@ -55,11 +64,11 @@
               </tw-col>
             </tw-row>
             <tw-row>
-              <tw-col class="tw-utils-text-right">
-                <tw-gutter :right="false" :top="false">
+              <tw-col class="tw-utils__text--right">
+                <tw-gutter :right="false" :top="false" display="inline-block">
                   <tw-form-reset-button>Clean Form</tw-form-reset-button>
                 </tw-gutter>
-                <tw-gutter :right="false" :top="false">
+                <tw-gutter :right="false" :top="false" display="inline-block">
                   <tw-form-submit-button>Start Meeting</tw-form-submit-button>
                 </tw-gutter>
               </tw-col>

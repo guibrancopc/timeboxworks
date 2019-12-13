@@ -20,9 +20,15 @@ import {
   setupInputHtmlId,
   setInputAndFormDirty,
 } from '../../services/formHelpers/formHelpers';
+import getUid from '../../services/uidGenerator/uidGenerator';
 
 export default {
   name: 'tw-form-textarea',
+  data() {
+    return {
+      id: getUid(),
+    };
+  },
   inject: ['formVm', 'formFieldVm'],
   props: {
     name: {

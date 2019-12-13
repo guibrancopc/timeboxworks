@@ -64,7 +64,11 @@
     margin-bottom: 1rem;
   }
 
-  .tw-utils-text-right {
+  .tw-utils__text--right {
     text-align: right;
+  }
+
+  .tw-utils__padding--bottom {
+    padding-bottom: 15px;
   }
 </style>
