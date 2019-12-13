@@ -93,7 +93,7 @@ export default {
     onSubmit(result) {
       console.log('Form result: ', result);
     },
-    timeGapCustomValidation(value) {
+    timeGapCustomValidation() {
       const startDateTime = new Date(this.startTime);
       const endDateTime = new Date(this.endTime);
       if (!(this.startTime && this.endTime) || startDateTime < endDateTime) {

@@ -27,11 +27,11 @@ export default {
     display: {
       value: String,
       default: '',
-    }
+    },
   },
   computed: {
     dynamicStyle() {
-      const validDisplayValues = [ 'block', 'inline-block' ];
+      const validDisplayValues = ['block', 'inline-block'];
       if (validDisplayValues.includes(this.display)) {
         return { display: this.display };
       }

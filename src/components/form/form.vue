@@ -9,6 +9,7 @@
 
 <script>
 import { initForm } from '../../services/formHelpers/formHelpers';
+import prompts from '../../services/prompts/prompts';
 
 export default {
   name: 'tw-form',
@@ -33,11 +34,11 @@ export default {
     onSubmit() {
       this.isSubmitted = true;
       if (this.isFormValid()) {
-        this.$emit('submit', this.buildOutput()); 
+        this.$emit('submit', this.buildOutput());
       }
     },
     isFormValid() {
-      return !this.formFields.some(formField => !formField.input.isValid );
+      return !this.formFields.some(formField => !formField.input.isValid);
     },
     buildOutput() {
       return this.formFields.reduce((acumulator, formField) => {
@@ -57,8 +58,8 @@ export default {
       }
     },
     onReset(event) {
-      const confirmMessage = "Are you sure about reset form?";
-      if (confirm(confirmMessage)) {
+      const confirmMessage = 'Are you sure you want to reset this form?';
+      if (prompts.customConfirm(confirmMessage)) {
         this.resetForm();
       } else {
         event.preventDefault();
@@ -73,7 +74,7 @@ export default {
         formField.input.isBlurred = false;
         formField.input.dirty = false;
       });
-    }
+    },
   },
 };
 </script>

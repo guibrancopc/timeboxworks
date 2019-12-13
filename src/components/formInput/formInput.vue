@@ -82,7 +82,7 @@ export default {
     },
     computedId() {
       return this.id ? this.id : this.localId;
-    }
+    },
   },
   methods: {
     onInput(event) {

@@ -34,13 +34,6 @@
 </template>
 
 <script>
-import {
-  initForm,
-  runValidation,
-  setIsBlurred,
-  setupInputHtmlId,
-  setInputAndFormDirty,
-} from '../../services/formHelpers/formHelpers';
 import getUid from '../../services/uidGenerator/uidGenerator';
 import twFormInput from '../formInput/formInput.vue';
 import twButton from '../button/button.vue';
@@ -109,7 +102,7 @@ export default {
       }
     },
     addIdWhenNoIdIsFound() {
-      this.inputsList.forEach(input => {
+      this.inputsList.forEach((input) => {
         if (!input.id) { input.id = getUid(); }
       });
     },
@@ -138,9 +131,7 @@ export default {
       list.splice(itemIndex, 1);
     },
     getFormFieldIndexById(idToBeRemoved) {
-      return this.formVm.formFields.findIndex(value => {
-        value.input.id === idToBeRemoved;
-      });
+      return this.formVm.formFields.findIndex(value => value.input.id === idToBeRemoved);
     },
     shouldShowDeleteButton(index) {
       return index !== 0;
