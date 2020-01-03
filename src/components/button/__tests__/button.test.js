@@ -1,74 +1,59 @@
 import { mount } from '@vue/test-utils';
-import sinon from 'sinon';
 import TwButton from '../button.vue';
 
 describe('Tw Button component', () => {
+  beforeEach(() => {
+    global.console.error = jest.fn();
+  });
+
   it('should add disabled class when required', () => {
-    const disabled = true;
-    const callback = () => {};
     const wrapper = mount(TwButton, {
-      propsData: { disabled, callback },
+      propsData: { disabled: true },
     });
     expect(wrapper.classes()).toContain('disabled');
   });
 
   it('should add size class when required', () => {
-    const size = 'lg';
-    const callback = () => {};
     const wrapper = mount(TwButton, {
-      propsData: { size, callback },
+      propsData: { size: 'lg' },
     });
     expect(wrapper.classes()).toContain('btn-lg');
   });
 
-  it('should show error when wrong size class is passed', () => {
-    const consoleErrorTemp = global.console.error;
-    global.console.error = sinon.spy();
-    const size = 'other-value';
-    const callback = () => {};
-    mount(TwButton, {
-      propsData: { size, callback },
-    });
-    expect(global.console.error.called).toBe(true);
-    global.console.error = consoleErrorTemp;
-  });
-
   it('should add primary type class when no type is passed by prop', () => {
-    const callback = () => {};
-    const wrapper = mount(TwButton, {
-      propsData: { callback },
-    });
+    const wrapper = mount(TwButton);
     expect(wrapper.classes()).toContain('btn-primary');
   });
 
-  it('should show error when wrong type class is passed', () => {
-    const consoleErrorTemp = global.console.error;
-    global.console.error = sinon.spy();
-    const type = 'other-value';
-    const callback = () => {};
-    mount(TwButton, {
-      propsData: { type, callback },
-    });
-    expect(global.console.error.called).toBe(true);
-    global.console.error = consoleErrorTemp;
+  it('should show error when wrong size class is passed', () => {
+    const wrapper = () => {
+      mount(TwButton, {
+        propsData: { size: 'other-value' },
+      });
+    };
+    expect(wrapper).toThrow();
   });
 
-  it('should add normal type class when required', () => {
-    const type = 'success';
-    const callback = () => {};
+  it('should show error when wrong type class is passed', () => {
+    const wrapper = () => {
+      mount(TwButton, {
+        propsData: { type: 'other-value' },
+      });
+    };
+    expect(wrapper).toThrow();
+  });
+
+  it('should add normal template class when required', () => {
     const wrapper = mount(TwButton, {
-      propsData: { type, callback },
+      propsData: { template: 'success' },
     });
     expect(wrapper.classes()).not.toContain('btn-primary');
     expect(wrapper.classes()).toContain('btn-success');
   });
 
-  it('should add outline type class when required', () => {
-    const type = 'success';
-    const outline = true;
-    const callback = () => {};
+  it('should add outline template class when required', () => {
     const wrapper = mount(TwButton, {
-      propsData: { type, outline, callback },
+      propsData: { template: 'success', outline: true },
     });
     expect(wrapper.classes()).not.toContain('btn-primary');
     expect(wrapper.classes()).not.toContain('btn-outline-primary');
@@ -76,21 +61,18 @@ describe('Tw Button component', () => {
   });
 
   it('should do action when button is clicked and it is not disabled', () => {
-    const callback = sinon.spy();
-    const wrapper = mount(TwButton, {
-      propsData: { callback },
-    });
+    const wrapper = mount(TwButton);
     wrapper.trigger('click');
-    expect(callback.called).toBe(true);
+    expect(wrapper.emitted().click).toBeTruthy();
   });
 
   it('should not do action when button is clicked and it is disabled', () => {
-    const callback = sinon.spy();
-    const disabled = true;
     const wrapper = mount(TwButton, {
-      propsData: { callback, disabled },
+      propsData: {
+        disabled: true,
+      },
     });
     wrapper.trigger('click');
-    expect(callback.called).toBe(false);
+    expect(wrapper.emitted().click).toBeFalsy();
   });
 });

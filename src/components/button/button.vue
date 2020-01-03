@@ -1,5 +1,5 @@
 <template>
-  <button class="btn" :type="validType" @click="onClick($event)" :class="styleClasses">
+  <button class="btn" :type="type" @click="onClick($event)" :class="styleClasses">
     <slot></slot>
   </button>
 </template>
@@ -10,23 +10,10 @@ export default {
   data() {
     return {
       styleClasses: {},
-      validTemplates: [
-        'primary',
-        'seconday',
-        'success',
-        'danger',
-        'warning',
-        'info',
-        'light',
-        'dark',
-        'link',
-      ],
-      validSizes: ['sm', 'md', 'lg'],
     };
   },
   beforeMount() {
-    this.propsValidations('template', this.validTemplates);
-    this.propsValidations('size', this.validSizes);
+    this.propsValidation();
     this.addSizeClass();
     this.addBlockClass();
     this.addDisabledClass();
@@ -41,13 +28,13 @@ export default {
       type: String,
       default: 'primary',
     },
-    outline: {
-      type: Boolean,
-      default: false,
-    },
     size: {
       type: String,
       default: 'md',
+    },
+    outline: {
+      type: Boolean,
+      default: false,
     },
     block: {
       type: Boolean,
@@ -58,23 +45,41 @@ export default {
       default: false,
     },
   },
-  computed: {
-    validType() {
-      const validTypes = ['button', 'submit', 'reset'];
-      if (validTypes.includes(this.type)) { return this.type; }
-      throw new Error('TW Error: Wrong type passed as prop to button!');
-    },
-  },
   methods: {
-    propsValidations(propName, possibleValues) {
-      const value = this[propName];
-      if (value && !possibleValues.includes(value)) {
-        console.error(`TW ERROR! There is an unexpected value received on prop "${propName}" from button component.`);
+    propsValidation() {
+      for (const key in this.$props) {
+        if (this.$props[key]) { this.propValidation(key); }
       }
     },
+    propValidation(propName) {
+      const value = this[propName];
+      const validValues = this.getPropValidValues(propName);
+      if (value && validValues && !validValues.includes(value)) {
+        throw new Error(`CUSTOM ERROR! Unexpected value received by prop "${propName}" from button component.`);
+      }
+    },
+    getPropValidValues(prop) {
+      return {
+        type: ['button', 'submit', 'reset'],
+        size: ['sm', 'md', 'lg'],
+        template: [
+          'primary',
+          'seconday',
+          'success',
+          'danger',
+          'warning',
+          'info',
+          'light',
+          'dark',
+          'link',
+        ],
+      }[prop];
+    },
     onClick(event) {
+      if (!this.disabled) {
+        this.$emit('click', event);
+      }
       this.shouldPreventDefault(event);
-      this.$emit('click', event);
     },
     shouldPreventDefault(event) {
       const currentTypeUsesDefaultOption = ['submit', 'reset'].includes(this.type);
@@ -84,7 +89,6 @@ export default {
       this.styleClasses.disabled = this.disabled;
     },
     addSizeClass() {
-      if (!this.size) { return; }
       this.styleClasses[`btn-${this.size}`] = true;
     },
     addBlockClass() {
