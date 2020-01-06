@@ -5,7 +5,7 @@
     :input-class="inputClasses()"
     :placeholder="placeholder"
     :minute-step="5"
-    :input-id="getInputHtmlId()"
+    :input-id="getInputHtmlId(this)"
     :use12-hour="true"
     :value="formFieldVm.input.value"
     @input="onInput"

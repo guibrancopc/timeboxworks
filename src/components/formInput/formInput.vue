@@ -8,7 +8,8 @@
     :value="inputValue"
     :maxlength="maxLength"
     @input="onInput"
-    @blur="onBlur"/>
+    @blur="onBlur"
+    @keydown="onKeydown"/>
 </template>
 
 <script>
@@ -19,15 +20,9 @@ import {
   setupInputHtmlId,
   setInputAndFormDirty,
 } from '../../services/formHelpers/formHelpers';
-import getUid from '../../services/uidGenerator/uidGenerator';
 
 export default {
   name: 'tw-form-input',
-  data() {
-    return {
-      localId: getUid(),
-    };
-  },
   inject: ['formVm', 'formFieldVm'],
   props: {
     id: {
@@ -80,9 +75,6 @@ export default {
       if (validTypes.includes(this.type)) { return this.type; }
       throw new Error('TW Error: Wrong type passed as prop to input text!');
     },
-    computedId() {
-      return this.id ? this.id : this.localId;
-    },
   },
   methods: {
     onInput(event) {
@@ -94,6 +86,9 @@ export default {
     },
     onBlur() {
       setIsBlurred(this);
+    },
+    onKeydown(event) {
+      this.$emit('keydown', event);
     },
     getInputHtmlId() {
       return setupInputHtmlId(this);

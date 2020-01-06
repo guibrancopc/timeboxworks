@@ -1,3 +1,5 @@
+import getUid from '../uidGenerator/uidGenerator';
+
 const errorMessages = {
   invalidValue: 'Invalid value',
   requiredField: 'Required field',
@@ -96,10 +98,7 @@ export const setIsBlurred = (scope) => {
 };
 
 export const setupInputHtmlId = (scope) => {
-  const inputId = scope.id
-    || scope.computedId
-    || scope.localId;
-  const inputHtmlId = `form-item-${inputId}`;
+  const inputHtmlId = `input-${scope.id || getUid()}`;
   scope.formFieldVm.input.htmlId = inputHtmlId;
   return inputHtmlId;
 };
