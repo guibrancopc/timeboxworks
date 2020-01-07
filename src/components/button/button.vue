@@ -5,6 +5,24 @@
 </template>
 
 <script>
+import propsValidation from '../../services/propsValidation/propsValidation';
+
+const validProps = {
+  type: ['button', 'submit', 'reset'],
+  size: ['sm', 'md', 'lg'],
+  template: [
+    'primary',
+    'seconday',
+    'success',
+    'danger',
+    'warning',
+    'info',
+    'light',
+    'dark',
+    'link',
+  ],
+};
+
 export default {
   name: 'tw-button',
   data() {
@@ -13,7 +31,7 @@ export default {
     };
   },
   beforeMount() {
-    this.propsValidation();
+    propsValidation({ scope: this, validProps, componentName: 'tw-button' });
     this.addSizeClass();
     this.addBlockClass();
     this.addDisabledClass();
@@ -46,35 +64,6 @@ export default {
     },
   },
   methods: {
-    propsValidation() {
-      for (const key in this.$props) {
-        if (this.$props[key]) { this.propValidation(key); }
-      }
-    },
-    propValidation(propName) {
-      const value = this[propName];
-      const validValues = this.getPropValidValues(propName);
-      if (value && validValues && !validValues.includes(value)) {
-        throw new Error(`CUSTOM ERROR! Unexpected value received by prop "${propName}" from button component.`);
-      }
-    },
-    getPropValidValues(prop) {
-      return {
-        type: ['button', 'submit', 'reset'],
-        size: ['sm', 'md', 'lg'],
-        template: [
-          'primary',
-          'seconday',
-          'success',
-          'danger',
-          'warning',
-          'info',
-          'light',
-          'dark',
-          'link',
-        ],
-      }[prop];
-    },
     onClick(event) {
       if (!this.disabled) {
         this.$emit('click', event);
