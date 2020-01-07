@@ -30,13 +30,6 @@ export default {
       styleClasses: {},
     };
   },
-  beforeMount() {
-    propsValidation({ scope: this, validProps, componentName: 'tw-button' });
-    this.addSizeClass();
-    this.addBlockClass();
-    this.addDisabledClass();
-    this.addTemplateClass();
-  },
   props: {
     type: {
       type: String,
@@ -62,6 +55,13 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  beforeMount() {
+    propsValidation({ scope: this, validProps, componentName: 'tw-button' });
+    this.addSizeClass();
+    this.addBlockClass();
+    this.addDisabledClass();
+    this.addTemplateClass();
   },
   methods: {
     onClick(event) {
