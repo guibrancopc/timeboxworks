@@ -1,4 +1,6 @@
-import getUid from '../uidGenerator/uidGenerator';
+import uidGenerator from '../uidGenerator/uidGenerator';
+
+const { getUid } = uidGenerator;
 
 const errorMessages = {
   invalidValue: 'Invalid value',

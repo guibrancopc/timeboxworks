@@ -9,7 +9,7 @@
 
 <script>
 import { initForm } from '../../services/formHelpers/formHelpers';
-import prompts from '../../services/prompts/prompts';
+import dialogs from '../../services/dialogs/dialogs';
 
 export default {
   name: 'tw-form',
@@ -59,7 +59,7 @@ export default {
     },
     onReset(event) {
       const confirmMessage = 'Are you sure you want to reset this form?';
-      if (prompts.customConfirm(confirmMessage)) {
+      if (dialogs.customConfirm(confirmMessage)) {
         this.resetForm();
       } else {
         event.preventDefault();

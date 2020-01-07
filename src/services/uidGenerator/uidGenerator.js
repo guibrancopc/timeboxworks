@@ -5,4 +5,4 @@ const getUid = () => {
   return uidIndex;
 };
 
-export default getUid;
+export default { getUid };

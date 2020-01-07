@@ -35,9 +35,11 @@
 </template>
 
 <script>
-import getUid from '../../services/uidGenerator/uidGenerator';
+import uidGenerator from '../../services/uidGenerator/uidGenerator';
 import twFormInput from '../formInput/formInput.vue';
 import twButton from '../button/button.vue';
+
+const { getUid } = uidGenerator;
 
 export default {
   name: 'tw-form-inputs-list',
@@ -109,6 +111,26 @@ export default {
         this.addNewInput({ shouldFocus: true, inputEventIndex: inputIndex });
       }
     },
+    deleteInput(index) {
+      if (this.inputsList.length === 1) { return; }
+      setDelayedFocus(getPreviousInputId(this.inputsList, index));
+      this.deleteInputModelFromFormVm(index);
+      this.deleteInputFromLocalList(index);
+    },
+    deleteInputModelFromFormVm(index) {
+      const idToBeRemoved = this.inputsList[index].id;
+      const indexFormFieldToBeRemoved = this.getFormFieldIndexById(idToBeRemoved);
+      deleteItemFromList(this.formVm.formFields, indexFormFieldToBeRemoved);
+    },
+    deleteInputFromLocalList(index) {
+      deleteItemFromList(this.inputsList, index);
+    },
+    getFormFieldIndexById(idToBeRemoved) {
+      return this.formVm.formFields.findIndex(value => value.input.id === idToBeRemoved);
+    },
+    shouldShowDeleteButton(index) {
+      return index !== 0;
+    },
     initFieldModel() {
       if (this.value.length > 0) {
         this.inputsList = [...this.value];
@@ -129,32 +151,18 @@ export default {
         this.inputsList.push(inputFactory(shouldFocus));
       }
     },
-    deleteInput(index) {
-      if (this.inputsList.length === 1) { return; }
-      setDelayedFocus(getPreviousInputId(this.inputsList, index));
-      this.deleteInputModelFromFormVm(index);
-      this.deleteInputFromLocalList(index);
-    },
-    deleteInputFromLocalList(index) {
-      deleteItemFromList(this.inputsList, index);
-    },
-    deleteInputModelFromFormVm(index) {
-      const idToBeRemoved = this.inputsList[index].id;
-      const indexFormFieldToBeRemoved = this.getFormFieldIndexById(idToBeRemoved);
-      deleteItemFromList(this.formVm.formFields, indexFormFieldToBeRemoved);
-    },
-    getFormFieldIndexById(idToBeRemoved) {
-      return this.formVm.formFields.findIndex(value => value.input.id === idToBeRemoved);
-    },
-    shouldShowDeleteButton(index) {
-      return index !== 0;
-    },
   },
   components: {
     twFormInput,
     twButton,
   },
 };
+
+function setDelayedFocus(inputId) {
+  setTimeout(() => {
+    document.querySelector(`#input-${inputId}`).focus();
+  }, 10);
+}
 
 function inputFactory(shouldFocus = false) {
   const inputId = getUid();
@@ -167,12 +175,6 @@ function inputFactory(shouldFocus = false) {
 
 function getPreviousInputId(inputsList, index) {
   return inputsList[index - 1] ? inputsList[index - 1].id : inputsList[0].id;
-}
-
-function setDelayedFocus(inputId) {
-  setTimeout(() => {
-    document.querySelector(`#input-${inputId}`).focus();
-  }, 10);
 }
 
 function deleteItemFromList(list, itemIndex) {

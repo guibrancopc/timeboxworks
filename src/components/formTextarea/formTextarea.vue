@@ -20,7 +20,9 @@ import {
   setupInputHtmlId,
   setInputAndFormDirty,
 } from '../../services/formHelpers/formHelpers';
-import getUid from '../../services/uidGenerator/uidGenerator';
+import uidGenerator from '../../services/uidGenerator/uidGenerator';
+
+const { getUid } = uidGenerator;
 
 export default {
   name: 'tw-form-textarea',
