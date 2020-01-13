@@ -13,7 +13,7 @@ const setupErrorMessage = (shouldShow, message, scope) => {
 };
 
 const isRequiredValidationValid = (value, scope) => {
-  const isValid = !scope.required || value;
+  const isValid = !scope.required || !!value;
   setupErrorMessage(!isValid, errorMessages.requiredField, scope);
   return isValid;
 };
@@ -51,6 +51,20 @@ const applyRules = (event, scope) => {
     && isMinLengthValid(value, scope);
 };
 
+const bindInputValue = (event, scope) => {
+  const { value } = event.target;
+  scope.formFieldVm.input.value = value;
+};
+
+export const runValidation = (event, scope) => {
+  const isInputValid = applyRules(event, scope);
+  scope.formFieldVm.input.isValid = isInputValid;
+  if (isInputValid) {
+    bindInputValue(event, scope);
+    cleanInputErrorMessage(scope);
+  }
+};
+
 const bindRequiredValidation = (scope) => {
   scope.formFieldVm.input.isRequired = !!scope.required;
 };
@@ -63,26 +77,12 @@ const bindInputsGroupKey = (scope) => {
   scope.formFieldVm.input.inputsGroupKey = scope.inputsGroupKey;
 };
 
-const bindInputValue = (event, scope) => {
-  const { value } = event.target;
-  scope.formFieldVm.input.value = value;
-};
-
 const bindInputInFormList = (scope) => {
   scope.formVm.formFields.push(scope.formFieldVm);
 };
 
 const bindInputId = (scope) => {
   scope.formFieldVm.input.id = scope.computedId;
-};
-
-export const runValidation = (event, scope) => {
-  const isInputValid = applyRules(event, scope);
-  scope.formFieldVm.input.isValid = isInputValid;
-  if (isInputValid) {
-    bindInputValue(event, scope);
-    cleanInputErrorMessage(scope);
-  }
 };
 
 export const initForm = (initialValue, scope) => {
