@@ -174,7 +174,7 @@ function inputFactory(shouldFocus = false) {
 }
 
 function getPreviousInputId(inputsList, index) {
-  return inputsList[index - 1] ? inputsList[index - 1].id : inputsList[0].id;
+  return inputsList[index - 1] ? inputsList[index - 1].id : inputsList[1].id;
 }
 
 function deleteItemFromList(list, itemIndex) {
