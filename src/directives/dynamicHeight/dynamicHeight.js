@@ -1,4 +1,4 @@
-const setOverflowHidden = (el) => {
+const setOverflowHidden = el => {
   el.style.overflow = 'hidden';
 };
 
@@ -8,7 +8,7 @@ const setMinHeghtWhenRequested = (el, binding) => {
   }
 };
 
-const updateElementHeight = (options) => {
+const updateElementHeight = options => {
   options.target.style.height = 0;
   options.target.style.height = `${options.target.scrollHeight}px`;
 };

@@ -16,6 +16,12 @@ npm install
 npm start
 ```
 
+### Same as "npm start" plus app opening
+
+```bash
+npm run go
+```
+
 ### Compiles and minifies for production
 
 ```bash

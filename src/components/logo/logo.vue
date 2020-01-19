@@ -1,20 +1,24 @@
 <template>
   <img
-    :src="`img/logos/${currentLogo}`"
+    :src="`${currentLogo}`"
     :style="currentStyle"
     alt="Timebox Works Logo"
-    class="tw__logo">
+    class="tw-logo">
 </template>
 
 <script>
+import defaultLogo from '../../assets/images/logos/timebox-works_logo-default.png';
+import roundedLogo from '../../assets/images/logos/timebox-works_logo-rounded.png';
+import hourglassLogo from '../../assets/images/logos/timebox-works_logo-hourglass.png';
+
 export default {
   name: 'tw-logo',
   data() {
     return {
       logos: {
-        default: 'timebox-works_logo-default.png',
-        rounded: 'timebox-works_logo-rounded.png',
-        hourglass: 'timebox-works_logo-hourglass.png',
+        default: defaultLogo,
+        rounded: roundedLogo,
+        hourglass: hourglassLogo,
       },
     };
   },

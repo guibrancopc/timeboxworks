@@ -9,7 +9,7 @@ const propValidation = (scope, validProps, propKey, componentName) => {
 export default ({ scope = { $props: {} }, validProps = {}, componentName = 'some' } = {}) => {
   Object
     .keys(scope.$props)
-    .forEach((propKey) => {
+    .forEach(propKey => {
       propValidation(scope, validProps, propKey, componentName);
     });
 };

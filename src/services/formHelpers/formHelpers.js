@@ -18,7 +18,7 @@ const isRequiredValidationValid = (value, scope) => {
   return isValid;
 };
 
-const buildCustomErrorMessage = (income) => {
+const buildCustomErrorMessage = income => {
   const customErrorMessage = typeof income === 'string' ? income : null;
   return customErrorMessage || errorMessages.invalidValue;
 };
@@ -40,7 +40,7 @@ const isMinLengthValid = (value, scope) => {
   return isValid;
 };
 
-const cleanInputErrorMessage = (scope) => {
+const cleanInputErrorMessage = scope => {
   scope.formFieldVm.errorMessage = '';
 };
 
@@ -65,23 +65,23 @@ export const runValidation = (event, scope) => {
   }
 };
 
-const bindRequiredValidation = (scope) => {
+const bindRequiredValidation = scope => {
   scope.formFieldVm.input.isRequired = !!scope.required;
 };
 
-const bindInputName = (scope) => {
+const bindInputName = scope => {
   scope.formFieldVm.input.name = scope.name;
 };
 
-const bindInputsGroupKey = (scope) => {
+const bindInputsGroupKey = scope => {
   scope.formFieldVm.input.inputsGroupKey = scope.inputsGroupKey;
 };
 
-const bindInputInFormList = (scope) => {
+const bindInputInFormList = scope => {
   scope.formVm.formFields.push(scope.formFieldVm);
 };
 
-const bindInputId = (scope) => {
+const bindInputId = scope => {
   scope.formFieldVm.input.id = scope.computedId;
 };
 
@@ -95,17 +95,17 @@ export const initForm = (initialValue, scope) => {
   runValidation(event, scope);
 };
 
-export const setIsBlurred = (scope) => {
+export const setIsBlurred = scope => {
   scope.formFieldVm.input.isBlurred = true;
 };
 
-export const setupInputHtmlId = (scope) => {
+export const setupInputHtmlId = scope => {
   const inputHtmlId = `input-${scope.id || getUid()}`;
   scope.formFieldVm.input.htmlId = inputHtmlId;
   return inputHtmlId;
 };
 
-export const setInputAndFormDirty = (scope) => {
+export const setInputAndFormDirty = scope => {
   scope.formVm.isDirty = true;
   scope.formFieldVm.input.isDirty = true;
 };
