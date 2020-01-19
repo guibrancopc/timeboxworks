@@ -1,4 +1,5 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -31,5 +32,9 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new CopyPlugin([
+      { from: './public/', to: './' },
+      { from: './src/assets/images/icons', to: './assets/images/icons' },
+    ]),
   ],
 };

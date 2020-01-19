@@ -6,7 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const webpackCommon = require('./webpack.common');
 
 module.exports = merge(webpackCommon, {
@@ -17,7 +17,6 @@ module.exports = merge(webpackCommon, {
       new TerserPlugin(),
       new HtmlWebpackPlugin({
         template: './public/index.html',
-        favicon: './src/assets/images/icons/favicon-32x32.png',
         minify: {
           collapseWhitespace: true,
           removeComments: true,
@@ -34,11 +33,9 @@ module.exports = merge(webpackCommon, {
       filename: '[name].[contentHash].css',
     }),
     new CleanWebpackPlugin(),
-    new CopyPlugin([
-      { from: './public/manifest.json', to: './' },
-      { from: './public/robots.txt', to: './' },
-      { from: './src/assets/images/icons', to: './assets/images/icons' },
-    ]),
+    new WorkboxPlugin.GenerateSW({
+      exclude: [/.DS_Store/],
+    }),
   ],
   output: {
     filename: '[name].[contentHash].bundle.js',

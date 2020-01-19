@@ -1,7 +1,6 @@
 import { register } from 'register-service-worker';
 
 if (process.env.NODE_ENV === 'production') {
-  console.log('PASSOU 1!');
   register('/service-worker.js', {
     registrationOptions: { scope: './' },
     ready() {
