@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import twButton from '../button/button.vue';
+import twButton from '../button/Button.vue';
 
 export default {
   name: 'tw-form-reset-button',
