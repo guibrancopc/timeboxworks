@@ -57,7 +57,7 @@ export default {
     },
   },
   beforeMount() {
-    propsValidation({ scope: this, validProps, componentName: 'tw-button' });
+    propsValidation({ scope: this, validProps });
     this.addSizeClass();
     this.addBlockClass();
     this.addDisabledClass();
