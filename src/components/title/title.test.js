@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import sinon from 'sinon';
-import TwTitle from '../title.vue';
+import TwTitle from './title.vue';
 
 describe('Tw Title', () => {
   it('should render h1 tag by default', () => {

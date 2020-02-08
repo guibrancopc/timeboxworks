@@ -1,4 +1,4 @@
-import dynamicHeight from '../dynamicHeight';
+import dynamicHeight from './dynamicHeight';
 
 describe('Dynamic Height Directive', () => {
   it('should set overflow hidden when initialized', () => {

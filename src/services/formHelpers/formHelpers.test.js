@@ -4,9 +4,9 @@ import {
   setIsBlurred,
   setInputAndFormDirty,
   setupInputHtmlId,
-} from '../formHelpers';
+} from './formHelpers';
 
-jest.mock('../../uidGenerator/uidGenerator', () => ({ getUid: jest.fn(() => 98) }));
+jest.mock('../uidGenerator/uidGenerator', () => ({ getUid: jest.fn(() => 98) }));
 
 function scopeMockFactory() {
   return {

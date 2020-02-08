@@ -1,4 +1,4 @@
-import { validValues } from '../propsValidation';
+import { validValues } from './propsValidation';
 
 describe('Props Validation Service validValues', () => {
   it('should return false when valid props list exists and when value is invalid', () => {

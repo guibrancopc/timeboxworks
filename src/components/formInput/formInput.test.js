@@ -1,6 +1,5 @@
 import { mount } from '@vue/test-utils';
-import sinon from 'sinon';
-import TwInputText from '../inputText.vue';
+import TwInputText from './formInput.vue';
 
 describe('Tw Input Component', () => {
   it('should emit value inserted to parent component', () => {
@@ -87,7 +86,6 @@ describe('Tw Input Component', () => {
 
   it('should throw error when wrong type is passed by prop', () => {
     const consoleErrorTemp = global.console.error;
-    global.console.error = sinon.spy();
     const errorMessage = 'TW Error: Wrong type passed as prop to input text!';
     const wrapperSetup = {
       propsData: {
