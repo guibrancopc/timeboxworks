@@ -1,5 +1,5 @@
 <template>
-  <button class="btn" :type="type" @click="onClick($event)" :class="styleClasses">
+  <button class="tw-button btn" :type="type" @click="onClick($event)" :class="styleClasses">
     <slot></slot>
   </button>
 </template>
@@ -91,7 +91,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   .btn {
     display: inline-block;
     font-weight: 400;

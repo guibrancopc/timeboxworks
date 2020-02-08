@@ -1,5 +1,5 @@
 <template>
-  <div class="col">
+  <div class="tw-col">
     <slot></slot>
   </div>
 </template>
@@ -10,8 +10,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.col {
+<style lang="scss" scoped>
+.tw-col {
   position: relative;
   width: 100%;
   padding-right: 15px;
