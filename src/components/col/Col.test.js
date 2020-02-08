@@ -3,7 +3,7 @@ import TwCol from './Col.vue';
 
 const mountComponent = slots => mount(TwCol, { slots });
 
-describe('Tw Col component', () => {
+describe('Tw Col', () => {
   it('should render div with corret class', () => {
     const wrapper = mountComponent();
     const div = wrapper.find('div');

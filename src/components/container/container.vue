@@ -1,5 +1,5 @@
 <template>
-  <div :class="currentClasses">
+  <div :class="currentClasses" class="tw-container">
     <slot></slot>
   </div>
 </template>
