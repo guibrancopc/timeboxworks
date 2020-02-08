@@ -25,6 +25,7 @@ module.exports = {
     'no-param-reassign': ['error', { props: false }],
     'no-use-before-define': ['error', { 'functions': false, 'classes': true }],
     'arrow-parens': ['error', 'as-needed'],
+    'import/prefer-default-export': ['off']
   },
 
   overrides: [

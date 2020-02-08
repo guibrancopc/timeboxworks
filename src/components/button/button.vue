@@ -5,23 +5,7 @@
 </template>
 
 <script>
-import propsValidation from '../../services/propsValidation/propsValidation';
-
-const validProps = {
-  type: ['button', 'submit', 'reset'],
-  size: ['sm', 'md', 'lg'],
-  template: [
-    'primary',
-    'seconday',
-    'success',
-    'danger',
-    'warning',
-    'info',
-    'light',
-    'dark',
-    'link',
-  ],
-};
+import { validValues } from '../../services/propsValidation/propsValidation';
 
 export default {
   name: 'tw-button',
@@ -34,14 +18,27 @@ export default {
     type: {
       type: String,
       default: 'button',
+      ...validValues(['button', 'submit', 'reset']),
     },
     template: {
       type: String,
       default: 'primary',
+      ...validValues([
+        'primary',
+        'seconday',
+        'success',
+        'danger',
+        'warning',
+        'info',
+        'light',
+        'dark',
+        'link',
+      ]),
     },
     size: {
       type: String,
       default: 'md',
+      ...validValues(['sm', 'md', 'lg']),
     },
     outline: {
       type: Boolean,
@@ -57,7 +54,6 @@ export default {
     },
   },
   beforeMount() {
-    propsValidation({ scope: this, validProps });
     this.addSizeClass();
     this.addBlockClass();
     this.addDisabledClass();
