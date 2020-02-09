@@ -1,30 +1,33 @@
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import TwLogo from './Logo.vue';
 
+const mountComponent = propsData => mount(TwLogo, { propsData });
+
 describe('Tw Logo', () => {
-  it('should pick a default image if no key is passed by prop', () => {
-    const wrapper = shallowMount(TwLogo);
-    const image = wrapper.find('img');
-    expect(image.attributes('src')).toBe('img/logos/timebox-works_logo-default.png');
+  it('should initialize an image with correct alt text', () => {
+    const wrapper = mountComponent();
+    const img = wrapper.find('img');
+    expect(img.attributes('alt')).toBe('Timebox Works Logo');
   });
 
-  it('should pick a image full name when image key is passed by prop', () => {
-    const wrapper = shallowMount(TwLogo, {
-      propsData: {
-        type: 'rounded',
-      },
-    });
-    const image = wrapper.find('img');
-    expect(image.attributes('src')).toBe('img/logos/timebox-works_logo-rounded.png');
+  it('should retrieve the default image when no type is received by prop', () => {
+    const wrapper = mountComponent();
+    expect(wrapper.vm.currentLogo.uri).toContain('logo-default');
   });
 
-  it('should set width when it is passed by prop', () => {
-    const wrapper = shallowMount(TwLogo, {
-      propsData: {
-        width: '15px',
-      },
-    });
-    const image = wrapper.find('img');
-    expect(image.attributes('style')).toBe('width: 15px;');
+  it('should retrieve the rounded image when this type is received by prop', () => {
+    const wrapper = mountComponent({ type: 'rounded' });
+    expect(wrapper.vm.currentLogo.uri).toContain('logo-rounded');
+  });
+
+  it('should retrieve a hourglass image when this type is received by prop', () => {
+    const wrapper = mountComponent({ type: 'hourglass' });
+    expect(wrapper.vm.currentLogo.uri).toContain('logo-hourglass');
+  });
+
+  it('should setup image width when it is received by prop', () => {
+    const wrapper = mountComponent({ width: 45 });
+    const img = wrapper.find('img');
+    expect(img.attributes('style')).toContain('width: 45px');
   });
 });

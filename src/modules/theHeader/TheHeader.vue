@@ -5,7 +5,7 @@
         <div class="tw-header__content">
           <div class="tw-header__logo-side">
             <router-link to="/">
-              <tw-logo width="150px" />
+              <tw-logo :width="150" />
             </router-link>
           </div>
           <div class="tw-header__nav-side">

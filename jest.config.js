@@ -7,7 +7,7 @@ module.exports = {
   ],
   transform: {
     '^.+\\.vue$': 'vue-jest',
-    '.+\\.(css|html|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
+    '.+\\.(css|html|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub-named',
     '^.+\\.jsx?$': 'babel-jest',
   },
   transformIgnorePatterns: [

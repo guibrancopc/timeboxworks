@@ -1,6 +1,6 @@
 <template>
   <img
-    :src="`${currentLogo}`"
+    :src="currentLogo"
     :style="currentStyle"
     alt="Timebox Works Logo"
     class="tw-logo">
@@ -11,40 +11,35 @@ import defaultLogo from '../../assets/images/logos/timebox-works_logo-default.pn
 import roundedLogo from '../../assets/images/logos/timebox-works_logo-rounded.png';
 import hourglassLogo from '../../assets/images/logos/timebox-works_logo-hourglass.png';
 
+const logos = {
+  default: defaultLogo,
+  rounded: roundedLogo,
+  hourglass: hourglassLogo,
+};
+
 export default {
   name: 'TwLogo',
-  data() {
-    return {
-      logos: {
-        default: defaultLogo,
-        rounded: roundedLogo,
-        hourglass: hourglassLogo,
-      },
-    };
-  },
   props: {
     type: {
       type: String,
       default: 'default',
+      validator: value => !!logos[value],
     },
-    width: {
-      type: String,
-      default: '',
-    },
+    width: Number,
   },
   computed: {
     currentLogo() {
-      return this.logos[this.type];
+      return logos[this.type];
     },
     currentStyle() {
-      return this.width ? { width: this.width } : {};
+      return this.width ? { width: `${this.width}px` } : {};
     },
   },
 };
 </script>
 
-<style lang="scss">
-  .tw__logo {
+<style>
+  .tw-logo {
     vertical-align: middle;
   }
 </style>
