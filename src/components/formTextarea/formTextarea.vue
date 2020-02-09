@@ -49,14 +49,8 @@ export default {
       type: [Number, String],
       default: 100,
     },
-    disableDynamicHeight: {
-      type: Boolean,
-      default: false,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
+    disableDynamicHeight: Boolean,
+    required: Boolean,
     maxLength: {
       type: Number,
       default: -1,

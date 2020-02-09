@@ -57,10 +57,7 @@ export default {
       type: String,
       default: '',
     },
-    required: {
-      type: Boolean,
-      default: false,
-    },
+    required: Boolean,
     customValidation: Function,
   },
   computed: {

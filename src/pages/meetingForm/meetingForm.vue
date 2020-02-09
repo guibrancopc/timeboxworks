@@ -15,7 +15,7 @@
                   label="Meeting name">
                   <tw-form-input
                     name="meeting-name"
-                    :required="true"/>
+                    required/>
                 </tw-form-field>
               </tw-col>
             </tw-row>
@@ -28,7 +28,7 @@
                     type="time"
                     :customValidation="timeGapCustomValidation"
                     v-model="startTime"
-                    :required="true"/>
+                    required/>
                 </tw-form-field>
               </tw-col>
               <tw-col>
@@ -39,7 +39,7 @@
                     type="time"
                     v-model="endTime"
                     :customValidation="timeGapCustomValidation"
-                    :required="true"/>
+                    required/>
                 </tw-form-field>
               </tw-col>
             </tw-row>
@@ -49,7 +49,7 @@
                   label="Goal"
                   inputName="meeting-goal"
                   inputsGroupKey="meeting-goals"
-                  :required="true"/>
+                  required/>
               </tw-col>
             </tw-row>
             <tw-row>
@@ -59,16 +59,16 @@
                   <tw-form-textarea
                     name="meeting-description"
                     dynamicMinHeight="100"
-                    :required="false"/>
+                    required/>
                 </tw-form-field>
               </tw-col>
             </tw-row>
             <tw-row>
-              <tw-col class="tw-utils__text--right">
-                <tw-gutter :right="false" :top="false" display="inline-block">
+              <tw-col class="tw-ut__text--right">
+                <tw-gutter left bottom inline-block>
                   <tw-form-reset-button>Clean Form</tw-form-reset-button>
                 </tw-gutter>
-                <tw-gutter :right="false" :top="false" display="inline-block">
+                <tw-gutter left bottom inline-block>
                   <tw-form-submit-button>Start Meeting</tw-form-submit-button>
                 </tw-gutter>
               </tw-col>

@@ -45,10 +45,6 @@ export default {
       type: String,
       default: '',
     },
-    required: {
-      type: Boolean,
-      default: false,
-    },
     maxLength: {
       type: Number,
       default: -1,
@@ -57,11 +53,12 @@ export default {
       type: Number,
       default: 0,
     },
-    customValidation: Function,
     inputsGroupKey: {
       type: String,
       default: '',
     },
+    customValidation: Function,
+    required: Boolean,
   },
   computed: {
     inputValue() {

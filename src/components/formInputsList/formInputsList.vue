@@ -6,13 +6,13 @@
       :label="`${label} ${index + 1}`">
       <div class="tw-form-inputs-list__input-wrapper">
         <tw-form-input
+          required
           :name="`${inputName}-${index}`"
           :value="item.value"
           :type="type"
           :maxLength="maxLength"
           :minLength="minLength"
           :placeholder="placeholder"
-          :required="true"
           :inputsGroupKey="inputsGroupKey"
           :id="item.id"
           @input="onInput($event, index)"
@@ -25,11 +25,10 @@
             @click="deleteInput(index)">&times;</tw-button>
         </div>
     </tw-form-field>
-    <tw-gutter :top="false" :left="false" :right="false">
+    <tw-gutter bottom>
       <tw-button
         @click="addNewInput({ shouldFocus: true })"
-        :block="true"
-        :outline="true">+ Add {{label}}</tw-button>
+        block outline>+ Add {{label}}</tw-button>
     </tw-gutter>
   </div>
 </template>
@@ -70,10 +69,7 @@ export default {
       type: String,
       default: '',
     },
-    required: {
-      type: Boolean,
-      default: false,
-    },
+    required: Boolean,
     maxLength: {
       type: Number,
       default: -1,

@@ -68,7 +68,7 @@ export default {
     resetForm() {
       this.isDirty = false;
       this.isSubmitted = false;
-      this.formFields.forEach((formField) => {
+      this.formFields.forEach(formField => {
         initForm(null, formField.$children[0]);
         formField.input.value = null;
         formField.input.isBlurred = false;

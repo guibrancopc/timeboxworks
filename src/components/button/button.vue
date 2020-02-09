@@ -40,18 +40,9 @@ export default {
       default: 'md',
       ...validValues(['sm', 'md', 'lg']),
     },
-    outline: {
-      type: Boolean,
-      default: false,
-    },
-    block: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    outline: Boolean,
+    block: Boolean,
+    disabled: Boolean,
   },
   beforeMount() {
     this.addSizeClass();

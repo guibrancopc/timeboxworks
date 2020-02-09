@@ -8,10 +8,7 @@
 export default {
   name: 'tw-container',
   props: {
-    fullwidth: {
-      type: Boolean,
-      default: false,
-    },
+    fullwidth: Boolean,
   },
   computed: {
     currentClasses() {
