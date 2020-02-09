@@ -1,5 +1,5 @@
 <template>
-  <div :class="dynamicClasses()" :style="dynamicStyle">
+  <div :class="classes()">
     <slot></slot>
   </div>
 </template>
@@ -8,68 +8,37 @@
 export default {
   name: 'tw-gutter',
   props: {
-    top: {
-      value: Boolean,
-      default: true,
-    },
-    bottom: {
-      value: Boolean,
-      default: true,
-    },
-    left: {
-      value: Boolean,
-      default: true,
-    },
-    right: {
-      value: Boolean,
-      default: true,
-    },
-    display: {
-      value: String,
-      default: '',
-    },
-  },
-  computed: {
-    dynamicStyle() {
-      const validDisplayValues = ['block', 'inline-block'];
-      if (validDisplayValues.includes(this.display)) {
-        return { display: this.display };
-      }
-      if (this.display) {
-        console.error('TW ERROR: Wrong display value was passed to Gutter component: ', this.display);
-      }
-      return {};
-    },
+    top: Boolean,
+    bottom: Boolean,
+    left: Boolean,
+    right: Boolean,
+    vertical: Boolean,
+    horizontal: Boolean,
+    full: Boolean,
+    inlineBlock: Boolean,
   },
   methods: {
-    dynamicClasses() {
+    classes() {
       return {
-        'tw-gutter__margin--top': this.top,
-        'tw-gutter__margin--bottom': this.bottom,
-        'tw-gutter__margin--left': this.left,
-        'tw-gutter__margin--right': this.right,
+        'tw-u_margin--top': this.marginTop(),
+        'tw-u_margin--bottom': this.marginBottom(),
+        'tw-u_margin--left': this.marginLeft(),
+        'tw-u_margin--right': this.marginRight(),
+        'tw-u_display--inline-block': this.inlineBlock,
       };
+    },
+    marginTop() {
+      return this.top || this.vertical || this.full;
+    },
+    marginBottom() {
+      return this.bottom || this.vertical || this.full;
+    },
+    marginLeft() {
+      return this.left || this.horizontal || this.full;
+    },
+    marginRight() {
+      return this.right || this.horizontal || this.full;
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-$gutter: 15px;
-
-.tw-gutter__margin--top {
-  margin-top: $gutter;
-}
-
-.tw-gutter__margin--bottom {
-  margin-bottom: $gutter;
-}
-
-.tw-gutter__margin--left {
-  margin-left: $gutter;
-}
-
-.tw-gutter__margin--right {
-  margin-right: $gutter;
-}
-</style>
