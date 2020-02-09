@@ -2,7 +2,7 @@
   <tw-container>
     <tw-row>
       <tw-col>
-        <tw-heading :size="1">Meeting Setup</tw-heading>
+        <tw-heading>Meeting Setup</tw-heading>
       </tw-col>
     </tw-row>
     <tw-page>

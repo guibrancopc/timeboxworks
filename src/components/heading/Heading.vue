@@ -1,32 +1,31 @@
 <template>
   <component
     class="tw-heading"
-    :is="currentValidTag">
+    :is="headingKey()">
     <slot/>
   </component>
 </template>
 
 <script>
+const validSizes = ['xl', 'lg', 'md', 'sm', 'xs', 'xxs'];
+
 export default {
   name: 'TwHeading',
   props: {
     size: {
-      type: Number,
-      default: 1,
+      type: String,
+      default: 'xl',
+      validator: value => validSizes.includes(value),
     },
   },
   methods: {
-    isSizeValid(size) {
-      return size >= 1 && size <= 6;
+    headingKey() {
+      const headingNumber = this.getHeadingNumber();
+      if (headingNumber === 0) { return 'h1'; }
+      return `h${headingNumber}`;
     },
-  },
-  computed: {
-    currentValidTag() {
-      if (this.isSizeValid(this.size)) {
-        return `h${this.size}`;
-      }
-      console.error('TW: Wrong size was passed as prop for Tw Title component.');
-      return 'h1';
+    getHeadingNumber() {
+      return validSizes.indexOf(this.size) + 1;
     },
   },
 };
