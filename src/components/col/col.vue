@@ -6,11 +6,11 @@
 
 <script>
 export default {
-  name: 'tw-col',
+  name: 'TwCol',
 };
 </script>
 
-<style scoped>
+<style>
 .tw-col {
   position: relative;
   width: 100%;

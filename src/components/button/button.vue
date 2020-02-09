@@ -1,12 +1,16 @@
 <template>
-  <button class="tw-button btn" :type="type" @click="onClick($event)" :class="styleClasses">
+  <button
+    class="tw-button btn"
+    :class="styleClasses"
+    :type="type"
+    @click="onClick($event)">
     <slot></slot>
   </button>
 </template>
 
 <script>
 export default {
-  name: 'tw-button',
+  name: 'TwButton',
   data() {
     return {
       styleClasses: {},

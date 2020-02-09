@@ -1,12 +1,14 @@
 <template>
-  <div :class="classes()">
+  <div
+    class="tw-gutter"
+    :class="classes()">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'tw-gutter',
+  name: 'TwGutter',
   props: {
     top: Boolean,
     bottom: Boolean,

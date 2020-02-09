@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import TwInputText from './formInput.vue';
+import TwInputText from './FormInput.vue';
 
 describe('Tw Input Component', () => {
   it('should emit value inserted to parent component', () => {

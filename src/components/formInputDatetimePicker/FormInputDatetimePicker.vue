@@ -2,6 +2,7 @@
   <Datetime
     :name="name"
     :type="validatedType"
+    class="tw-form-input-datetime-picker"
     :input-class="inputClasses()"
     :placeholder="placeholder"
     :minute-step="5"
@@ -33,7 +34,7 @@ const { getUid } = uidGenerator;
 Settings.defaultLocale = 'en';
 
 export default {
-  name: 'tw-input-datetime-picker',
+  name: 'TwFormInputDatetimePicker',
   data() {
     return {
       id: getUid(),

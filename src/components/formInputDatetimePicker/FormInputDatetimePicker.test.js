@@ -1,5 +1,5 @@
 import { shallowMount, mount } from '@vue/test-utils';
-import TwInputDatetimepicker from './inputDatetimePicker.vue';
+import TwInputDatetimepicker from './FormInputDatetimePicker.vue';
 
 describe('Tw Input Timepicker', () => {
   it('should emit value updated by input', () => {

@@ -1,16 +1,20 @@
 <template>
-  <tw-button outline type="reset" size="lg">
+  <tw-button
+    outline
+    class="tw-form-reset-button"
+    type="reset"
+    size="lg">
     <slot />
   </tw-button>
 </template>
 
 <script>
-import twButton from '../button/Button.vue';
+import TwButton from '../button/Button.vue';
 
 export default {
-  name: 'tw-form-reset-button',
+  name: 'TwFormResetButton',
   components: {
-    twButton,
+    TwButton,
   },
 };
 </script>

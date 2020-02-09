@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import TwLogo from './logo.vue';
+import TwLogo from './Logo.vue';
 
 describe('Tw Logo', () => {
   it('should pick a default image if no key is passed by prop', () => {

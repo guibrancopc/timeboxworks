@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-form-inputs-list__container">
+  <div class="tw-form-inputs-list">
     <tw-form-field
       v-for="(item, index) in inputsList"
       :key="item.id"
@@ -35,13 +35,13 @@
 
 <script>
 import uidGenerator from '../../services/uidGenerator/uidGenerator';
-import twFormInput from '../formInput/formInput.vue';
-import twButton from '../button/Button.vue';
+import TwFormInput from '../formInput/FormInput.vue';
+import TwButton from '../button/Button.vue';
 
 const { getUid } = uidGenerator;
 
 export default {
-  name: 'tw-form-inputs-list',
+  name: 'TwFormInputsList',
   data() {
     return {
       id: getUid(),
@@ -136,7 +136,7 @@ export default {
       }
     },
     addIdWhenNoIdIsFound() {
-      this.inputsList.forEach((input) => {
+      this.inputsList.forEach(input => {
         if (!input.id) { input.id = getUid(); }
       });
     },
@@ -149,8 +149,8 @@ export default {
     },
   },
   components: {
-    twFormInput,
-    twButton,
+    TwFormInput,
+    TwButton,
   },
 };
 
@@ -179,7 +179,7 @@ function deleteItemFromList(list, itemIndex) {
 </script>
 
 <style lang="scss">
-.tw-form-inputs-list__container {
+.tw-form-inputs-list {
   border-left: 5px solid #ced4da;
   padding-left: 15px;
 }

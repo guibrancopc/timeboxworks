@@ -12,7 +12,7 @@ import roundedLogo from '../../assets/images/logos/timebox-works_logo-rounded.pn
 import hourglassLogo from '../../assets/images/logos/timebox-works_logo-hourglass.png';
 
 export default {
-  name: 'tw-logo',
+  name: 'TwLogo',
   data() {
     return {
       logos: {

@@ -3,7 +3,7 @@
     :placeholder="placeholder"
     :name="name"
     :id="getInputHtmlId()"
-    class="form-control form-control-lg"
+    class="tw-form-textarea form-control form-control-lg"
     :value="formFieldVm.input.value"
     :maxlength="maxLength"
     @input="onInput"
@@ -25,7 +25,7 @@ import uidGenerator from '../../services/uidGenerator/uidGenerator';
 const { getUid } = uidGenerator;
 
 export default {
-  name: 'tw-form-textarea',
+  name: 'TwFormTextarea',
   data() {
     return {
       id: getUid(),

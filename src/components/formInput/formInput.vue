@@ -22,7 +22,7 @@ import {
 } from '../../services/formHelpers/formHelpers';
 
 export default {
-  name: 'tw-form-input',
+  name: 'TwFormInput',
   inject: ['formVm', 'formFieldVm'],
   props: {
     id: {

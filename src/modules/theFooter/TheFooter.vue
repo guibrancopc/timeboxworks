@@ -1,21 +1,19 @@
 <template>
-  <footer>
-    <div id="footer-logo">
-      <tw-logo type="rounded"/>
-    </div>
+  <footer class="tw-footer">
+    <tw-logo type="rounded"/>
   </footer>
 </template>
 
 <script>
 export default {
-  name: 'tw-footer',
+  name: 'TwTheFooter',
 };
 </script>
 
-<style lang="scss" scoped>
-  #footer-logo {
+<style lang="scss">
+  .tw-footer {
     text-align: center;
-    img {
+    .tw-logo {
       width: 150px;
       opacity: 0.5;
       transition: 0.3s;

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-form-field__container form-group"
+    class="tw-form-field form-group"
     :class="{'form-control-invalid': shouldShowIndividualValidation}">
     <label :for="input.htmlId">
       {{label}}
@@ -9,7 +9,7 @@
         class="form-control__color--danger">*</span>
     </label>
     <slot />
-    <div class="tw-form-field__error-message-container">
+    <div class="tw-form-field__error-message">
       <small
         v-if="shouldShowErrorMessage"
         class="form-control__color--danger">{{errorMessage}}</small>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'tw-form-field',
+  name: 'TwFormField',
   data() {
     return {
       errorMessage: '',
@@ -61,11 +61,11 @@ export default {
 </script>
 
 <style lang="scss">
-  .tw-form-field__container {
+  .tw-form-field {
     margin: 0;
   }
 
-  .tw-form-field__error-message-container {
+  .tw-form-field__error-message {
     height: 25px;
   }
 </style>

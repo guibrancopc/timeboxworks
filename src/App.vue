@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <tw-header/>
+    <tw-the-header/>
     <main>
       <router-view/>
     </main>
-    <tw-footer/>
+    <tw-the-footer/>
   </div>
 </template>
 

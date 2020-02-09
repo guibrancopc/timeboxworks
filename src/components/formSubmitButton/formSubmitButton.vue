@@ -1,16 +1,20 @@
 <template>
-  <tw-button template="success" type="submit" size="lg">
+  <tw-button
+    template="success"
+    class="tw-form-submit-button"
+    type="submit"
+    size="lg">
     <slot />
   </tw-button>
 </template>
 
 <script>
-import twButton from '../button/Button.vue';
+import TwButton from '../button/Button.vue';
 
 export default {
-  name: 'tw-form-submit-button',
+  name: 'TwFormSubmitButton',
   components: {
-    twButton,
+    TwButton,
   },
 };
 </script>

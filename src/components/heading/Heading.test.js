@@ -1,15 +1,14 @@
 import { shallowMount } from '@vue/test-utils';
-import sinon from 'sinon';
-import TwTitle from './title.vue';
+import TwHeading from './Heading.vue';
 
-describe('Tw Title', () => {
+describe('Tw Heading', () => {
   it('should render h1 tag by default', () => {
-    const wrapper = shallowMount(TwTitle);
+    const wrapper = shallowMount(TwHeading);
     expect(wrapper.find('h1').exists()).toBe(true);
   });
 
   it('should render heading tag with size passed by prop', () => {
-    const wrapper = shallowMount(TwTitle, {
+    const wrapper = shallowMount(TwHeading, {
       propsData: {
         size: 3,
       },
@@ -19,8 +18,7 @@ describe('Tw Title', () => {
 
   it('should console a error when wrong value is passed for sizing', () => {
     const consoleErrorTemp = global.console.error;
-    global.console.error = sinon.spy();
-    const wrapper = shallowMount(TwTitle, {
+    const wrapper = shallowMount(TwHeading, {
       propsData: {
         size: 8,
       },

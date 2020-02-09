@@ -1,17 +1,17 @@
 <template>
-  <div class="row">
+  <div class="tw-row">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'tw-row',
+  name: 'TwRow',
 };
 </script>
 
 <style lang="scss">
-.row {
+.tw-row {
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;

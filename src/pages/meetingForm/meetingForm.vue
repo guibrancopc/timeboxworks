@@ -2,7 +2,7 @@
   <tw-container>
     <tw-row>
       <tw-col>
-        <tw-title :size="1">Meeting Setup</tw-title>
+        <tw-heading :size="1">Meeting Setup</tw-heading>
       </tw-col>
     </tw-row>
     <tw-page>
@@ -23,7 +23,7 @@
               <tw-col>
                 <tw-form-field
                   label="Start time">
-                  <tw-input-datetime-picker
+                  <tw-form-input-datetime-picker
                     name="meeting-start"
                     type="time"
                     :customValidation="timeGapCustomValidation"
@@ -34,7 +34,7 @@
               <tw-col>
                 <tw-form-field
                   label="End time">
-                  <tw-input-datetime-picker
+                  <tw-form-input-datetime-picker
                     name="meeting-end"
                     type="time"
                     v-model="endTime"
@@ -82,7 +82,7 @@
 
 <script>
 export default {
-  name: 'tw-meeting-form',
+  name: 'TwMeetingForm',
   data() {
     return {
       startTime: null,

@@ -10,6 +10,6 @@
 
 <script>
 export default {
-  name: 'tw-menu',
+  name: 'TwTheMenu',
 };
 </script>

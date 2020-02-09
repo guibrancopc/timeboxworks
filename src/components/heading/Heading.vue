@@ -1,5 +1,6 @@
 <template>
   <component
+    class="tw-heading"
     :is="currentValidTag">
     <slot/>
   </component>
@@ -7,7 +8,7 @@
 
 <script>
 export default {
-  name: 'tw-title',
+  name: 'TwHeading',
   props: {
     size: {
       type: Number,

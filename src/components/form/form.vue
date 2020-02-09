@@ -1,8 +1,9 @@
 <template>
   <form
+    class="tw-form"
+    novalidate="true"
     @submit.prevent="onSubmit"
-    @reset="onReset"
-    novalidate="true">
+    @reset="onReset">
     <slot></slot>
   </form>
 </template>
@@ -12,7 +13,7 @@ import { initForm } from '../../services/formHelpers/formHelpers';
 import dialogs from '../../services/dialogs/dialogs';
 
 export default {
-  name: 'tw-form',
+  name: 'TwForm',
   data() {
     return {
       isDirty: false,

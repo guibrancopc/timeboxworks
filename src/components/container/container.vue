@@ -1,12 +1,14 @@
 <template>
-  <div :class="currentClasses" class="tw-container">
+  <div
+    :class="currentClasses"
+    class="tw-container">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'tw-container',
+  name: 'TwContainer',
   props: {
     fullwidth: Boolean,
   },

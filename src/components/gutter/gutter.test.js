@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import TwGutter from './gutter.vue';
+import TwGutter from './Gutter.vue';
 
 const mountComponent = (propsData, slots) => mount(TwGutter, { propsData, slots });
 

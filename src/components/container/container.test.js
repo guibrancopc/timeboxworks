@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import TwContainer from './container.vue';
+import TwContainer from './Container.vue';
 
 const mountComponent = (propsData, slots) => mount(TwContainer, { propsData, slots });
 
