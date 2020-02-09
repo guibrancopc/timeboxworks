@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { validValues } from '../../services/propsValidation/propsValidation';
-
 export default {
   name: 'tw-button',
   data() {
@@ -18,27 +16,35 @@ export default {
     type: {
       type: String,
       default: 'button',
-      ...validValues(['button', 'submit', 'reset']),
+      validator(value) {
+        return ['button', 'submit', 'reset']
+          .includes(value);
+      },
     },
     template: {
       type: String,
       default: 'primary',
-      ...validValues([
-        'primary',
-        'seconday',
-        'success',
-        'danger',
-        'warning',
-        'info',
-        'light',
-        'dark',
-        'link',
-      ]),
+      validator(value) {
+        return [
+          'primary',
+          'seconday',
+          'success',
+          'danger',
+          'warning',
+          'info',
+          'light',
+          'dark',
+          'link',
+        ].includes(value);
+      },
     },
     size: {
       type: String,
       default: 'md',
-      ...validValues(['sm', 'md', 'lg']),
+      validator(value) {
+        return ['sm', 'md', 'lg']
+          .includes(value);
+      },
     },
     outline: Boolean,
     block: Boolean,
