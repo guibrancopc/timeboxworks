@@ -1,4 +1,4 @@
-import uidGenerator from '../uidGenerator';
+import uidGenerator from './uidGenerator';
 
 const { getUid } = uidGenerator;
 

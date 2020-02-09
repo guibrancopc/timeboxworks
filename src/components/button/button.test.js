@@ -5,7 +5,7 @@ function mountComponent(propsData, slots) {
   return mount(TwButton, { propsData, slots });
 }
 
-describe('Tw Button component', () => {
+describe('Tw Button', () => {
   it('should add disabled class when required', () => {
     const wrapper = mountComponent({ disabled: true });
     expect(wrapper.classes()).toContain('disabled');

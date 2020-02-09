@@ -64,7 +64,7 @@
               </tw-col>
             </tw-row>
             <tw-row>
-              <tw-col class="tw-ut__text--right">
+              <tw-col class="tw-u_text--right">
                 <tw-gutter left bottom inline-block>
                   <tw-form-reset-button>Clean Form</tw-form-reset-button>
                 </tw-gutter>
