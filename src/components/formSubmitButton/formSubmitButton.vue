@@ -3,6 +3,7 @@
     template="success"
     class="tw-form-submit-button"
     type="submit"
+    :disabled="!formVm.isValid"
     size="lg">
     <slot />
   </tw-button>
@@ -16,5 +17,6 @@ export default {
   components: {
     TwButton,
   },
+  inject: ['formVm'],
 };
 </script>

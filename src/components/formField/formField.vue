@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     shouldShowIndividualValidation() {
-      return ((this.formVm && this.formVm.shouldShowAllValidations)
+      return ((this.formVm && this.formVm.isSubmitted && !this.formVm.isValid)
         || (this.input.isDirty && this.input.isBlurred))
         && !this.input.isValid;
     },

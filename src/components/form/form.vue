@@ -4,7 +4,7 @@
     novalidate="true"
     @submit.prevent="onSubmit"
     @reset="onReset">
-    <slot></slot>
+    <slot />
   </form>
 </template>
 
@@ -27,19 +27,16 @@ export default {
     };
   },
   computed: {
-    shouldShowAllValidations() {
-      return this.isSubmitted && !this.isValid;
+    isValid() {
+      return !this.formFields.some(formField => !formField.input.isValid);
     },
   },
   methods: {
     onSubmit() {
       this.isSubmitted = true;
-      if (this.isFormValid()) {
+      if (this.isValid) {
         this.$emit('submit', this.buildOutput());
       }
-    },
-    isFormValid() {
-      return !this.formFields.some(formField => !formField.input.isValid);
     },
     buildOutput() {
       return this.formFields.reduce((acumulator, formField) => {
