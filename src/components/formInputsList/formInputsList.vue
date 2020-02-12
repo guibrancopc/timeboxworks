@@ -179,18 +179,5 @@ function deleteItemFromList(list, itemIndex) {
 </script>
 
 <style lang="scss">
-.tw-form-inputs-list {
-  border-left: 5px solid #ced4da;
-  padding-left: 15px;
-}
-
-.tw-form-inputs-list__input-wrapper {
-  position: relative;
-}
-
-.tw-form-inputs-list__delete-button {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
+@import './FormInputsList.scss';
 </style>

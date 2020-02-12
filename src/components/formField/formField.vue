@@ -60,12 +60,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-  .tw-form-field {
-    margin: 0;
-  }
-
-  .tw-form-field__error-message {
-    height: 25px;
-  }
+<style lang="scss" scoped>
+@import './FormField.scss';
 </style>

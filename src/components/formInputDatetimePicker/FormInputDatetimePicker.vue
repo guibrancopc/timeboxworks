@@ -96,6 +96,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import "../../../node_modules/vue-datetime/dist/vue-datetime.css";
 </style>

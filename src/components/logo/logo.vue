@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   .tw-logo {
     vertical-align: middle;
   }
