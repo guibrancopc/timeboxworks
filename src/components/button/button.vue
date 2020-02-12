@@ -11,10 +11,22 @@
 <script>
 export default {
   name: 'TwButton',
-  data() {
-    return {
-      styleClasses: {},
-    };
+  computed: {
+    styleClasses() {
+      const result = {
+        disabled: this.disabled,
+        'btn-block': this.block,
+      };
+      result[`btn-${this.size}`] = true;
+      result[this.templateClass] = true;
+      return result;
+    },
+    templateClass() {
+      return this.outlineTemplatePrefix + this.template;
+    },
+    outlineTemplatePrefix() {
+      return this.outline ? 'btn-outline-' : 'btn-';
+    },
   },
   props: {
     type: {
@@ -54,12 +66,6 @@ export default {
     block: Boolean,
     disabled: Boolean,
   },
-  beforeMount() {
-    this.addSizeClass();
-    this.addBlockClass();
-    this.addDisabledClass();
-    this.addTemplateClass();
-  },
   methods: {
     onClick(event) {
       if (!this.disabled) {
@@ -70,23 +76,6 @@ export default {
     shouldPreventDefault(event) {
       const currentTypeUsesDefaultOption = ['submit', 'reset'].includes(this.type);
       if (this.disabled || !currentTypeUsesDefaultOption) { event.preventDefault(); }
-    },
-    addDisabledClass() {
-      this.styleClasses.disabled = this.disabled;
-    },
-    addSizeClass() {
-      this.styleClasses[`btn-${this.size}`] = true;
-    },
-    addBlockClass() {
-      this.styleClasses['btn-block'] = this.block;
-    },
-    addTemplateClass() {
-      const templateClassPrefix = this.addOutlineStyle();
-      const templateClass = templateClassPrefix + this.template;
-      this.styleClasses[templateClass] = true;
-    },
-    addOutlineStyle() {
-      return this.outline ? 'btn-outline-' : 'btn-';
     },
   },
 };

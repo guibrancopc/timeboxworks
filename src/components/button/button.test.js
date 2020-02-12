@@ -16,6 +16,11 @@ describe('Tw Button', () => {
     expect(wrapper.classes()).toContain('btn-lg');
   });
 
+  it('should add block class when required', () => {
+    const wrapper = mountComponent({ block: true });
+    expect(wrapper.classes()).toContain('btn-block');
+  });
+
   it('should add primary type class when no type is received by prop', () => {
     const wrapper = mount(TwButton);
     expect(wrapper.classes()).toContain('btn-primary');
