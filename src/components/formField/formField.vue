@@ -1,7 +1,7 @@
 <template>
   <div
     class="tw-form-field form-group"
-    :class="{'form-control-invalid': shouldShowIndividualValidation}">
+    :class="classes">
     <label :for="input.htmlId">
       {{label}}
       <span
@@ -12,7 +12,7 @@
     <div class="tw-form-field__error-message">
       <small
         v-if="shouldShowErrorMessage"
-        class="form-control__color--danger">{{errorMessage}}</small>
+        class="form-control__color--danger">{{ errorMessage }}</small>
     </div>
   </div>
 </template>
@@ -54,7 +54,10 @@ export default {
         && !this.input.isValid;
     },
     shouldShowErrorMessage() {
-      return this.shouldShowIndividualValidation && this.errorMessage;
+      return !!(this.shouldShowIndividualValidation && this.errorMessage);
+    },
+    classes() {
+      return { 'form-control-invalid': this.shouldShowIndividualValidation };
     },
   },
 };
