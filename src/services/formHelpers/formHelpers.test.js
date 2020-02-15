@@ -118,7 +118,7 @@ describe('Form Helpers Service', () => {
       expect(scope.formFieldVm.input.isValid).toBe(false);
     });
 
-    it('should validate form as false when min length is required and not attended', () => {
+    it('should setup custom error message when min length is required and not attended', () => {
       const scope = scopeMockFactory();
       const event = { target: { value: 'sample-value-less-than-min-length' } };
       const minLength = 40;

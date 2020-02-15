@@ -13,6 +13,9 @@ import dialogs from '../../services/dialogs/dialogs';
 
 export default {
   name: 'TwForm',
+  props: {
+    allowSubmitWhenInvalid: Boolean,
+  },
   data() {
     return {
       isDirty: false,
@@ -32,10 +35,14 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.isSubmitted = true;
-      if (this.isValid) {
-        this.$emit('submit', this.buildOutput());
-      }
+      this.updateIsSubmittedFlagWhenAllowed();
+      this.emitSubmitEventWhenFormIsValid();
+    },
+    updateIsSubmittedFlagWhenAllowed() {
+      this.isSubmitted = !!(this.allowSubmitWhenInvalid || this.isValid);
+    },
+    emitSubmitEventWhenFormIsValid() {
+      if (this.isValid) { this.$emit('submit', this.buildOutput()); }
     },
     buildOutput() {
       return this.formFields.reduce((acumulator, formField) => {

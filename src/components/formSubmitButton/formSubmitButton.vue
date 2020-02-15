@@ -3,7 +3,7 @@
     template="success"
     class="tw-form-submit-button"
     type="submit"
-    :disabled="!formVm.isValid"
+    :disabled="shouldDisable"
     size="lg">
     <slot>Submit</slot>
   </tw-button>
@@ -18,5 +18,10 @@ export default {
     TwButton,
   },
   inject: ['formVm'],
+  computed: {
+    shouldDisable() {
+      return !(this.formVm.isValid || this.formVm.allowSubmitWhenInvalid);
+    },
+  },
 };
 </script>
