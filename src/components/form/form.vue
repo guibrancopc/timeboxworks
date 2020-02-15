@@ -1,9 +1,8 @@
 <template>
   <form
+    novalidate
     class="tw-form"
-    novalidate="true"
-    @submit.prevent="onSubmit"
-    @reset="onReset">
+    @submit.prevent="onSubmit">
     <slot />
   </form>
 </template>
@@ -58,19 +57,19 @@ export default {
     onReset(event) {
       const confirmMessage = 'Are you sure you want to reset this form?';
       if (dialogs.customConfirm(confirmMessage)) {
-        this.resetForm();
+        this.cleanFormUp();
       } else {
         event.preventDefault();
       }
     },
-    resetForm() {
+    cleanFormUp() {
       this.isDirty = false;
       this.isSubmitted = false;
       this.formFields.forEach(formField => {
         initForm(null, formField.$children[0]);
         formField.input.value = null;
         formField.input.isBlurred = false;
-        formField.input.dirty = false;
+        formField.input.isDirty = false;
       });
     },
   },

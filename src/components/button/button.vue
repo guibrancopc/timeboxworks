@@ -13,13 +13,12 @@ export default {
   name: 'TwButton',
   computed: {
     styleClasses() {
-      const result = {
+      return {
         disabled: this.disabled,
         'btn-block': this.block,
+        [`btn-${this.size}`]: true,
+        [this.templateClass]: true,
       };
-      result[`btn-${this.size}`] = true;
-      result[this.templateClass] = true;
-      return result;
     },
     templateClass() {
       return this.outlineTemplatePrefix + this.template;
@@ -75,7 +74,9 @@ export default {
     },
     shouldPreventDefault(event) {
       const currentTypeUsesDefaultOption = ['submit', 'reset'].includes(this.type);
-      if (this.disabled || !currentTypeUsesDefaultOption) { event.preventDefault(); }
+      if (this.disabled || !currentTypeUsesDefaultOption) {
+        event.preventDefault();
+      }
     },
   },
 };

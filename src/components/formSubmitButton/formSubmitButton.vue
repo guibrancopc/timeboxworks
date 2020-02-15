@@ -5,7 +5,7 @@
     type="submit"
     :disabled="!formVm.isValid"
     size="lg">
-    <slot />
+    <slot>Submit</slot>
   </tw-button>
 </template>
 

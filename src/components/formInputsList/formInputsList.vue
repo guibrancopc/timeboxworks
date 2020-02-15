@@ -53,9 +53,13 @@ export default {
       type: String,
       required: true,
     },
+    inputsGroupKey: {
+      type: String,
+      required: true,
+    },
     label: {
       type: String,
-      required: false,
+      required: true,
     },
     value: {
       type: Array,
@@ -77,10 +81,6 @@ export default {
     minLength: {
       type: Number,
       default: 0,
-    },
-    inputsGroupKey: {
-      type: String,
-      default: '',
     },
   },
   inject: ['formVm'],
