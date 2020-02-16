@@ -58,7 +58,7 @@
                   label="Description">
                   <tw-form-textarea
                     name="meeting-description"
-                    dynamicMinHeight="100"/>
+                    :minHeight="100"/>
                 </tw-form-field>
               </tw-col>
             </tw-row>

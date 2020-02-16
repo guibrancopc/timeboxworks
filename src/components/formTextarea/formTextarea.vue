@@ -6,8 +6,10 @@
     class="tw-form-textarea form-control form-control-lg"
     :value="formFieldVm.input.value"
     :maxlength="maxLength"
+    :style="style"
     @input="onInput"
     @blur="onBlur"
+    @keydown="onKeydown"
     v-dynamic-height="vDynamicHeightSetup()" />
 </template>
 
@@ -31,6 +33,11 @@ export default {
       id: getUid(),
     };
   },
+  computed: {
+    style() {
+      return { 'min-height': `${this.minHeight}px` };
+    },
+  },
   inject: ['formVm', 'formFieldVm'],
   props: {
     name: {
@@ -45,8 +52,8 @@ export default {
       type: String,
       default: '',
     },
-    dynamicMinHeight: {
-      type: [Number, String],
+    minHeight: {
+      type: Number,
       default: 100,
     },
     disableDynamicHeight: Boolean,
@@ -72,11 +79,11 @@ export default {
     onBlur() {
       setIsBlurred(this);
     },
+    onKeydown(event) {
+      this.$emit('keydown', event);
+    },
     vDynamicHeightSetup() {
-      return {
-        minHeight: `${this.dynamicMinHeight}px`,
-        disabled: this.disableDynamicHeight,
-      };
+      return { disabled: this.disableDynamicHeight };
     },
     getInputHtmlId() {
       return setupInputHtmlId(this);
