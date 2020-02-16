@@ -23,7 +23,7 @@
               <tw-col>
                 <tw-form-field
                   label="Start time">
-                  <tw-form-input-datetime-picker
+                  <tw-form-datetime-picker
                     name="meeting-start"
                     type="time"
                     :customValidation="timeGapCustomValidation"
@@ -34,7 +34,7 @@
               <tw-col>
                 <tw-form-field
                   label="End time">
-                  <tw-form-input-datetime-picker
+                  <tw-form-datetime-picker
                     name="meeting-end"
                     type="time"
                     v-model="endTime"

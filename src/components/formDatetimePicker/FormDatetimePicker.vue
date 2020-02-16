@@ -1,9 +1,9 @@
 <template>
   <Datetime
     :name="name"
-    :type="validatedType"
-    class="tw-form-input-datetime-picker"
-    :input-class="inputClasses()"
+    :type="type"
+    class="tw-form-datetime-picker"
+    input-class="form-control form-control-lg"
     :placeholder="placeholder"
     :minute-step="5"
     :input-id="getInputHtmlId(this)"
@@ -34,7 +34,7 @@ const { getUid } = uidGenerator;
 Settings.defaultLocale = 'en';
 
 export default {
-  name: 'TwFormInputDatetimePicker',
+  name: 'TwFormDatetimePicker',
   data() {
     return {
       id: getUid(),
@@ -49,6 +49,10 @@ export default {
     type: {
       type: String,
       default: 'date',
+      validator(value) {
+        return ['datetime', 'date', 'time']
+          .includes(value);
+      },
     },
     value: {
       type: String,
@@ -61,13 +65,6 @@ export default {
     required: Boolean,
     customValidation: Function,
   },
-  computed: {
-    validatedType() {
-      const validTypes = ['datetime', 'date', 'time'];
-      if (validTypes.includes(this.type)) { return this.type; }
-      throw new Error('TW Error: Wrong type passed as prop to datetime input!');
-    },
-  },
   methods: {
     onInput(value) {
       this.$emit('input', value);
@@ -76,9 +73,6 @@ export default {
     },
     onClose() {
       setIsBlurred(this);
-    },
-    inputClasses() {
-      return 'form-control form-control-lg';
     },
     getInputHtmlId() {
       return setupInputHtmlId(this);
@@ -96,6 +90,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   @import "../../../node_modules/vue-datetime/dist/vue-datetime.css";
 </style>
