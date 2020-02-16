@@ -57,6 +57,6 @@ describe('Tw Form Reset Button', () => {
     `);
     wrapper.find('input').setValue('Any Value');
     wrapper.find('[type=reset]').trigger('click');
-    expect(wrapper.find(TwFormField).vm.input.value).toBe(null);
+    expect(wrapper.find(TwFormField).vm.input.value).toBeFalsy();
   });
 });

@@ -3,7 +3,7 @@
     class="tw-form-field form-group"
     :class="classes">
     <label :for="input.htmlId">
-      {{label}}
+      {{ label }}
       <span
         v-if="input.isRequired"
         class="form-control__color--danger">*</span>
@@ -24,6 +24,7 @@ export default {
     return {
       errorMessage: '',
       input: {
+        id: null,
         name: null,
         value: null,
         htmlId: null,

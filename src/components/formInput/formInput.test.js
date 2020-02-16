@@ -1,141 +1,132 @@
 import { mount } from '@vue/test-utils';
-import TwInputText from './FormInput.vue';
+import TwForm from '../form/Form.vue';
+import TwFormField from '../formField/FormField.vue';
+import TwFormInput from './FormInput.vue';
 
-describe('Tw Input Component', () => {
-  it('should emit value inserted to parent component', () => {
-    const wrapper = mount(TwInputText);
-    const textInput = wrapper.find('input');
-    textInput.setValue('some_value');
-    expect(wrapper.emitted().input[0][0]).toBe('some_value');
+async function mountComponent(template, props = {}) {
+  const wrapper = mount({
+    template,
+    data: () => props,
+    components: {
+      TwForm,
+      TwFormField,
+      TwFormInput,
+    },
+  }, { sync: false });
+  await wrapper.vm.$nextTick();
+  return wrapper;
+}
+
+function mountFullForm(props) {
+  return mountComponent(`
+    <tw-form>
+      <tw-form-field>
+        <tw-form-input name="sample-name" v-bind="$data" />
+      </tw-form-field>
+    </tw-form>
+  `, props);
+}
+
+describe('Tw Form Input component', () => {
+  it('should receive a object formVm through injection', async () => {
+    const wrapper = await mountFullForm();
+    const formInput = wrapper.find(TwFormInput);
+    expect(typeof formInput.vm.formVm).toBe('object');
   });
 
-  it('should flag dirty as true when first value is inserted at input', () => {
-    const wrapper = mount(TwInputText);
-    const textInput = wrapper.find('input');
-    textInput.setValue('some_value');
-    textInput.trigger('keyup');
-    expect(wrapper.emitted()['input-validation'][0][0].isDirty).toBe(true);
+  it('should receive a object formFieldVm through injection', async () => {
+    const wrapper = await mountFullForm();
+    const formInput = wrapper.find(TwFormInput);
+    expect(typeof formInput.vm.formFieldVm).toBe('object');
   });
 
-  it('should emit validation result to parent component', () => {
-    const wrapper = mount(TwInputText);
-    expect(wrapper.emitted()['input-validation'][0][0].isDirty).toBe(false);
-    expect(wrapper.emitted()['input-validation'][0][0].isValid).toBe(true);
+  it('should console error when name prop is not provided', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    mountComponent(`
+      <tw-form>
+        <tw-form-field>
+          <tw-form-input />
+        </tw-form-field>
+      </tw-form>
+    `);
+    expect(console.error).toHaveBeenCalledTimes(1);
+    console.error.mockRestore();
   });
 
-  it('should render a value on input when it has been passed by prop', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        value: 'sample_value',
-      },
-    });
-    const textInput = wrapper.find('input');
-    expect(textInput.element.value).toBe('sample_value');
+  it('should emit value inserted', async () => {
+    const wrapper = await mountFullForm();
+    wrapper.find('input').setValue('Sample value');
+    const formInput = wrapper.find(TwFormInput);
+    expect(formInput.emitted().input[0][0]).toBe('Sample value');
   });
 
-  it('should render label when it has been passed by prop', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        label: 'label_sample_value',
-      },
-    });
-    const label = wrapper.find('label');
-    expect(label.text()).toBe('label_sample_value');
+  it('should not emit value when no event parameter is received', async () => {
+    const wrapper = await mountFullForm();
+    const formInput = wrapper.find(TwFormInput);
+    formInput.vm.onInput(undefined);
+    expect(formInput.emitted().input).toBeFalsy();
   });
 
-  it('should set input as invalid when it is required and empty', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        required: true,
-      },
-    });
-    expect(wrapper.emitted()['input-validation'][0][0].isValid).toBe(false);
+  it('should not emit value when event object has no target propertie', async () => {
+    const wrapper = await mountFullForm();
+    const formInput = wrapper.find(TwFormInput);
+    formInput.vm.onInput({});
+    expect(formInput.emitted().input).toBeFalsy();
   });
 
-  it('should set input as invalid when it has been initialized with less than min length', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        minLength: 20,
-        value: 'sample_short_text',
-      },
-    });
-    expect(wrapper.emitted()['input-validation'][0][0].isValid).toBe(false);
+  it('should flag dirty as true when first value is inserted at input', async () => {
+    const wrapper = await mountFullForm();
+    wrapper.find('input').setValue('Sample value');
+    const formField = wrapper.find(TwFormField);
+    expect(formField.vm.input.isDirty).toBe(true);
   });
 
-  it('should set input as invalid when it receives less than min length', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        minLength: 20,
-      },
-    });
-    const textInput = wrapper.find('input');
-    textInput.setValue('sample_short_text');
-    textInput.trigger('keyup');
-    expect(wrapper.emitted()['input-validation'][0][0].isValid).toBe(false);
+  it('should render a value on input when it has been received by prop', async () => {
+    const wrapper = await mountFullForm({ value: 'Sample value' });
+    expect(wrapper.find('input').element.value).toBe('Sample value');
   });
 
-  it('should set input as invalid when it does not resolve custom validation', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        value: 'forbidden_value',
-        customValidation: value => value !== 'forbidden_value',
-      },
-    });
-    expect(wrapper.emitted()['input-validation'][0][0].isValid).toBe(false);
+  it('should throw error when wrong type is received by prop', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    await mountFullForm({ type: 'wrong-value' });
+    expect(console.error).toHaveBeenCalledTimes(1);
+    console.error.mockRestore();
   });
 
-  it('should throw error when wrong type is passed by prop', () => {
-    const consoleErrorTemp = global.console.error;
-    const errorMessage = 'TW Error: Wrong type passed as prop to input text!';
-    const wrapperSetup = {
-      propsData: {
-        type: 'any_wrong_type',
-      },
-    };
-    expect(() => { mount(TwInputText, wrapperSetup); }).toThrowError(errorMessage);
-    expect(global.console.error.called).toBe(true);
-    global.console.error = consoleErrorTemp;
-  });
-
-  it('should set a right input type on element attribute', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        type: 'password',
-      },
-    });
+  it('should flag isBlurred state on blur event', async () => {
+    const wrapper = await mountFullForm();
     const input = wrapper.find('input');
-    expect(input.attributes('type')).toBe('password');
+    input.trigger('blur');
+    const field = wrapper.find(TwFormField);
+    expect(field.vm.input.isBlurred).toBe(true);
   });
 
-  it('should change input element to textarea when received type textarea', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        type: 'textarea',
-      },
-    });
-    const textAreaElement = wrapper.find('textarea');
-    expect(wrapper.vm.currentNativeElement).toBe('textarea');
-    expect(textAreaElement.exists()).toBe(true);
-  });
-
-  it('should set placeholder on input element attribute', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        placeholder: 'sample_placeholder',
-      },
-    });
+  it('should emit keydown event when some key is pressed in keyboard', async () => {
+    const wrapper = await mountFullForm();
     const input = wrapper.find('input');
-    expect(input.attributes('placeholder')).toBe('sample_placeholder');
+    input.trigger('keydown', {
+      key: 'a',
+    });
+    const formInput = wrapper.find(TwFormInput);
+    expect(formInput.emitted().keydown).toBeTruthy();
   });
 
-  it('should set rows on input element attribute', () => {
-    const wrapper = mount(TwInputText, {
-      propsData: {
-        type: 'textarea',
-        rows: 5,
-      },
-    });
-    const input = wrapper.find('textarea');
-    expect(Number(input.attributes('rows'))).toBe(5);
+  it('should set placeholder on input element attribute', async () => {
+    const wrapper = await mountFullForm({ placeholder: 'Sample placeholder' });
+    const input = wrapper.find('input');
+    expect(input.attributes('placeholder')).toBe('Sample placeholder');
+  });
+
+  it('should set max length in input', async () => {
+    const wrapper = await mountFullForm({ maxLength: 10 });
+    const input = wrapper.find('input');
+    expect(input.attributes('maxlength')).toBe('10');
+  });
+
+  it('should run custom validation', async () => {
+    const customValidation = jest.fn();
+    const wrapper = await mountFullForm({ customValidation });
+    wrapper.find('input').setValue('Sample value');
+    expect(customValidation).toHaveBeenCalled();
   });
 });

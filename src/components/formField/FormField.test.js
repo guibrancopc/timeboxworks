@@ -44,6 +44,7 @@ describe('Tw Form Field', () => {
     const formField = wrapper.find(TwFormField);
     expect(formField.vm.errorMessage).toBe('');
     expect(formField.vm.input).toEqual({
+      id: null,
       name: null,
       value: null,
       htmlId: null,

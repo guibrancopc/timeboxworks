@@ -1,6 +1,6 @@
 <template>
   <input
-    :type="currentInputType"
+    :type="type"
     :placeholder="placeholder"
     :name="name"
     :id="getInputHtmlId()"
@@ -40,6 +40,10 @@ export default {
     type: {
       type: String,
       default: 'text',
+      validator(value) {
+        return ['text', 'email', 'password', 'number']
+          .includes(value);
+      },
     },
     placeholder: {
       type: String,
@@ -62,15 +66,7 @@ export default {
   },
   computed: {
     inputValue() {
-      if (this.disableAutomaticValidationAndBinding) {
-        return this.value;
-      }
       return this.formFieldVm.input.value;
-    },
-    currentInputType() {
-      const validTypes = ['text', 'email', 'password', 'number'];
-      if (validTypes.includes(this.type)) { return this.type; }
-      throw new Error('TW Error: Wrong type passed as prop to input text!');
     },
   },
   methods: {
