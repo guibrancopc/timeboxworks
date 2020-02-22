@@ -7,6 +7,7 @@
       <div class="tw-form-inputs-list__input-wrapper">
         <tw-form-input
           required
+          :id="item.id"
           :name="`${inputName}-${index}`"
           :value="item.value"
           :type="type"
@@ -14,19 +15,19 @@
           :minLength="minLength"
           :placeholder="placeholder"
           :inputsGroupKey="inputsGroupKey"
-          :id="item.id"
           @input="onInput($event, index)"
           @keydown="onKeydown($event, index)"/>
           <tw-button
             size="lg"
             class="tw-form-inputs-list__delete-button"
             template="link"
-            v-if="shouldShowDeleteButton(index)"
+            v-if="inputsListHasMoreThanOneItem()"
             @click="deleteInput(index)">&times;</tw-button>
         </div>
     </tw-form-field>
     <tw-gutter bottom>
       <tw-button
+        class="tw-form-inputs-list__add-button"
         @click="addNewInput({ shouldFocus: true })"
         block outline>+ Add {{label}}</tw-button>
     </tw-gutter>
@@ -37,11 +38,19 @@
 import uidGenerator from '../../services/uidGenerator/uidGenerator';
 import TwFormInput from '../formInput/FormInput.vue';
 import TwButton from '../button/Button.vue';
+import TwFormField from '../formField/FormField.vue';
+import TwGutter from '../gutter/Gutter.vue';
 
 const { getUid } = uidGenerator;
 
 export default {
   name: 'TwFormInputsList',
+  components: {
+    TwFormInput,
+    TwButton,
+    TwFormField,
+    TwGutter,
+  },
   data() {
     return {
       id: getUid(),
@@ -108,7 +117,7 @@ export default {
       }
     },
     deleteInput(index) {
-      if (this.inputsList.length === 1) { return; }
+      if (!this.inputsListHasMoreThanOneItem()) { return; }
       setDelayedFocus(getPreviousInputId(this.inputsList, index));
       this.deleteInputModelFromFormVm(index);
       this.deleteInputFromLocalList(index);
@@ -124,8 +133,8 @@ export default {
     getFormFieldIndexById(idToBeRemoved) {
       return this.formVm.formFields.findIndex(value => value.input.id === idToBeRemoved);
     },
-    shouldShowDeleteButton(index) {
-      return index !== 0;
+    inputsListHasMoreThanOneItem() {
+      return this.inputsList.length > 1;
     },
     initFieldModel() {
       if (this.value.length > 0) {
@@ -141,16 +150,12 @@ export default {
       });
     },
     addNewInput({ shouldFocus, inputEventIndex } = {}) {
-      if (inputEventIndex !== undefined) {
-        this.inputsList.splice(inputEventIndex + 1, 0, inputFactory(shouldFocus));
-      } else {
+      if (inputEventIndex === undefined) {
         this.inputsList.push(inputFactory(shouldFocus));
+      } else {
+        this.inputsList.splice(inputEventIndex + 1, 0, inputFactory(shouldFocus));
       }
     },
-  },
-  components: {
-    TwFormInput,
-    TwButton,
   },
 };
 
