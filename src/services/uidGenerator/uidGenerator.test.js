@@ -1,6 +1,4 @@
-import uidGenerator from './uidGenerator';
-
-const { getUid } = uidGenerator;
+import { getUid } from './uidGenerator';
 
 describe('Uid Generator', () => {
   it('first calling should return 1', () => {

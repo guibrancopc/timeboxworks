@@ -35,13 +35,11 @@
 </template>
 
 <script>
-import uidGenerator from '../../services/uidGenerator/uidGenerator';
+import { getUid } from '../../services/uidGenerator/uidGenerator';
 import TwFormInput from '../formInput/FormInput.vue';
 import TwButton from '../button/Button.vue';
 import TwFormField from '../formField/FormField.vue';
 import TwGutter from '../gutter/Gutter.vue';
-
-const { getUid } = uidGenerator;
 
 export default {
   name: 'TwFormInputsList',
@@ -100,6 +98,8 @@ export default {
     onInput(value, index) {
       this.inputsList[index].value = value;
       this.$emit('input', this.inputsList);
+      // console.log('this.formVm.formFields', this.formVm.formFields);
+      // console.log('this.inputsList', this.inputsList);
     },
     onKeydown(event, inputIndex) {
       this.backspaceHotkeyHandler(event, inputIndex);
@@ -125,7 +125,11 @@ export default {
     deleteInputModelFromFormVm(index) {
       const idToBeRemoved = this.inputsList[index].id;
       const indexFormFieldToBeRemoved = this.getFormFieldIndexById(idToBeRemoved);
-      deleteItemFromList(this.formVm.formFields, indexFormFieldToBeRemoved);
+      if (indexFormFieldToBeRemoved > -1) {
+        deleteItemFromList(this.formVm.formFields, indexFormFieldToBeRemoved);
+      } else {
+        console.error('Dynamic input could not be deleted from form model list.');
+      }
     },
     deleteInputFromLocalList(index) {
       deleteItemFromList(this.inputsList, index);

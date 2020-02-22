@@ -1,6 +1,4 @@
-import uidGenerator from '../uidGenerator/uidGenerator';
-
-const { getUid } = uidGenerator;
+import { getUid } from '../uidGenerator/uidGenerator';
 
 const errorMessages = {
   invalidValue: 'Invalid value',
@@ -81,8 +79,15 @@ const bindInputInFormList = scope => {
   scope.formVm.formFields.push(scope.formFieldVm);
 };
 
+const getComponentName = scope => scope.$vnode.tag.split('-').pop();
+
 const bindInputId = scope => {
-  scope.formFieldVm.input.id = scope.computedId;
+  if (scope.computedId) {
+    scope.formFieldVm.input.id = scope.computedId;
+  } else {
+    const component = getComponentName(scope);
+    console.error(`The ${component} component has no computedId propertie!`);
+  }
 };
 
 export const initForm = (initialValue, scope) => {

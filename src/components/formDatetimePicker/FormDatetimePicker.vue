@@ -28,20 +28,18 @@ import {
   setupInputHtmlId,
   setInputAndFormDirty,
 } from '../../services/formHelpers/formHelpers';
-import uidGenerator from '../../services/uidGenerator/uidGenerator';
+import { getUid } from '../../services/uidGenerator/uidGenerator';
 
-const { getUid } = uidGenerator;
 Settings.defaultLocale = 'en';
 
 export default {
   name: 'TwFormDatetimePicker',
-  data() {
-    return {
-      id: getUid(),
-    };
-  },
   inject: ['formVm', 'formFieldVm'],
   props: {
+    id: {
+      value: Number,
+      default: -1,
+    },
     name: {
       type: String,
       required: true,
@@ -64,6 +62,11 @@ export default {
     },
     required: Boolean,
     customValidation: Function,
+  },
+  computed: {
+    computedId() {
+      return this.id > 0 ? this.id : getUid();
+    },
   },
   methods: {
     onInput(value) {

@@ -20,6 +20,7 @@ import {
   setupInputHtmlId,
   setInputAndFormDirty,
 } from '../../services/formHelpers/formHelpers';
+import { getUid } from '../../services/uidGenerator/uidGenerator';
 
 export default {
   name: 'TwFormInput',
@@ -27,7 +28,7 @@ export default {
   props: {
     id: {
       value: Number,
-      default: 0,
+      default: -1,
     },
     name: {
       type: String,
@@ -67,6 +68,9 @@ export default {
   computed: {
     inputValue() {
       return this.formFieldVm.input.value;
+    },
+    computedId() {
+      return this.id > 0 ? this.id : getUid();
     },
   },
   methods: {

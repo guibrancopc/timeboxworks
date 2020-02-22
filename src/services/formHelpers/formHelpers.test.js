@@ -10,7 +10,7 @@ jest.mock('../uidGenerator/uidGenerator', () => ({ getUid: jest.fn(() => 98) }))
 
 function scopeMockFactory() {
   return {
-    id: null,
+    id: 1,
     name: null,
     required: null,
     minLength: null,
@@ -30,6 +30,9 @@ function scopeMockFactory() {
         isRequired: null,
       },
       errorMessage: null,
+    },
+    $vnode: {
+      tag: 'vue-component-00-SampleTag',
     },
   };
 }
@@ -129,6 +132,14 @@ describe('Form Helpers Service', () => {
   });
 
   describe('on Init Form', () => {
+    beforeEach(() => {
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      console.error.mockRestore();
+    });
+
     it('should bind input required validation property', () => {
       const scope = scopeMockFactory();
       scope.required = true;
@@ -161,6 +172,13 @@ describe('Form Helpers Service', () => {
       scope.computedId = 675;
       initForm('', scope);
       expect(scope.formFieldVm.input.id).toBe(675);
+    });
+
+    it('should console error when no computedId is found', () => {
+      const scope = scopeMockFactory();
+      scope.computedId = undefined;
+      initForm('', scope);
+      expect(console.error).toHaveBeenCalledTimes(1);
     });
   });
 

@@ -188,7 +188,7 @@ describe('Tw Form Input component', () => {
     expect(formFields.at(3).find('.tw-form-inputs-list__delete-button').exists()).toBe(true);
   });
 
-  it('on Delete button clicked should delete the item from list', async () => {
+  it('on Delete button clicked should delete the item from local list', async () => {
     const wrapper = await mountFullForm();
     const addButton = wrapper.find('.tw-form-inputs-list__add-button');
     addButton.trigger('click');
@@ -203,6 +203,32 @@ describe('Tw Form Input component', () => {
     const finalFormFieldsList = wrapper.findAll(TwFormField);
     expect(finalFormFieldsList.length).toBe(1);
     expect(finalFormFieldsList.at(0).find('input').element.value).toBe('Input 0');
+  });
+
+  it('on Delete button clicked should delete the item from form model list', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    const wrapper = await mountFullForm();
+    const addButton = wrapper.find('.tw-form-inputs-list__add-button');
+    addButton.trigger('click');
+    await wrapper.vm.$nextTick();
+    const initialFormFieldsList = wrapper.findAll(TwFormField);
+    initialFormFieldsList.at(0).find('input').setValue('Input 0');
+    expect(initialFormFieldsList.length).toBe(2);
+
+    const itemToBeDeleted = initialFormFieldsList.at(1);
+    const deletedItemId = itemToBeDeleted.vm.input.id;
+    itemToBeDeleted.find('.tw-form-inputs-list__delete-button').trigger('click');
+    await wrapper.vm.$nextTick();
+
+    const form = wrapper.find(TwForm);
+    const formFieldsList = form.vm.formFields
+      .filter(field => field.input.inputsGroupKey === 'sample-inputs-group-key');
+    expect(formFieldsList.length).toBe(1);
+    expect(formFieldsList
+      .filter(formField => formField.input.id === deletedItemId)
+      .length).toBe(0);
+    expect(console.error).not.toHaveBeenCalled();
+    console.error.mockRestore();
   });
 
   it('on Backspace key down should delete the item from list', async () => {

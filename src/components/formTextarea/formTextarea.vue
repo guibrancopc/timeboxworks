@@ -22,24 +22,24 @@ import {
   setupInputHtmlId,
   setInputAndFormDirty,
 } from '../../services/formHelpers/formHelpers';
-import uidGenerator from '../../services/uidGenerator/uidGenerator';
-
-const { getUid } = uidGenerator;
+import { getUid } from '../../services/uidGenerator/uidGenerator';
 
 export default {
   name: 'TwFormTextarea',
-  data() {
-    return {
-      id: getUid(),
-    };
-  },
   computed: {
     style() {
       return { 'min-height': `${this.minHeight}px` };
     },
+    computedId() {
+      return this.id > 0 ? this.id : getUid();
+    },
   },
   inject: ['formVm', 'formFieldVm'],
   props: {
+    id: {
+      value: Number,
+      default: -1,
+    },
     name: {
       type: String,
       required: true,
