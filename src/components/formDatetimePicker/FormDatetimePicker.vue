@@ -28,7 +28,6 @@ import {
   setupInputHtmlId,
   setInputAndFormDirty,
 } from '../../services/formHelpers/formHelpers';
-import { getUid } from '../../services/uidGenerator/uidGenerator';
 
 Settings.defaultLocale = 'en';
 
@@ -38,7 +37,7 @@ export default {
   props: {
     id: {
       value: Number,
-      default: -1,
+      default: 0,
     },
     name: {
       type: String,
@@ -62,11 +61,6 @@ export default {
     },
     required: Boolean,
     customValidation: Function,
-  },
-  computed: {
-    computedId() {
-      return this.id > 0 ? this.id : getUid();
-    },
   },
   methods: {
     onInput(value) {

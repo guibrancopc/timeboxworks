@@ -134,9 +134,4 @@ describe('Tw Form Textarea component', () => {
     const formTextarea = wrapper.find(TwFormTextarea);
     expect(formTextarea.vm.vDynamicHeightSetup().disabled).toBe(false);
   });
-
-  it('should computedId be equal prop id when it has been received', async () => {
-    const wrapper = await mountFullForm({ id: 458 });
-    expect(wrapper.find(TwFormTextarea).vm.computedId).toBe(458);
-  });
 });

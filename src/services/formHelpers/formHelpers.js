@@ -79,15 +79,8 @@ const bindInputInFormList = scope => {
   scope.formVm.formFields.push(scope.formFieldVm);
 };
 
-const getComponentName = scope => scope.$vnode.tag.split('-').pop();
-
 const bindInputId = scope => {
-  if (scope.computedId) {
-    scope.formFieldVm.input.id = scope.computedId;
-  } else {
-    const component = getComponentName(scope);
-    console.error(`The ${component} component has no computedId propertie!`);
-  }
+  scope.formFieldVm.input.id = scope.id || getUid();
 };
 
 export const initForm = (initialValue, scope) => {
@@ -104,8 +97,17 @@ export const setIsBlurred = scope => {
   scope.formFieldVm.input.isBlurred = true;
 };
 
+const getComponentName = scope => scope.$vnode.tag.split('-').pop();
+
+function getInputId(scope) {
+  const id = scope.id || scope.formFieldVm.input.id || getUid();
+  if (id > 0) { return id; }
+  console.error(`${getComponentName(scope)} component received invalid id: ${id}`);
+  return 'ID_ERROR';
+}
+
 export const setupInputHtmlId = scope => {
-  const inputHtmlId = `input-${scope.id || getUid()}`;
+  const inputHtmlId = `input-${getInputId(scope)}`;
   scope.formFieldVm.input.htmlId = inputHtmlId;
   return inputHtmlId;
 };
@@ -131,6 +133,6 @@ export const removeFormFieldByInputId = ({ scope, inputIdToBeRemoved }) => {
       itemIndex: indexFormFieldToBeRemoved,
     });
   } else {
-    console.error('Dynamic input could not be deleted from form model list.');
+    console.error(`Dynamic input could not be deleted from form model list from ${getComponentName(scope)} component!`);
   }
 };

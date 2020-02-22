@@ -135,14 +135,6 @@ describe('Form Helpers Service', () => {
   });
 
   describe('on Init Form', () => {
-    beforeEach(() => {
-      jest.spyOn(console, 'error').mockImplementation(() => {});
-    });
-
-    afterEach(() => {
-      console.error.mockRestore();
-    });
-
     it('should bind input required validation property', () => {
       const scope = scopeMockFactory();
       scope.required = true;
@@ -170,18 +162,18 @@ describe('Form Helpers Service', () => {
       expect(scope.formVm.formFields).toContain(scope.formFieldVm);
     });
 
-    it('should bind input id property', () => {
+    it('should bind input id prop when its defined', () => {
       const scope = scopeMockFactory();
-      scope.computedId = 675;
+      scope.id = 675;
       initForm('', scope);
       expect(scope.formFieldVm.input.id).toBe(675);
     });
 
-    it('should console error when no computedId is found', () => {
+    it('should generate new id when id prop is not defined', () => {
       const scope = scopeMockFactory();
-      scope.computedId = undefined;
+      scope.id = undefined;
       initForm('', scope);
-      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(scope.formFieldVm.input.id).toBeGreaterThan(0);
     });
   });
 
@@ -199,11 +191,29 @@ describe('Form Helpers Service', () => {
       expect(scope.formFieldVm.input.htmlId).toBe('input-54');
     });
 
+    it('should update form field VM about it when there is a id defined in formField model', () => {
+      const scope = scopeMockFactory();
+      scope.id = undefined;
+      scope.formFieldVm.input.id = 23;
+      setupInputHtmlId(scope);
+      expect(scope.formFieldVm.input.htmlId).toBe('input-23');
+    });
+
     it('should update form field VM about it when there is NO scoped id defined', () => {
       const scope = scopeMockFactory();
       scope.id = undefined;
       setupInputHtmlId(scope);
       expect(scope.formFieldVm.input.htmlId).toBe('input-98');
+    });
+
+    it('should update form field with error string when id received is invalid', () => {
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      const scope = scopeMockFactory();
+      scope.id = -23;
+      setupInputHtmlId(scope);
+      expect(scope.formFieldVm.input.htmlId).toBe('input-ID_ERROR');
+      expect(console.error).toHaveBeenCalledTimes(1);
+      console.error.mockRestore();
     });
   });
 
