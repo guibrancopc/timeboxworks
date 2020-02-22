@@ -114,3 +114,23 @@ export const setInputAndFormDirty = scope => {
   scope.formVm.isDirty = true;
   scope.formFieldVm.input.isDirty = true;
 };
+
+function getFormFieldIndexById(scope, inputIdToBeRemoved) {
+  return scope.formVm.formFields.findIndex(value => value.input.id === inputIdToBeRemoved);
+}
+
+export const deleteItemFromListByIndex = ({ list, itemIndex }) => {
+  list.splice(itemIndex, 1);
+};
+
+export const removeFormFieldByInputId = ({ scope, inputIdToBeRemoved }) => {
+  const indexFormFieldToBeRemoved = getFormFieldIndexById(scope, inputIdToBeRemoved);
+  if (indexFormFieldToBeRemoved > -1) {
+    deleteItemFromListByIndex({
+      list: scope.formVm.formFields,
+      itemIndex: indexFormFieldToBeRemoved,
+    });
+  } else {
+    console.error('Dynamic input could not be deleted from form model list.');
+  }
+};

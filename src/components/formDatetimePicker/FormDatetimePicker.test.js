@@ -100,4 +100,9 @@ describe('Tw Form Datetime Picker component', () => {
     wrapper.find(Datetime).vm.$emit('input', 'Sample value');
     expect(customValidation).toHaveBeenCalled();
   });
+
+  it('should computedId be equal prop id when it has been received', async () => {
+    const wrapper = await mountFullForm({ id: 458 });
+    expect(wrapper.find(TwFormDatetimePicker).vm.computedId).toBe(458);
+  });
 });

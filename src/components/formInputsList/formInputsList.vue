@@ -35,6 +35,10 @@
 </template>
 
 <script>
+import {
+  removeFormFieldByInputId,
+  deleteItemFromListByIndex
+} from '../../services/formHelpers/formHelpers';
 import { getUid } from '../../services/uidGenerator/uidGenerator';
 import TwFormInput from '../formInput/FormInput.vue';
 import TwButton from '../button/Button.vue';
@@ -98,8 +102,6 @@ export default {
     onInput(value, index) {
       this.inputsList[index].value = value;
       this.$emit('input', this.inputsList);
-      // console.log('this.formVm.formFields', this.formVm.formFields);
-      // console.log('this.inputsList', this.inputsList);
     },
     onKeydown(event, inputIndex) {
       this.backspaceHotkeyHandler(event, inputIndex);
@@ -123,19 +125,16 @@ export default {
       this.deleteInputFromLocalList(index);
     },
     deleteInputModelFromFormVm(index) {
-      const idToBeRemoved = this.inputsList[index].id;
-      const indexFormFieldToBeRemoved = this.getFormFieldIndexById(idToBeRemoved);
-      if (indexFormFieldToBeRemoved > -1) {
-        deleteItemFromList(this.formVm.formFields, indexFormFieldToBeRemoved);
-      } else {
-        console.error('Dynamic input could not be deleted from form model list.');
-      }
+      removeFormFieldByInputId({
+        scope: this,
+        inputIdToBeRemoved: this.inputsList[index].id,
+      });
     },
-    deleteInputFromLocalList(index) {
-      deleteItemFromList(this.inputsList, index);
-    },
-    getFormFieldIndexById(idToBeRemoved) {
-      return this.formVm.formFields.findIndex(value => value.input.id === idToBeRemoved);
+    deleteInputFromLocalList(itemIndex) {
+      deleteItemFromListByIndex({
+        list: this.inputsList,
+        itemIndex,
+      });
     },
     inputsListHasMoreThanOneItem() {
       return this.inputsList.length > 1;
@@ -180,10 +179,6 @@ function inputFactory(shouldFocus = false) {
 
 function getPreviousInputId(inputsList, index) {
   return inputsList[index - 1] ? inputsList[index - 1].id : inputsList[1].id;
-}
-
-function deleteItemFromList(list, itemIndex) {
-  list.splice(itemIndex, 1);
 }
 </script>
 

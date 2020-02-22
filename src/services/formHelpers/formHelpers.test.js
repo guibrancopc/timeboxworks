@@ -4,6 +4,9 @@ import {
   setIsBlurred,
   setInputAndFormDirty,
   setupInputHtmlId,
+  deleteItemFromListByIndex,
+  removeFormFieldByInputId,
+
 } from './formHelpers';
 
 jest.mock('../uidGenerator/uidGenerator', () => ({ getUid: jest.fn(() => 98) }));
@@ -215,6 +218,55 @@ describe('Form Helpers Service', () => {
       const scope = scopeMockFactory();
       setInputAndFormDirty(scope);
       expect(scope.formFieldVm.input.isDirty).toBe(true);
+    });
+  });
+
+  describe('on Delete Item From List By Index', () => {
+    it('should just do it', () => {
+      const list = ['a', 'b', 'c', 'd'];
+      deleteItemFromListByIndex({
+        list,
+        itemIndex: 2,
+      });
+      expect(list).toEqual(['a', 'b', 'd']);
+    });
+  });
+
+  describe('on Remove Form Field By Input Id', () => {
+    it('should remove when id is found', () => {
+      const scope = scopeMockFactory();
+      scope.formVm.formFields.push({ input: { id: 35 } });
+      scope.formVm.formFields.push({ input: { id: 36 } });
+      scope.formVm.formFields.push({ input: { id: 37 } });
+      removeFormFieldByInputId({ scope, inputIdToBeRemoved: 35 });
+      expect(scope.formVm.formFields).toEqual([
+        { input: { id: 36 } },
+        { input: { id: 37 } },
+      ]);
+    });
+
+    it('should not remove any item when id is not found', () => {
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      const scope = scopeMockFactory();
+      scope.formVm.formFields.push({ input: { id: 35 } });
+      scope.formVm.formFields.push({ input: { id: 36 } });
+      scope.formVm.formFields.push({ input: { id: 37 } });
+      removeFormFieldByInputId({ scope, inputIdToBeRemoved: 63 });
+      expect(scope.formVm.formFields).toEqual([
+        { input: { id: 35 } },
+        { input: { id: 36 } },
+        { input: { id: 37 } },
+      ]);
+      console.error.mockRestore();
+    });
+
+    it('should console error when id is not found', () => {
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      const scope = scopeMockFactory();
+      scope.formVm.formFields.push({ input: { id: 35 } });
+      removeFormFieldByInputId({ scope, inputIdToBeRemoved: 63 });
+      expect(console.error).toHaveBeenCalledTimes(1);
+      console.error.mockRestore();
     });
   });
 });
