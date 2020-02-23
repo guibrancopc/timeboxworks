@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav class="tw-menu">
     <router-link to="/">Meeting Form</router-link>
     <span>|</span>
     <router-link to="/meeting/dashboard">Meeting Dashboard</router-link>

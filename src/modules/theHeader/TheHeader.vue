@@ -1,6 +1,5 @@
 <template>
-  <header>
-    <div class="tw-header">
+    <header class="tw-header">
       <tw-container>
         <div class="tw-header__content">
           <div class="tw-header__logo-side">
@@ -13,7 +12,6 @@
           </div>
         </div>
       </tw-container>
-    </div>
   </header>
 </template>
 
