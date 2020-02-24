@@ -7,7 +7,7 @@ const mountComponent = () => mount(TheMenu, {
   },
 });
 
-describe('The Footer', () => {
+describe('The Menu', () => {
   it('should render nav tag', () => {
     const wrapper = mountComponent();
     const nav = wrapper.find('nav');
