@@ -209,6 +209,15 @@ describe('Tw Form', () => {
       thirdInput.setValue('Third Value');
     }
 
+    it('should emit "reset" event', async () => {
+      dialogs.customConfirm.mockReturnValue(true);
+      const wrapper = await mountFormWithResetButton();
+      const form = wrapper.find(TwForm);
+      fillAllInputValues(wrapper);
+      wrapper.find('[type=reset]').trigger('click');
+      expect(form.emitted().reset).toBeTruthy();
+    });
+
     it('should reset isDirty form model', async () => {
       dialogs.customConfirm.mockReturnValue(true);
       const wrapper = await mountFormWithResetButton();

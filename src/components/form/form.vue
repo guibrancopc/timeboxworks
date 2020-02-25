@@ -65,6 +65,7 @@ export default {
       const confirmMessage = 'Are you sure you want to reset this form?';
       if (dialogs.customConfirm(confirmMessage)) {
         this.cleanFormUp();
+        this.$emit('reset');
       } else {
         event.preventDefault();
       }
