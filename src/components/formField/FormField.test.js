@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import TwForm from '../form/Form.vue';
 import TwFormField from './FormField.vue';
 import TwFormInput from '../formInput/FormInput.vue';
+import TwFormCheckbox from '../formCheckbox/FormCheckbox.vue';
 import TwFormSubmitButton from '../formSubmitButton/FormSubmitButton.vue';
 
 async function mountComponent(template, props = {}, { attachToDocument = false } = {}) {
@@ -12,6 +13,7 @@ async function mountComponent(template, props = {}, { attachToDocument = false }
       TwForm,
       TwFormField,
       TwFormInput,
+      TwFormCheckbox,
       TwFormSubmitButton,
     },
   }, { sync: false, attachToDocument });
@@ -203,5 +205,29 @@ describe('Tw Form Field', () => {
     expect(formField.vm.shouldShowErrorMessage).toBe(true);
     expect(formField.find('small.form-control__color--danger').exists()).toBe(true);
     wrapper.destroy();
+  });
+
+  it('should prepend label when wrapping normal input', async () => {
+    const wrapper = await mountFullForm();
+    const formField = wrapper.find(TwFormField);
+    const inputAfterLabel = formField.find('.tw-label+.tw-form-input');
+    const labelAfterInput = formField.find('.tw-form-input+.tw-label');
+    expect(inputAfterLabel.exists()).toBe(true);
+    expect(labelAfterInput.exists()).toBe(false);
+  });
+
+  it('should append label when wrapping check input', async () => {
+    const wrapper = await mountComponent(`
+      <tw-form allow-submit-when-invalid>
+        <tw-form-field>
+          <tw-form-checkbox name="sample-checkbox" />
+        </tw-form-field>
+      </tw-form>
+    `);
+    const formField = wrapper.find(TwFormField);
+    const inputAfterLabel = formField.find('.tw-label+.tw-form-checkbox');
+    const labelAfterInput = formField.find('.tw-form-checkbox+.tw-label');
+    expect(inputAfterLabel.exists()).toBe(false);
+    expect(labelAfterInput.exists()).toBe(true);
   });
 });

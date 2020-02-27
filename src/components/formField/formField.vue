@@ -1,14 +1,18 @@
 <template>
   <div
-    class="tw-form-field form-group"
+    class="tw-form-field"
     :class="classes">
-    <label :for="input.htmlId">
-      {{ label }}
-      <span
-        v-if="input.isRequired"
-        class="form-control__color--danger">*</span>
-    </label>
+    <tw-label
+      v-if="prependLabel"
+      :for="input.htmlId"
+      :text="label"
+      :required="input.isRequired" />
     <slot />
+    <tw-label
+      v-if="appendLabel"
+      :for="input.htmlId"
+      :text="label"
+      :required="input.isRequired" />
     <div class="tw-form-field__error-message">
       <small
         v-if="shouldShowErrorMessage"
@@ -18,10 +22,13 @@
 </template>
 
 <script>
+import TwLabel from '../label/Label.vue';
+
 export default {
   name: 'TwFormField',
   data() {
     return {
+      isCheckInput: false,
       errorMessage: '',
       input: {
         id: null,
@@ -58,8 +65,19 @@ export default {
       return !!(this.shouldShowIndividualValidation && this.errorMessage);
     },
     classes() {
-      return { 'form-control-invalid': this.shouldShowIndividualValidation };
+      return {
+        'form-control-invalid': this.shouldShowIndividualValidation,
+      };
     },
+    prependLabel() {
+      return !this.isCheckInput;
+    },
+    appendLabel() {
+      return this.isCheckInput;
+    },
+  },
+  components: {
+    TwLabel,
   },
 };
 </script>
