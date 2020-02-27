@@ -42,6 +42,20 @@ function scopeMockFactory() {
 
 describe('Form Helpers Service', () => {
   describe('on Run Validation', () => {
+    it('should bind input value when it is a checkbox input', () => {
+      const scope = scopeMockFactory();
+      const event = { target: { type: 'checkbox', checked: true, value: 'sample-value' } };
+      runValidation(event, scope);
+      expect(scope.formFieldVm.input.value).toBe(true);
+    });
+
+    it('should bind input value when it is not a checkbox input', () => {
+      const scope = scopeMockFactory();
+      const event = { target: { type: 'textarea', checked: true, value: 'sample-value' } };
+      runValidation(event, scope);
+      expect(scope.formFieldVm.input.value).toBe('sample-value');
+    });
+
     it('should validate form as true when no rule is required', () => {
       const scope = scopeMockFactory();
       const event = { target: { value: '' } };

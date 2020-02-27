@@ -21,9 +21,9 @@ const buildCustomErrorMessage = income => {
   return customErrorMessage || errorMessages.invalidValue;
 };
 
-const isCustomValidationValid = (event, scope) => {
+const isCustomValidationValid = (value, scope, event) => {
   if (!scope.customValidation) { return true; }
-  const income = scope.customValidation(event.target.value, event);
+  const income = scope.customValidation(value, event);
   const isValid = income === true;
   setupErrorMessage(!isValid, buildCustomErrorMessage(income), scope);
   return isValid;
@@ -42,23 +42,26 @@ const cleanInputErrorMessage = scope => {
   scope.formFieldVm.errorMessage = '';
 };
 
-const applyRules = (event, scope) => {
-  const { value } = event.target;
-  return isRequiredValidationValid(value, scope)
-    && isCustomValidationValid(event, scope)
-    && isMinLengthValid(value, scope);
-};
+const applyRules = (value, scope, event) => isMinLengthValid(value, scope)
+&& isCustomValidationValid(value, scope, event)
+&& isRequiredValidationValid(value, scope);
 
-const bindInputValue = (event, scope) => {
-  const { value } = event.target;
+const bindInputValue = (value, scope) => {
   scope.formFieldVm.input.value = value;
 };
 
+function getEventValue(event) {
+  const { value, checked, type } = event.target;
+  if (type === 'checkbox') { return checked; }
+  return value;
+}
+
 export const runValidation = (event, scope) => {
-  const isInputValid = applyRules(event, scope);
+  const value = getEventValue(event);
+  const isInputValid = applyRules(value, scope, event);
   scope.formFieldVm.input.isValid = isInputValid;
   if (isInputValid) {
-    bindInputValue(event, scope);
+    bindInputValue(value, scope);
     cleanInputErrorMessage(scope);
   }
 };
