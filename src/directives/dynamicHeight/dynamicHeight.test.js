@@ -1,5 +1,7 @@
 import dynamicHeight from './dynamicHeight';
 
+jest.useFakeTimers();
+
 describe('Dynamic Height Directive', () => {
   it('should set overflow hidden when initialized', () => {
     const binding = {};
@@ -27,6 +29,20 @@ describe('Dynamic Height Directive', () => {
     };
     dynamicHeight.bind(el, binding);
     expect(el.style['min-height']).toBe('30px');
+  });
+
+  it('should initialize element with correct height', () => {
+    const binding = {};
+    const el = {
+      scrollHeight: 50,
+      style: {
+        height: '10px',
+      },
+      addEventListener: jest.fn(),
+    };
+    dynamicHeight.bind(el, binding);
+    jest.runAllTimers();
+    expect(el.style.height).toBe('50px');
   });
 
   it('should add input event listener on element when directive is bounded', () => {
@@ -88,6 +104,7 @@ describe('Dynamic Height Directive', () => {
       },
       addEventListener: (eventType, callback) => {
         callback(options);
+        expect(eventType).toBe('input');
       },
     };
     dynamicHeight.bind(el, binding);
