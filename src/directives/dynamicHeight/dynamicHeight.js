@@ -1,23 +1,30 @@
-const setOverflowHidden = el => {
+function setOverflowHidden(el) {
   el.style.overflow = 'hidden';
-};
+}
 
-const setMinHeghtWhenRequested = (el, binding) => {
+function setMinHeghtWhenRequested(el, binding) {
   if (binding.value && binding.value.minHeight) {
     el.style['min-height'] = binding.value.minHeight;
   }
-};
+}
 
-const updateElementHeight = options => {
+function updateElementHeight(options) {
   options.target.style.height = 0;
   options.target.style.height = `${options.target.scrollHeight}px`;
-};
+}
+
+function initElementHeight(el) {
+  setTimeout(() => {
+    updateElementHeight({ target: el });
+  });
+}
 
 export default {
   bind: (el, binding) => {
-    if (binding.value && binding.value.disabled) { return; }
+    if (binding.value?.disabled) { return; }
     setOverflowHidden(el);
     setMinHeghtWhenRequested(el, binding);
+    initElementHeight(el);
     el.addEventListener('input', updateElementHeight);
   },
   unbind: (el, binding) => {
