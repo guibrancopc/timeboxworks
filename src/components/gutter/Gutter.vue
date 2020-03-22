@@ -17,15 +17,17 @@ export default {
     vertical: Boolean,
     horizontal: Boolean,
     full: Boolean,
+    inner: Boolean,
     inlineBlock: Boolean,
   },
   methods: {
     classes() {
+      const type = this.inner ? 'padding' : 'margin';
       return {
-        'tw-u_margin--top': this.marginTop(),
-        'tw-u_margin--bottom': this.marginBottom(),
-        'tw-u_margin--left': this.marginLeft(),
-        'tw-u_margin--right': this.marginRight(),
+        [`tw-u_${type}--top`]: this.marginTop(),
+        [`tw-u_${type}--bottom`]: this.marginBottom(),
+        [`tw-u_${type}--left`]: this.marginLeft(),
+        [`tw-u_${type}--right`]: this.marginRight(),
         'tw-u_display--inline-block': this.inlineBlock,
       };
     },

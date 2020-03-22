@@ -1,7 +1,7 @@
 <template>
   <label
     class="tw-label"
-    :for="inputId">
+    @click="onClick">
     {{ text }}
     <span
       v-if="required"
@@ -13,13 +13,13 @@
 export default {
   name: 'TwLabel',
   props: {
-    for: String,
     text: String,
     required: Boolean,
   },
-  computed: {
-    inputId() {
-      return this.for;
+  methods: {
+    onClick(event) {
+      event.stopPropagation();
+      this.$emit('click', event);
     },
   },
 };

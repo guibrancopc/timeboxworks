@@ -42,7 +42,7 @@ export default {
       validator(value) {
         return [
           'primary',
-          'seconday',
+          'secondary',
           'success',
           'danger',
           'warning',
@@ -55,7 +55,7 @@ export default {
     },
     size: {
       type: String,
-      default: 'md',
+      default: 'lg',
       validator(value) {
         return ['sm', 'md', 'lg']
           .includes(value);
