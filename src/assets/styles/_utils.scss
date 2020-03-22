@@ -2,8 +2,20 @@
   text-align: right;
 }
 
+.tw-u_padding--top {
+  padding-top: var(--gutter);
+}
+
 .tw-u_padding--bottom {
   padding-bottom: var(--gutter);
+}
+
+.tw-u_padding--left {
+  padding-left: var(--gutter);
+}
+
+.tw-u_padding--right {
+  padding-right: var(--gutter);
 }
 
 .tw-u_margin--top {
