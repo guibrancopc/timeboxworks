@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import TwTheMenu from '../TheMenu/TheMenu.vue';
+import TwTheMenu from '../theMenu/TheMenu.vue';
 
 export default {
   name: 'TwTheHeader',

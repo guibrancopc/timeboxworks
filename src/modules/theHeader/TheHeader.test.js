@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import TheHeader from './TheHeader.vue';
-import TheMenu from '../TheMenu/TheMenu.vue';
+import TheMenu from '../theMenu/TheMenu.vue';
 
 const mountComponent = () => mount(TheHeader, {
   stubs: {
