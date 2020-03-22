@@ -47,7 +47,7 @@ const applyRules = (value, scope, event) => isMinLengthValid(value, scope)
 && isRequiredValidationValid(value, scope);
 
 const bindInputValue = (value, scope) => {
-  scope.formFieldVm.input.value = value;
+  scope.formFieldVm.setInputValue(value);
 };
 
 function getEventValue(event) {
@@ -57,11 +57,12 @@ function getEventValue(event) {
 }
 
 export const runValidation = (event, scope) => {
+  if (!scope.formVm || !scope.formFieldVm) { return; }
   const value = getEventValue(event);
   const isInputValid = applyRules(value, scope, event);
   scope.formFieldVm.input.isValid = isInputValid;
+  bindInputValue(value, scope);
   if (isInputValid) {
-    bindInputValue(value, scope);
     cleanInputErrorMessage(scope);
   }
 };
@@ -87,6 +88,7 @@ const bindInputId = scope => {
 };
 
 export const initForm = (initialValue, scope) => {
+  if (!scope.formVm || !scope.formFieldVm) { return; }
   const event = { target: { value: initialValue } };
   bindRequiredValidation(scope);
   bindInputName(scope);
@@ -97,6 +99,7 @@ export const initForm = (initialValue, scope) => {
 };
 
 export const setIsBlurred = scope => {
+  if (!scope.formFieldVm) { return; }
   scope.formFieldVm.input.isBlurred = true;
 };
 
@@ -111,11 +114,12 @@ function getInputId(scope) {
 
 export const setupInputHtmlId = scope => {
   const inputHtmlId = `input-${getInputId(scope)}`;
-  scope.formFieldVm.input.htmlId = inputHtmlId;
+  if (scope.formFieldVm) { scope.formFieldVm.input.htmlId = inputHtmlId; }
   return inputHtmlId;
 };
 
 export const setInputAndFormDirty = scope => {
+  if (!scope.formVm || !scope.formFieldVm) { return; }
   scope.formVm.isDirty = true;
   scope.formFieldVm.input.isDirty = true;
 };
@@ -129,6 +133,7 @@ export const deleteItemFromListByIndex = ({ list, itemIndex }) => {
 };
 
 export const removeFormFieldByInputId = ({ scope, inputIdToBeRemoved }) => {
+  if (!scope.formVm || !scope.formFieldVm) { return; }
   const indexFormFieldToBeRemoved = getFormFieldIndexById(scope, inputIdToBeRemoved);
   if (indexFormFieldToBeRemoved > -1) {
     deleteItemFromListByIndex({

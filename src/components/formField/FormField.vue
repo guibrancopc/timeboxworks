@@ -76,6 +76,14 @@ export default {
       return this.isCheckInput;
     },
   },
+  methods: {
+    getInputValue() {
+      return this.input.value;
+    },
+    setInputValue(value) {
+      this.input.value = value;
+    },
+  },
   components: {
     TwLabel,
   },
