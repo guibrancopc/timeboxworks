@@ -11,7 +11,7 @@ describe('Tw Container', () => {
   });
 
   it('should be initialized with class fluid-container when required by prop', () => {
-    const wrapper = mountComponent({ fullwidth: true });
+    const wrapper = mountComponent({ fullWidth: true });
     expect(wrapper.classes()).toContain('container-fluid');
     expect(wrapper.classes()).not.toContain('container');
   });

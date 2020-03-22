@@ -10,13 +10,13 @@
 export default {
   name: 'TwContainer',
   props: {
-    fullwidth: Boolean,
+    fullWidth: Boolean,
   },
   computed: {
     currentClasses() {
       return {
-        container: !this.fullwidth,
-        'container-fluid': this.fullwidth,
+        container: !this.fullWidth,
+        'container-fluid': this.fullWidth,
       };
     },
   },
