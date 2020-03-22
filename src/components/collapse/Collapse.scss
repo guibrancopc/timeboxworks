@@ -1,0 +1,52 @@
+.tw-collapse__header {
+  padding: 15px;
+  position: relative;
+  background-color: var(--gray-ice);
+  border-radius: var(--border-radius);
+  border: var(--border);
+
+  .tw-collapse__header-arrow {
+    margin: 0 10px 0 5px;
+    display: inline-block;
+    font-size: 20px;
+    color: var(--gray);
+    transition: transform .2s ease-in-out;
+  }
+
+  .tw-collapse__toggle-button {
+    border: none;
+    background: none;
+    font: inherit;
+    outline: none;
+    cursor: pointer;
+    text-align: left;
+    width: calc(100% - 80px);
+  }
+
+  .tw-collapse__checkbox {
+    float: right;
+  }
+}
+
+.tw-collapse.tw-collapse--opened .tw-collapse__header {
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+
+.tw-collapse.tw-collapse--opened .tw-collapse__header-arrow {
+  transform: rotate(90deg);
+}
+
+.tw-collapse__main-content {
+  border: none;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  background-color: var(--white-ice);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.tw-collapse.tw-collapse--opened .tw-collapse__main-content {
+  border: 1px solid var(--gray-light);
+  border-top: none;
+}
