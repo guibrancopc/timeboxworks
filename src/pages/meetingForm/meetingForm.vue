@@ -6,7 +6,9 @@
       </tw-col>
     </tw-row>
     <tw-page>
-      <tw-form @submit="onSubmit">
+      <tw-form
+        @submit="onSubmit"
+        @reset="onReset">
         <tw-row>
           <tw-col>
             <tw-row>
@@ -14,7 +16,8 @@
                 <tw-form-field
                   label="Meeting name">
                   <tw-form-input
-                    name="meeting-name"
+                    name="name"
+                    v-model="name"
                     required/>
                 </tw-form-field>
               </tw-col>
@@ -24,10 +27,10 @@
                 <tw-form-field
                   label="Start time">
                   <tw-form-datetime-picker
-                    name="meeting-start"
+                    name="expectedStartTime"
+                    v-model="expectedStartTime"
                     type="time"
                     :customValidation="timeGapCustomValidation"
-                    v-model="startTime"
                     required/>
                 </tw-form-field>
               </tw-col>
@@ -35,9 +38,9 @@
                 <tw-form-field
                   label="End time">
                   <tw-form-datetime-picker
-                    name="meeting-end"
+                    name="expectedEndTime"
+                    v-model="expectedEndTime"
                     type="time"
-                    v-model="endTime"
                     :customValidation="timeGapCustomValidation"
                     required/>
                 </tw-form-field>
@@ -47,8 +50,9 @@
               <tw-col>
                 <tw-form-inputs-list
                   label="Goal"
-                  inputName="meeting-goal"
-                  inputsGroupKey="meeting-goals"
+                  inputName="goal"
+                  v-model="goals"
+                  inputsGroupKey="goals"
                   required/>
               </tw-col>
             </tw-row>
@@ -57,7 +61,8 @@
                 <tw-form-field
                   label="Description">
                   <tw-form-textarea
-                    name="meeting-description"
+                    name="description"
+                    v-model="description"
                     :minHeight="100"/>
                 </tw-form-field>
               </tw-col>
@@ -84,18 +89,40 @@ export default {
   name: 'TwMeetingForm',
   data() {
     return {
-      startTime: null,
-      endTime: null,
+      name: '',
+      expectedStartTime: '',
+      expectedEndTime: '',
+      goals: [],
+      description: '',
     };
   },
+  beforeMount() {
+    this.syncFormWithStore();
+  },
+  computed: {
+    storeCurrentMeeting() {
+      return this.$store.getters.currentMeeting;
+    },
+  },
   methods: {
-    onSubmit(result) {
-      console.log('Form result: ', result);
+    syncFormWithStore() {
+      this.name = this.storeCurrentMeeting.name;
+      this.expectedStartTime = this.storeCurrentMeeting.expectedStartTime;
+      this.expectedEndTime = this.storeCurrentMeeting.expectedEndTime;
+      this.goals = [...this.storeCurrentMeeting.goals];
+      this.description = this.storeCurrentMeeting.description;
+    },
+    onSubmit(formData) {
+      this.$store.dispatch('asyncUpdateCurrentMeeting', { ...formData });
+      this.$router.push({ name: 'meetingDashboard' });
+    },
+    onReset() {
+      this.$store.dispatch('asyncCleanCurrentMeeting');
     },
     timeGapCustomValidation() {
-      const startDateTime = new Date(this.startTime);
-      const endDateTime = new Date(this.endTime);
-      if (!(this.startTime && this.endTime) || startDateTime < endDateTime) {
+      const startDateTime = new Date(this.expectedStartTime);
+      const endDateTime = new Date(this.expectedEndTime);
+      if (!(this.expectedStartTime && this.expectedEndTime) || startDateTime < endDateTime) {
         return true;
       }
       return 'Start time should be before End time';
