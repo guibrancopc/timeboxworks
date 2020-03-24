@@ -7,6 +7,7 @@
       <div class="tw-form-inputs-list__input-wrapper">
         <tw-form-input
           required
+          :ref="`formInput-${item.id}`"
           :id="item.id"
           :name="`${inputName}-${index}`"
           :value="item.value"
@@ -37,7 +38,7 @@
 <script>
 import {
   removeFormFieldByInputId,
-  deleteItemFromListByIndex
+  deleteItemFromListByIndex,
 } from '../../services/formHelpers/formHelpers';
 import { getUid } from '../../services/uidGenerator/uidGenerator';
 import TwFormInput from '../formInput/FormInput.vue';
@@ -125,9 +126,10 @@ export default {
       this.deleteInputFromLocalList(index);
     },
     deleteInputModelFromFormVm(index) {
+      const itemId = this.inputsList[index].id;
       removeFormFieldByInputId({
-        scope: this,
-        inputIdToBeRemoved: this.inputsList[index].id,
+        scope: this.$refs[`formInput-${itemId}`][0],
+        inputIdToBeRemoved: itemId,
       });
     },
     deleteInputFromLocalList(itemIndex) {
