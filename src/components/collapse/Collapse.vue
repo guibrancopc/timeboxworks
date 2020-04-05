@@ -106,7 +106,7 @@ export default {
       });
     },
     onCheckboxClick(value) {
-      this.$emit('checkbox-click', { value });
+      this.$emit('checkbox-change', { value });
       if (this.closeWhenChecked) {
         this.toggleCollapse(!value);
       }

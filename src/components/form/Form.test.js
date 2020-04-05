@@ -210,7 +210,7 @@ describe('Tw Form', () => {
     }
 
     it('should emit "reset" event', async () => {
-      dialogs.customConfirm.mockReturnValue(true);
+      dialogs.confirm.mockReturnValue(true);
       const wrapper = await mountFormWithResetButton();
       const form = wrapper.find(TwForm);
       fillAllInputValues(wrapper);
@@ -219,7 +219,7 @@ describe('Tw Form', () => {
     });
 
     it('should reset isDirty form model', async () => {
-      dialogs.customConfirm.mockReturnValue(true);
+      dialogs.confirm.mockReturnValue(true);
       const wrapper = await mountFormWithResetButton();
       const form = wrapper.find(TwForm);
       fillAllInputValues(wrapper);
@@ -228,7 +228,7 @@ describe('Tw Form', () => {
     });
 
     it('should reset isSubmitted form model', async () => {
-      dialogs.customConfirm.mockReturnValue(true);
+      dialogs.confirm.mockReturnValue(true);
       const wrapper = await mountFormWithResetButton({ attachToDocument: true });
       const form = wrapper.find(TwForm);
       fillAllInputValues(wrapper);
@@ -239,7 +239,7 @@ describe('Tw Form', () => {
     });
 
     it('should set each input value to null', async () => {
-      dialogs.customConfirm.mockReturnValue(true);
+      dialogs.confirm.mockReturnValue(true);
       const wrapper = await mountFormWithResetButton();
       const form = wrapper.find(TwForm);
       fillAllInputValues(wrapper);
@@ -250,7 +250,7 @@ describe('Tw Form', () => {
     });
 
     it('should set each input isBlurred to false', async () => {
-      dialogs.customConfirm.mockReturnValue(true);
+      dialogs.confirm.mockReturnValue(true);
       const wrapper = await mountFormWithResetButton();
       const form = wrapper.find(TwForm);
       fillAllInputValues(wrapper);
@@ -262,7 +262,7 @@ describe('Tw Form', () => {
     });
 
     it('should set each input isDirty to false', async () => {
-      dialogs.customConfirm.mockReturnValue(true);
+      dialogs.confirm.mockReturnValue(true);
       const wrapper = await mountFormWithResetButton();
       const form = wrapper.find(TwForm);
       fillAllInputValues(wrapper);
@@ -276,7 +276,7 @@ describe('Tw Form', () => {
       const wrapper = await mountDefaultTwForm();
       const form = wrapper.find(TwForm);
       const mockEvent = { preventDefault: jest.fn() };
-      dialogs.customConfirm.mockReturnValue(false);
+      dialogs.confirm.mockReturnValue(false);
       form.vm.onReset(mockEvent);
       expect(mockEvent.preventDefault).toHaveBeenCalled();
     });
@@ -285,7 +285,7 @@ describe('Tw Form', () => {
       const wrapper = await mountDefaultTwForm();
       const form = wrapper.find(TwForm);
       const mockEvent = { preventDefault: jest.fn() };
-      dialogs.customConfirm.mockReturnValue(true);
+      dialogs.confirm.mockReturnValue(true);
       form.vm.onReset(mockEvent);
       expect(mockEvent.preventDefault).not.toHaveBeenCalled();
     });

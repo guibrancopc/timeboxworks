@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { initForm } from '../../services/formHelpers/formHelpers';
 import dialogs from '../../services/dialogs/dialogs';
 
 export default {
@@ -31,7 +30,8 @@ export default {
   },
   computed: {
     isValid() {
-      return !this.formFields.some(formField => !formField.input.isValid);
+      return !this.formFields.some(formField => formField.input.isRequired
+        && !formField.input.isValid);
     },
   },
   methods: {
@@ -63,8 +63,8 @@ export default {
       }
     },
     onReset(event) {
-      const confirmMessage = 'Are you sure you want to reset this form?';
-      if (dialogs.customConfirm(confirmMessage)) {
+      const resetIsConfirmed = dialogs.confirm('Are you sure you want to reset it at all?');
+      if (resetIsConfirmed) {
         this.cleanFormUp();
         this.runResetCallbacks();
         this.$emit('reset');
@@ -76,10 +76,7 @@ export default {
       this.isDirty = false;
       this.isSubmitted = false;
       this.formFields.forEach(formField => {
-        initForm(null, formField.$children[0]);
-        formField.input.value = null;
-        formField.input.isBlurred = false;
-        formField.input.isDirty = false;
+        formField.resetInputState();
       });
     },
     runResetCallbacks() {
