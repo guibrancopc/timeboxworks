@@ -35,18 +35,6 @@ const mountComponent = () => mount(meetingForm, {
 });
 
 describe('Meeting Form Page', () => {
-  it('should console log when form is submitted', () => {
-    jest.spyOn(console, 'log').mockImplementation(() => {});
-    const wrapper = mountComponent();
-    const formStub = wrapper.find(TwFormStub);
-
-    formStub.vm.$emit('submit');
-
-    expect(formStub.exists()).toBe(true);
-    expect(console.log).toHaveBeenCalledTimes(1);
-    console.log.mockRestore();
-  });
-
   it('should validate true when start time is before end time', () => {
     const wrapper = mountComponent();
     const formDatetimePickerStubAll = wrapper.findAll(TwFormDatetimepickerStub);

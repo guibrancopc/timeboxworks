@@ -17,7 +17,7 @@
                   label="Meeting name">
                   <tw-form-input
                     name="name"
-                    v-model="name"
+                    :value="name"
                     required/>
                 </tw-form-field>
               </tw-col>
@@ -25,22 +25,24 @@
             <tw-row>
               <tw-col>
                 <tw-form-field
+                  ref="expectedStartTimeField"
                   label="Start time">
                   <tw-form-datetime-picker
                     name="expectedStartTime"
                     v-model="expectedStartTime"
-                    type="time"
+                    type="datetime"
                     :customValidation="timeGapCustomValidation"
                     required/>
                 </tw-form-field>
               </tw-col>
               <tw-col>
                 <tw-form-field
+                  ref="expectedEndTimeField"
                   label="End time">
                   <tw-form-datetime-picker
                     name="expectedEndTime"
                     v-model="expectedEndTime"
-                    type="time"
+                    type="datetime"
                     :customValidation="timeGapCustomValidation"
                     required/>
                 </tw-form-field>
@@ -51,7 +53,7 @@
                 <tw-form-inputs-list
                   label="Goal"
                   inputName="goal"
-                  v-model="goals"
+                  :value="goals"
                   inputsGroupKey="goals"
                   required/>
               </tw-col>
@@ -62,7 +64,7 @@
                   label="Description">
                   <tw-form-textarea
                     name="description"
-                    v-model="description"
+                    :value="description"
                     :minHeight="100"/>
                 </tw-form-field>
               </tw-col>
@@ -120,8 +122,8 @@ export default {
       this.$store.dispatch('asyncCleanCurrentMeeting');
     },
     timeGapCustomValidation() {
-      const startDateTime = new Date(this.expectedStartTime);
-      const endDateTime = new Date(this.expectedEndTime);
+      const startDateTime = new Date(this.expectedStartTime).getTime();
+      const endDateTime = new Date(this.expectedEndTime).getTime();
       if (!(this.expectedStartTime && this.expectedEndTime) || startDateTime < endDateTime) {
         return true;
       }
