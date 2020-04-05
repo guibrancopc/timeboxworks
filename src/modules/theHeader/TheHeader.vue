@@ -1,6 +1,6 @@
 <template>
     <header class="tw-header">
-      <tw-container>
+      <tw-container full-width>
         <div class="tw-header__content">
           <div class="tw-header__logo-side">
             <router-link to="/">

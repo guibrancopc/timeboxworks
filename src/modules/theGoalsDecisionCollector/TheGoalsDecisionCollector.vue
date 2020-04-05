@@ -1,39 +1,44 @@
 <template>
   <div class="tw-the-goals-decision-collector">
-    <tw-row>
-      <tw-col>
-        <tw-gutter vertical class="tw-u_text--right">
-          <tw-button
-            @click="onToggleCloseWhenChecked"
-            template="info"
-            size="sm">Close when check: {{ closeWhenChecked }}</tw-button>
-          <tw-button
-            @click="onToggleAllCollapses"
-            size="sm">{{ toggleButtonName }}</tw-button>
-        </tw-gutter>
-      </tw-col>
-    </tw-row>
-    <tw-collapse
-      v-for="goal in goals"
-      :key="goal.name"
-      :title="goal.value"
-      :is-opened="openCollapse"
-      :checkbox-disabled="disabled"
-      checkbox-label="Done"
-      :close-when-checked="closeWhenChecked"
-      @checkbox-click="onCheckboxClick($event, goal)">
-      <tw-form-field label="Conclusions">
-        <tw-form-textarea
-          :disabled="disabled || !!goal.finishedAt"
-          :name="goal.name"
-          v-model="goal.decisions"/>
-      </tw-form-field>
-    </tw-collapse>
+    <tw-box>
+      <tw-row>
+        <tw-col>
+          <tw-gutter bottom class="tw-u_text--right">
+            <tw-button
+              @click="onToggleCloseWhenChecked"
+              template="info"
+              :outline="!toggleOnCheck"
+              size="sm">{{ toggleWhenCheckedButtonLabel }}</tw-button>
+            <tw-button
+              @click="onToggleAllCollapses"
+              size="sm">{{ toggleAllButtonLabel }}</tw-button>
+          </tw-gutter>
+          <tw-collapse
+            v-for="(goal, index) in goals"
+            :ref="`goal-${index}`"
+            :key="goal.name"
+            :title="goal.value"
+            :is-opened="toggleAll"
+            :checkbox-disabled="disabled"
+            checkbox-label="Done"
+            :checkbox-value="isGoalChecked(goal)"
+            :close-when-checked="toggleOnCheck"
+            @checkbox-change="onCheckboxChange($event, goal, index)">
+            <tw-form-field label="Conclusions">
+              <tw-form-textarea
+                :disabled="disabled || isGoalChecked(goal)"
+                :name="goal.name"
+                v-model="goal.decisions"/>
+            </tw-form-field>
+          </tw-collapse>
+        </tw-col>
+      </tw-row>
+    </tw-box>
   </div>
 </template>
 
 <script>
-import { getCurrentTime } from '../../services/timeService/timeService';
+import Time from '../../services/timeService/timeService';
 
 export default {
   name: 'TwTheGoalsDecisionCollector',
@@ -42,8 +47,8 @@ export default {
   },
   data() {
     return {
-      openCollapse: false,
-      closeWhenChecked: true,
+      toggleAll: false,
+      toggleOnCheck: true,
     };
   },
   props: {
@@ -54,28 +59,61 @@ export default {
     disabled: Boolean,
   },
   computed: {
-    toggleButtonName() {
-      return this.openCollapse ? 'Close all' : 'Open all';
+    toggleAllButtonLabel() {
+      return this.toggleAll ? 'Close all' : 'Open all';
+    },
+    toggleWhenCheckedButtonLabel() {
+      return this.toggleOnCheck ? 'Automatic' : 'Manual';
     },
   },
   methods: {
-    onCheckboxClick({ value }, goal) {
-      goal.finishedAt = value ? getCurrentTime() : '';
+    onCheckboxChange({ value }, goal, index) {
+      if (value) {
+        setGoalFinishTime(goal, Time.getNowISOString());
+        this.toggleNextUncheckedGoal(index, true);
+      } else {
+        setGoalFinishTime(goal, '');
+        this.toggleNextUncheckedGoal(index, false);
+      }
+    },
+    toggleNextUncheckedGoal(index, value) {
+      if (!this.toggleOnCheck) { return; }
+      for (let i = index + 1; i < this.goals.length; i += 1) {
+        if (!this.goals[i].finishedAt) {
+          this.toggleSpecificCollapse(i, value);
+          return;
+        }
+      }
+    },
+    toggleSpecificCollapse(index, value) {
+      this.$refs[`goal-${index}`][0].toggleCollapse(value);
     },
     initModelProperties() {
       this.goals.forEach(goal => {
-        this.$set(goal, 'finishedAt', '');
-        this.$set(goal, 'decisions', '');
+        this.initializeGoalProp(goal, 'finishedAt');
+        this.initializeGoalProp(goal, 'decisions');
       });
     },
+    initializeGoalProp(goal, prop) {
+      if (!goal[prop]) {
+        this.$set(goal, prop, '');
+      }
+    },
     onToggleAllCollapses() {
-      this.openCollapse = !this.openCollapse;
+      this.toggleAll = !this.toggleAll;
     },
     onToggleCloseWhenChecked() {
-      this.closeWhenChecked = !this.closeWhenChecked;
+      this.toggleOnCheck = !this.toggleOnCheck;
+    },
+    isGoalChecked(goal) {
+      return !!goal.finishedAt;
     },
   },
 };
+
+function setGoalFinishTime(goal, value) {
+  goal.finishedAt = value;
+}
 </script>
 
 <style lang="scss">
