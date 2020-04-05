@@ -21,6 +21,7 @@ export default {
       isDirty: false,
       isSubmitted: false,
       formFields: [],
+      resetCallbacks: [],
     };
   },
   provide() {
@@ -65,6 +66,7 @@ export default {
       const confirmMessage = 'Are you sure you want to reset this form?';
       if (dialogs.customConfirm(confirmMessage)) {
         this.cleanFormUp();
+        this.runResetCallbacks();
         this.$emit('reset');
       } else {
         event.preventDefault();
@@ -78,6 +80,13 @@ export default {
         formField.input.value = null;
         formField.input.isBlurred = false;
         formField.input.isDirty = false;
+      });
+    },
+    runResetCallbacks() {
+      this.resetCallbacks.forEach(resetCallback => {
+        if (typeof resetCallback === 'function') {
+          resetCallback();
+        }
       });
     },
   },

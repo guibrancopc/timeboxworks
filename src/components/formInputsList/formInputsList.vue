@@ -23,7 +23,7 @@
             class="tw-form-inputs-list__delete-button"
             template="link"
             v-if="inputsListHasMoreThanOneItem()"
-            @click="deleteInput(index)">&times;</tw-button>
+            @click="deleteInputWithDelayedFocus(index)">&times;</tw-button>
         </div>
     </tw-form-field>
     <tw-gutter bottom>
@@ -96,6 +96,9 @@ export default {
     },
   },
   inject: ['formVm'],
+  beforeMount() {
+    this.setupResetCallback();
+  },
   mounted() {
     this.initFieldModel();
   },
@@ -110,7 +113,7 @@ export default {
     },
     backspaceHotkeyHandler(event, inputIndex) {
       if (event.key === 'Backspace' && !event.target.value) {
-        this.deleteInput(inputIndex);
+        this.deleteInputWithDelayedFocus(inputIndex);
       }
     },
     enterHotkeyHandler(event, inputIndex) {
@@ -119,11 +122,19 @@ export default {
         this.addNewInput({ shouldFocus: true, inputEventIndex: inputIndex });
       }
     },
-    deleteInput(index) {
-      if (!this.inputsListHasMoreThanOneItem()) { return; }
+    deleteInputWithDelayedFocus(index) {
+      if (this.deleteInput(index)) {
+        this.setDelayedFocus(index);
+      }
+    },
+    setDelayedFocus(index) {
       setDelayedFocus(getPreviousInputId(this.inputsList, index));
+    },
+    deleteInput(index) {
+      if (!this.inputsListHasMoreThanOneItem()) { return false; }
       this.deleteInputModelFromFormVm(index);
       this.deleteInputFromLocalList(index);
+      return true;
     },
     deleteInputModelFromFormVm(index) {
       const itemId = this.inputsList[index].id;
@@ -161,13 +172,22 @@ export default {
         this.inputsList.splice(inputEventIndex + 1, 0, inputFactory(shouldFocus));
       }
     },
+    resetCallback() {
+      while (this.inputsListHasMoreThanOneItem()) {
+        this.deleteInput(0);
+      }
+      this.setDelayedFocus(0);
+    },
+    setupResetCallback() {
+      this.formVm.resetCallbacks.push(this.resetCallback);
+    },
   },
 };
 
 function setDelayedFocus(inputId) {
   setTimeout(() => {
     document.querySelector(`#input-${inputId}`).focus();
-  }, 10);
+  }, 50);
 }
 
 function inputFactory(shouldFocus = false) {
@@ -180,7 +200,7 @@ function inputFactory(shouldFocus = false) {
 }
 
 function getPreviousInputId(inputsList, index) {
-  return inputsList[index - 1] ? inputsList[index - 1].id : inputsList[1].id;
+  return inputsList[index - 1] ? inputsList[index - 1].id : inputsList[0].id;
 }
 </script>
 
