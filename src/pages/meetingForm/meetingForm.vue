@@ -100,10 +100,14 @@ export default {
   },
   beforeMount() {
     this.syncFormWithStore();
+    this.verifyIfActiveMeetingExists();
   },
   computed: {
     storeCurrentMeeting() {
       return this.$store.getters.currentMeeting;
+    },
+    isMeetingActive() {
+      return !!this.$store.getters.currentMeeting.realStartTime;
     },
   },
   methods: {
@@ -114,8 +118,16 @@ export default {
       this.goals = [...this.storeCurrentMeeting.goals];
       this.description = this.storeCurrentMeeting.description;
     },
+    verifyIfActiveMeetingExists() {
+      if (this.isMeetingActive) {
+        this.goForDashboard();
+      }
+    },
     onSubmit(formData) {
       this.$store.dispatch('asyncUpdateCurrentMeeting', { ...formData });
+      this.goForDashboard();
+    },
+    goForDashboard() {
       this.$router.push({ name: 'meetingDashboard' });
     },
     onReset() {
