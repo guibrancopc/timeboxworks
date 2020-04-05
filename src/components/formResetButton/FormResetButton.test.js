@@ -46,7 +46,7 @@ describe('Tw Form Reset Button', () => {
   });
 
   it('should dispatch form reset event when clicked', async () => {
-    dialogs.customConfirm.mockReturnValue(true);
+    dialogs.confirm.mockReturnValue(true);
     const wrapper = await mountComponent(`
       <tw-form>
         <tw-form-field>

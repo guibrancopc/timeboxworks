@@ -83,6 +83,12 @@ export default {
     setInputValue(value) {
       this.input.value = value;
     },
+    resetInputState() {
+      this.input.value = null;
+      this.input.isValid = false;
+      this.input.isDirty = false;
+      this.input.isBlurred = false;
+    },
   },
   components: {
     TwLabel,

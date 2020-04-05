@@ -36,7 +36,7 @@ export default {
   computed: {
     classes() {
       return {
-        'tw-form-field--active': this.isCheckboxActive,
+        'tw-slim-checkbox--active': this.isCheckboxActive,
         'tw-slim-checkbox--disabled': this.disabled,
       };
     },
@@ -67,7 +67,7 @@ export default {
   &, & /deep/ * {
     cursor: pointer;
   }
-  &.tw-form-field--active {
+  &.tw-slim-checkbox--active {
     background-color: var(--gray-light);
   }
   &.tw-slim-checkbox--disabled {
