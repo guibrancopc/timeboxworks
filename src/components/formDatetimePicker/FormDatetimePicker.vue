@@ -8,7 +8,7 @@
     :minute-step="5"
     :input-id="getInputHtmlId(this)"
     :use12-hour="true"
-    :value="formFieldVm.input.value"
+    :value="valueModel"
     @input="onInput"
     @close="onClose">
       <template slot="button-confirm" slot-scope="scope">
@@ -21,6 +21,8 @@
 <script>
 import { Datetime } from 'vue-datetime';
 import { Settings } from 'luxon';
+import Time from '../../services/timeService/timeService';
+
 import {
   initForm,
   runValidation,
@@ -62,20 +64,24 @@ export default {
     required: Boolean,
     customValidation: Function,
   },
+  computed: {
+    valueModel() {
+      if (this.value) { return this.value; }
+      return this.formFieldVm.input.value;
+    },
+  },
   methods: {
-    onInput(value) {
+    onInput(rawValue) {
+      const value = getISOFormatWithOffset(rawValue);
       this.$emit('input', value);
       setInputAndFormDirty(this);
-      runValidation(this.convertToEventFormat(value), this);
+      runValidation(convertToEventFormat(value), this);
     },
     onClose() {
       setIsBlurred(this);
     },
     getInputHtmlId() {
       return setupInputHtmlId(this);
-    },
-    convertToEventFormat(value) {
-      return { target: { value } };
     },
   },
   mounted() {
@@ -85,6 +91,14 @@ export default {
     Datetime,
   },
 };
+
+function getISOFormatWithOffset(value) {
+  return Time.convertToISOString(value);
+}
+
+function convertToEventFormat(value) {
+  return { target: { value } };
+}
 </script>
 
 <style scoped>

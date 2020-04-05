@@ -1,3 +1,8 @@
-const customConfirm = text => window.confirm(text);
+const confirm = text => window.confirm(text);
 
-export default { customConfirm };
+const alert = text => window.alert(text);
+
+export default {
+  confirm,
+  alert,
+};

@@ -1,11 +1,11 @@
 import dialogs from './dialogs';
 
-const { customConfirm } = dialogs;
+const { confirm } = dialogs;
 
 describe('Dialogs Service', () => {
   it('should open dialog when service is called', () => {
     window.confirm = jest.fn();
-    customConfirm('sample-text');
+    confirm('sample-text');
     expect(window.confirm).toHaveBeenCalledWith('sample-text');
   });
 });

@@ -22,6 +22,7 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-underscore-dangle': 'off',
     'no-param-reassign': ['error', { props: false }],
     'no-use-before-define': ['error', { 'functions': false, 'classes': true }],
     'arrow-parens': ['error', 'as-needed'],
