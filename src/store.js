@@ -1,26 +1,45 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { isMeetingModelValid } from './services/meetingValidator/meetingValidatorService';
+import { isMeetingModelValid } from './servicesApp/meetingValidator/meetingValidatorService';
 
 Vue.use(Vuex);
 
-const initialCurrentMeeting = getCurrentMeetingFromLocalStorage() || {};
-
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     currentMeeting: {
-      name: initialCurrentMeeting.name || '',
-      expectedStartTime: initialCurrentMeeting.expectedStartTime || '',
-      expectedEndTime: initialCurrentMeeting.expectedEndTime || '',
-      realStartTime: initialCurrentMeeting.realStartTime || '',
-      realEndTime: initialCurrentMeeting.realEndTime || '',
-      goals: initialCurrentMeeting.goals || [],
-      description: initialCurrentMeeting.description || '',
+      descriptionname: '',
+      expectedStartTime: '',
+      expectedEndTime: '',
+      realStartTime: '',
+      realEndTime: '',
+      goals: [],
+      description: '',
     },
   },
   getters: {
     currentMeeting(state) {
       return state.currentMeeting;
+    },
+    currentMeetingName(state) {
+      return state.currentMeeting.name;
+    },
+    currentMeetingExpectedStartTime(state) {
+      return state.currentMeeting.expectedStartTime;
+    },
+    currentMeetingExpectedEndTime(state) {
+      return state.currentMeeting.expectedEndTime;
+    },
+    currentMeetingRealStartTime(state) {
+      return state.currentMeeting.realStartTime;
+    },
+    currentMeetingRealEndTime(state) {
+      return state.currentMeeting.realEndTime;
+    },
+    currentMeetingGoals(state) {
+      return state.currentMeeting.goals;
+    },
+    currentMeetingDescription(state) {
+      return state.currentMeeting.description;
     },
   },
   mutations: {
@@ -45,11 +64,9 @@ export default new Vuex.Store({
       if (isMeetingModelValid(payload)) {
         commit('updateCurrentMeeting', payload);
         setCurrentMeetingInLocalStorage(state.currentMeeting);
-      } else {
-        console.error('Wrong meeting model was received in Store!');
       }
     },
-    asyncCleanCurrentMeeting({ commit, state }) {
+    asyncCleanCurrentMeeting({ commit }) {
       const emptyModel = {
         name: '',
         expectedStartTime: '',
@@ -60,7 +77,7 @@ export default new Vuex.Store({
         description: '',
       };
       commit('updateCurrentMeeting', emptyModel);
-      setCurrentMeetingInLocalStorage(state.currentMeeting);
+      deleteCurrentMeetingInLocalStorage();
     },
     asyncUpdateRealStartTime({ commit, state }, payload) {
       commit('updateRealStartTime', payload);
@@ -73,6 +90,10 @@ export default new Vuex.Store({
   },
 });
 
+function deleteCurrentMeetingInLocalStorage() {
+  localStorage.removeItem('tw-current-meeting');
+}
+
 function setCurrentMeetingInLocalStorage(meeting) {
   localStorage.setItem('tw-current-meeting', JSON.stringify(meeting));
 }
@@ -80,3 +101,30 @@ function setCurrentMeetingInLocalStorage(meeting) {
 function getCurrentMeetingFromLocalStorage() {
   return JSON.parse(localStorage.getItem('tw-current-meeting'));
 }
+
+function initStoreWithDataFromLocalStorage() {
+  const initialCurrentMeeting = getCurrentMeetingFromLocalStorage();
+  if (initialCurrentMeeting) {
+    store.dispatch('asyncUpdateCurrentMeeting', { ...initialCurrentMeeting });
+  }
+}
+
+// TODO: Analyse possible performance impact here
+function setupWatcher() {
+  store.watch(
+    state => state.currentMeeting,
+    newValue => {
+      if (newValue.name) {
+        setCurrentMeetingInLocalStorage(newValue);
+      } else {
+        deleteCurrentMeetingInLocalStorage();
+      }
+    },
+    { deep: true },
+  );
+}
+
+initStoreWithDataFromLocalStorage();
+setupWatcher();
+
+export default store;
