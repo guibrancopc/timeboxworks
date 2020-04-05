@@ -124,11 +124,11 @@ export default {
     },
     deleteInputWithDelayedFocus(index) {
       if (this.deleteInput(index)) {
-        this.setDelayedFocus(index);
+        this.setInputFocus(index);
       }
     },
-    setDelayedFocus(index) {
-      setDelayedFocus(getPreviousInputId(this.inputsList, index));
+    setInputFocus(index) {
+      setInputFocus(getPreviousInputId(this.inputsList, index));
     },
     deleteInput(index) {
       if (!this.inputsListHasMoreThanOneItem()) { return false; }
@@ -176,7 +176,7 @@ export default {
       while (this.inputsListHasMoreThanOneItem()) {
         this.deleteInput(0);
       }
-      this.setDelayedFocus(0);
+      this.setInputFocus(0);
     },
     setupResetCallback() {
       this.formVm.resetCallbacks.push(this.resetCallback);
@@ -184,15 +184,15 @@ export default {
   },
 };
 
-function setDelayedFocus(inputId) {
+function setInputFocus(inputId) {
   setTimeout(() => {
     document.querySelector(`#input-${inputId}`).focus();
-  }, 50);
+  }, 10);
 }
 
 function inputFactory(shouldFocus = false) {
   const inputId = getUid();
-  if (shouldFocus) { setDelayedFocus(inputId); }
+  if (shouldFocus) { setInputFocus(inputId); }
   return {
     id: inputId,
     value: '',

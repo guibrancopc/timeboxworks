@@ -26,6 +26,7 @@
             @checkbox-change="onCheckboxChange($event, goal, index)">
             <tw-form-field label="Conclusions">
               <tw-form-textarea
+                :ref="`textarea-${index}`"
                 :disabled="disabled || isGoalChecked(goal)"
                 :name="goal.name"
                 v-model="goal.decisions"/>
@@ -44,6 +45,7 @@ export default {
   name: 'TwTheGoalsDecisionCollector',
   mounted() {
     this.initModelProperties();
+    setTimeout(this.openFirstUncheckedGoal, 2000);
   },
   data() {
     return {
@@ -58,6 +60,13 @@ export default {
     },
     disabled: Boolean,
   },
+  watch: {
+    disabled(value) {
+      if (!value) {
+        this.toggleNextUncheckedGoal(-1, true);
+      }
+    },
+  },
   computed: {
     toggleAllButtonLabel() {
       return this.toggleAll ? 'Close all' : 'Open all';
@@ -67,6 +76,11 @@ export default {
     },
   },
   methods: {
+    openFirstUncheckedGoal() {
+      if (!this.disabled) {
+        this.toggleNextUncheckedGoal(-1, true);
+      }
+    },
     onCheckboxChange({ value }, goal, index) {
       if (value) {
         setGoalFinishTime(goal, Time.getNowISOString());
@@ -74,6 +88,7 @@ export default {
       } else {
         setGoalFinishTime(goal, '');
         this.toggleNextUncheckedGoal(index, false);
+        this.focusOnTextAreaByIndex(index);
       }
     },
     toggleNextUncheckedGoal(index, value) {
@@ -81,12 +96,24 @@ export default {
       for (let i = index + 1; i < this.goals.length; i += 1) {
         if (!this.goals[i].finishedAt) {
           this.toggleSpecificCollapse(i, value);
+          this.focusOnTextAreaByIndex(i);
           return;
         }
       }
     },
     toggleSpecificCollapse(index, value) {
-      this.$refs[`goal-${index}`][0].toggleCollapse(value);
+      const ref = this.$refs[`goal-${index}`];
+      if (ref && ref[0] && ref[0].toggleCollapse) {
+        ref[0].toggleCollapse(value);
+      }
+    },
+    focusOnTextAreaByIndex(index) {
+      const ref = this.$refs[`textarea-${index}`];
+      if (ref && ref[0] && ref[0].focus) {
+        this.$nextTick(() => {
+          ref[0].focus();
+        });
+      }
     },
     initModelProperties() {
       this.goals.forEach(goal => {

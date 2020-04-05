@@ -84,6 +84,9 @@ export default {
     getInputHtmlId() {
       return setupInputHtmlId(this);
     },
+    focus() {
+      this.$el.focus();
+    },
   },
   mounted() {
     initForm(this.value, this);
