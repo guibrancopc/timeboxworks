@@ -75,6 +75,9 @@ export default {
       const value = getISOFormatWithOffset(rawValue);
       this.$emit('input', value);
       setInputAndFormDirty(this);
+      this.runValidation(value);
+    },
+    runValidation(value) {
       runValidation(convertToEventFormat(value), this);
     },
     onClose() {

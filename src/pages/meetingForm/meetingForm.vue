@@ -25,26 +25,28 @@
             <tw-row>
               <tw-col>
                 <tw-form-field
-                  ref="expectedStartTimeField"
                   label="Start time">
                   <tw-form-datetime-picker
+                    required
+                    ref="expectedStartTime"
                     name="expectedStartTime"
                     v-model="expectedStartTime"
                     type="datetime"
                     :customValidation="timeGapCustomValidation"
-                    required/>
+                    @input="syncStartAndEndTimeValidation('expectedEndTime')"/>
                 </tw-form-field>
               </tw-col>
               <tw-col>
                 <tw-form-field
-                  ref="expectedEndTimeField"
                   label="End time">
                   <tw-form-datetime-picker
+                    required
+                    ref="expectedEndTime"
                     name="expectedEndTime"
                     v-model="expectedEndTime"
                     type="datetime"
                     :customValidation="timeGapCustomValidation"
-                    required/>
+                    @input="syncStartAndEndTimeValidation('expectedStartTime')"/>
                 </tw-form-field>
               </tw-col>
             </tw-row>
@@ -134,13 +136,22 @@ export default {
       this.$store.dispatch('asyncCleanCurrentMeeting');
     },
     timeGapCustomValidation() {
-      const startDateTime = new Date(this.expectedStartTime).getTime();
-      const endDateTime = new Date(this.expectedEndTime).getTime();
+      const startDateTime = getTimestamp(this.expectedStartTime);
+      const endDateTime = getTimestamp(this.expectedEndTime);
       if (!(this.expectedStartTime && this.expectedEndTime) || startDateTime < endDateTime) {
         return true;
       }
       return 'Start time should be before End time';
     },
+    syncStartAndEndTimeValidation(theOtherTimeName) {
+      // TODO: eslint is not supporting optional chainning
+      // eslint-disable-next-line no-unused-expressions
+      this.$refs[theOtherTimeName]?.runValidation(this[theOtherTimeName]);
+    },
   },
 };
+
+function getTimestamp(time) {
+  return new Date(time).getTime();
+}
 </script>
