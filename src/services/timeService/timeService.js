@@ -20,6 +20,10 @@ export default class Time {
     }
   }
 
+  timestamp() {
+    return this.time.valueOf();
+  }
+
   format(definition) {
     return this.time.format(definition);
   }
