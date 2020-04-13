@@ -72,7 +72,10 @@
 }
 
 .form-control:disabled, .form-control[readonly] {
-  background-color: #e9ecef;
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
   opacity: 1;
 }
 
