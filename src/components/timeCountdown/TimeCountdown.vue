@@ -29,7 +29,7 @@ export default {
       type: String,
       required: true,
     },
-    freeze: Boolean,
+    disabled: Boolean,
     precision: TwTimeDisplay.props.precision,
     theme: TwTimeDisplay.props.theme,
   },
@@ -43,10 +43,10 @@ export default {
   },
   computed: {
     shouldShowNegativeSymbol() {
-      return this.isTimeLeftNegative && !this.freeze;
+      return this.isTimeLeftNegative && !this.disabled;
     },
     displayTheme() {
-      if (this.freeze) {
+      if (this.disabled) {
         return 'secondary';
       }
       if (this.shouldShowNegativeSymbol) {
@@ -62,7 +62,7 @@ export default {
     timeTarget(value) {
       this.setTimeTargetModel(value);
     },
-    freeze(value) {
+    disabled(value) {
       if (value) {
         this.stopCounter();
       } else {
@@ -79,7 +79,7 @@ export default {
       this.timeTargetModel = new Time(value);
     },
     startCounter() {
-      if (this.freeze) { return; }
+      if (this.disabled) { return; }
       this.theTimeTick();
       this.intervalId = setInterval(this.theTimeTick, getInterval(this.precision));
     },

@@ -1,21 +1,22 @@
 <template>
   <tw-container full-width>
-    <tw-row>
-      <tw-col>
-        <tw-heading>{{ name }}</tw-heading>
-      </tw-col>
-    </tw-row>
     <tw-page>
       <tw-form>
-        <tw-meeting-dashboard-header :description="description" />
+        <tw-meeting-dashboard-header :name="name" :description="description" />
         <tw-row>
           <tw-col>
             <tw-box>
               <tw-time-countdown
                 precision="min"
                 :time-target="expectedEndTime"
-                :freeze="!isMeetingActive"
+                :disabled="!isMeetingActive"
                 theme="primary"/>
+            </tw-box>
+            <tw-box>
+              <tw-the-burndown-chart
+                :start-time="expectedStartTime"
+                :end-time="expectedEndTime"
+                :dataset="burndownDataset"/>
             </tw-box>
           </tw-col>
           <tw-col>
@@ -54,14 +55,24 @@ export default {
     goals() {
       return this.$store.getters.currentMeeting.goals;
     },
-    isMeetingActive() {
-      return !!this.$store.getters.currentMeeting.realStartTime;
+    expectedStartTime() {
+      return this.$store.getters.currentMeeting.expectedStartTime;
+    },
+    expectedEndTime() {
+      return this.$store.getters.currentMeeting.expectedEndTime;
     },
     realStartTime() {
       return this.$store.getters.currentMeeting.realStartTime;
     },
-    expectedEndTime() {
-      return this.$store.getters.currentMeeting.expectedEndTime;
+    isMeetingActive() {
+      return !!this.$store.getters.currentMeeting.realStartTime;
+    },
+    burndownDataset() {
+      return this.goals.map(goal => ({
+        id: goal.name,
+        title: goal.value,
+        finishedAt: goal.finishedAt || null,
+      }));
     },
   },
   beforeMount() {
@@ -91,7 +102,7 @@ export default {
     verifyRequiredDataInStore() {
       const meetingModel = this.$store.getters.currentMeeting;
       if (!isMeetingModelValid(meetingModel)) {
-        // but if I have the local storage with data????
+        // TODO: But if I have the local storage with data???? Try to catch a real fail case.
         dialogs.alert('You must setup your event before open your dashboard. :)');
         this.onGoStepBack();
       }

@@ -45,7 +45,7 @@ export default {
   name: 'TwTheGoalsDecisionCollector',
   mounted() {
     this.initModelProperties();
-    setTimeout(this.openFirstUncheckedGoal, 1000);
+    setTimeout(this.openFirstUncheckedGoal, 2000);
   },
   data() {
     return {

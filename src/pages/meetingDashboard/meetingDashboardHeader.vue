@@ -1,10 +1,9 @@
 <template>
   <header>
-    <tw-row v-if="description">
+    <tw-row>
       <tw-col>
-        <tw-gutter vertical>
-          <tw-paragraph :text="description" />
-        </tw-gutter>
+        <tw-heading>{{ name }}</tw-heading>
+        <tw-paragraph v-if="description" :text="description" />
       </tw-col>
     </tw-row>
   </header>
@@ -15,6 +14,10 @@ export default {
   name: 'TwMeetingDashboardHeader',
   props: {
     description: String,
+    name: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>

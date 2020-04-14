@@ -52,8 +52,6 @@ export default {
       type: Number,
       default: 100,
     },
-    disableDynamicHeight: Boolean,
-    required: Boolean,
     maxLength: {
       type: Number,
       default: -1,
@@ -62,6 +60,8 @@ export default {
       type: Number,
       default: 0,
     },
+    disableDynamicHeight: Boolean,
+    required: Boolean,
     customValidation: Function,
   },
   methods: {
