@@ -1,5 +1,5 @@
 <template>
-  <footer class="tw-footer">
+  <footer class="tw-the-footer">
     <tw-logo type="rounded"/>
   </footer>
 </template>
@@ -10,8 +10,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-  .tw-footer {
+<style scoped lang="scss">
+  .tw-the-footer {
     text-align: center;
     .tw-logo {
       width: 150px;

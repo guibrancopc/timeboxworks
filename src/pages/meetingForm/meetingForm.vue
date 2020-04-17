@@ -71,16 +71,14 @@
                 </tw-form-field>
               </tw-col>
             </tw-row>
-            <tw-row>
-              <tw-col class="tw-u_text--right">
-                <tw-gutter left bottom inline-block>
-                  <tw-form-reset-button>Clean Form</tw-form-reset-button>
-                </tw-gutter>
-                <tw-gutter left bottom inline-block>
-                  <tw-form-submit-button>Start Meeting</tw-form-submit-button>
-                </tw-gutter>
-              </tw-col>
-            </tw-row>
+            <tw-footer>
+              <tw-gutter slot="right" left bottom inline-block>
+                <tw-form-reset-button>Clean Form</tw-form-reset-button>
+              </tw-gutter>
+              <tw-gutter slot="right" left bottom inline-block>
+                <tw-form-submit-button>Start Meeting</tw-form-submit-button>
+              </tw-gutter>
+            </tw-footer>
           </tw-col>
         </tw-row>
       </tw-form>

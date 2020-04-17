@@ -1,33 +1,28 @@
 <template>
-  <footer>
-    <tw-divider />
-    <tw-row v-if="isMeetingActive">
-      <tw-col>
-        <tw-button
-          template="secondary"
-          @click="onCancelMeeting"
-          outline>Cancel it</tw-button>
-        </tw-col>
-        <tw-col class="tw-u_text--right">
-          <tw-button
-            template="success"
-            @click="onFinishMeeting">Finish meeting</tw-button>
-      </tw-col>
-    </tw-row>
-    <tw-row v-else>
-      <tw-col>
-        <tw-button
-          template="secondary"
-          @click="onGoStepBack"
-          outline>Go back</tw-button>
-        </tw-col>
-        <tw-col class="tw-u_text--right">
-          <tw-button
-            template="success"
-            @click="onStartMeeting">Start meeting</tw-button>
-      </tw-col>
-    </tw-row>
-  </footer>
+  <tw-footer>
+    <tw-button
+      slot="left"
+      v-if="isMeetingActive"
+      theme="secondary"
+      @click="onCancelMeeting"
+      outline>Cancel it</tw-button>
+    <tw-button
+      slot="left"
+      v-else
+      theme="secondary"
+      @click="onGoStepBack"
+      outline>Go back</tw-button>
+    <tw-button
+      slot="right"
+      v-if="isMeetingActive"
+      theme="success"
+      @click="onFinishMeeting">Finish meeting</tw-button>
+    <tw-button
+      slot="right"
+      v-else
+      theme="success"
+      @click="onStartMeeting">Start meeting</tw-button>
+  </tw-footer>
 </template>
 
 <script>
