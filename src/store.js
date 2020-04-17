@@ -7,7 +7,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     currentMeeting: {
-      descriptionname: '',
+      name: '',
       expectedStartTime: '',
       expectedEndTime: '',
       realStartTime: '',
@@ -45,10 +45,9 @@ const store = new Vuex.Store({
   mutations: {
     updateCurrentMeeting(state, payload) {
       // eslint-disable-next-line no-restricted-syntax
-      for (const [key, value] of Object.entries(payload)) {
-        // eslint-disable-next-line no-prototype-builtins
-        if (payload.hasOwnProperty(key)) {
-          state.currentMeeting[key] = value;
+      for (const key of Object.keys(payload)) {
+        if ({}.hasOwnProperty.call(payload, key)) {
+          state.currentMeeting[key] = payload[key];
         }
       }
     },
