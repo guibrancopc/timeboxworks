@@ -21,7 +21,7 @@
           <tw-button
             size="lg"
             class="tw-form-inputs-list__delete-button"
-            template="link"
+            theme="link"
             v-if="inputsListHasMoreThanOneItem()"
             @click="deleteInputWithDelayedFocus(index)">&times;</tw-button>
         </div>

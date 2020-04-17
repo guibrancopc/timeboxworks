@@ -1,6 +1,6 @@
 <template>
   <tw-button
-    template="success"
+    theme="success"
     class="tw-form-submit-button"
     type="submit"
     :disabled="shouldDisable"

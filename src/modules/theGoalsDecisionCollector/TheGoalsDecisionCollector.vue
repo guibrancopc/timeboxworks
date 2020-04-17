@@ -6,7 +6,7 @@
           <tw-gutter bottom class="tw-u_text--right">
             <tw-button
               @click="onToggleCloseWhenChecked"
-              template="info"
+              theme="info"
               :outline="!toggleOnCheck"
               size="sm">{{ toggleWhenCheckedButtonLabel }}</tw-button>
             <tw-button

@@ -21,7 +21,7 @@ export default {
       };
     },
     templateClass() {
-      return this.outlineTemplatePrefix + this.template;
+      return this.outlineTemplatePrefix + this.theme;
     },
     outlineTemplatePrefix() {
       return this.outline ? 'btn-outline-' : 'btn-';
@@ -36,7 +36,7 @@ export default {
           .includes(value);
       },
     },
-    template: {
+    theme: {
       type: String,
       default: 'primary',
       validator(value) {

@@ -12,7 +12,7 @@ export default {
 
 <style>
 .tw-page {
-  border: var(--border);
+  border: none;
   border-radius: 0.3rem;
   margin: 15px 0;
   padding: 15px;
