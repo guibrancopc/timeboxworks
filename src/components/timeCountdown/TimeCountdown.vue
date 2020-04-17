@@ -5,7 +5,10 @@
       :time="timeDisplay"
       :theme="displayTheme"
       :negative="shouldShowNegativeSymbol">
-      <div slot="info">
+      <div slot="header">
+        time left
+      </div>
+      <div slot="footer">
         finishes at {{ endTime }}
       </div>
     </tw-time-display>

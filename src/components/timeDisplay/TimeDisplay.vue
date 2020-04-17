@@ -3,12 +3,22 @@
     :class="classes"
     class="tw-time-display">
     <tw-gutter full inner>
-      <label for="">time left</label>
-      <div class="tw-time-display__time">
-        <span v-if="negative">-</span>{{ display }}<small class="tw-time-display__time-h">h</small>
+      <div class="tw-time-display__header">
+        <slot name="header" />
       </div>
-      <div>
-        <slot name="info" />
+      <div class="tw-time-display__time">
+        <span v-if="negative">-</span><span
+          v-if="days">{{ days }}<small
+        >d </small></span><span
+          v-if="shouldShowHours">{{ hours }}<small
+        >h </small></span><span
+          v-if="shouldShowMinutes">{{ minutes }}<small
+        >m </small></span><span
+          v-if="shouldShowSeconds">{{ seconds }}<small
+        >s</small></span>
+      </div>
+      <div class="tw-time-display__footer">
+        <slot name="footer" />
       </div>
     </tw-gutter>
   </div>
@@ -16,12 +26,6 @@
 
 <script>
 import Time from '../../services/timeService/timeService';
-
-const precisionMap = {
-  hour: 'HH',
-  min: 'HH:mm',
-  sec: 'HH:mm:ss',
-};
 
 const FALLBACK_TIME = '0000-01-01T00:00:00.000';
 
@@ -53,8 +57,26 @@ export default {
     },
   },
   computed: {
-    display() {
-      return Time.formatString(getValidTime(this.time), precisionMap[this.precision]);
+    days() {
+      return Time.formatString(getValidTime(this.time), 'D');
+    },
+    hours() {
+      return Time.formatString(getValidTime(this.time), 'H');
+    },
+    minutes() {
+      return Time.formatString(getValidTime(this.time), 'm');
+    },
+    seconds() {
+      return Time.formatString(getValidTime(this.time), 's');
+    },
+    shouldShowHours() {
+      return Number(this.days) || Number(this.hours);
+    },
+    shouldShowMinutes() {
+      return ['min', 'sec'].includes(this.precision);
+    },
+    shouldShowSeconds() {
+      return ['sec'].includes(this.precision);
     },
     classes() {
       return `tw-alert--${this.theme}`;
@@ -81,10 +103,10 @@ function isInvalidDate(time) {
   font-size: 120px;
   padding: .75rem 1.25rem;
   border-radius: var(--border-radius);
-}
 
-.tw-time-display__time-h {
-  font-size: 60px;
-  font-weight: 300;
+  small {
+    font-size: 60px;
+    font-weight: 300;
+  }
 }
 </style>
