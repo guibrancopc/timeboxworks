@@ -64,7 +64,7 @@ export default class Time {
     return Moment(value).toISOString(true);
   }
 
-  static formatString(time, format) {
+  static formatTime(time, format) {
     return Moment(time).format(format);
   }
 }

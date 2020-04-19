@@ -6,7 +6,7 @@
       <div class="tw-time-display__header">
         <slot name="header" />
       </div>
-      <div class="tw-time-display__time">
+      <div v-if="isTimeValid" class="tw-time-display__time">
         <span v-if="negative">-</span><span
           v-if="days">{{ days }}<small
         >d </small></span><span
@@ -16,6 +16,9 @@
         >m </small></span><span
           v-if="shouldShowSeconds">{{ seconds }}<small
         >s</small></span>
+      </div>
+      <div v-else class="tw-time-display__time tw-time-display__time--fallback">
+        <span>--:--</span>
       </div>
       <div class="tw-time-display__footer">
         <slot name="footer" />
@@ -27,7 +30,7 @@
 <script>
 import Time from '../../services/timeService/timeService';
 
-const FALLBACK_TIME = '0000-01-01T00:00:00.000';
+const FALLBACK_TIME = '0000-01-01T00:00:00.000-03:00';
 
 export default {
   name: 'TwTimeDisplay',
@@ -58,16 +61,16 @@ export default {
   },
   computed: {
     days() {
-      return Time.formatString(getValidTime(this.time), 'D');
+      return this.format('D');
     },
     hours() {
-      return Time.formatString(getValidTime(this.time), 'H');
+      return this.format('H');
     },
     minutes() {
-      return Time.formatString(getValidTime(this.time), 'm');
+      return this.format('m');
     },
     seconds() {
-      return Time.formatString(getValidTime(this.time), 's');
+      return this.format('s');
     },
     shouldShowHours() {
       return Number(this.days) || Number(this.hours);
@@ -81,6 +84,14 @@ export default {
     classes() {
       return `tw-alert--${this.theme}`;
     },
+    isTimeValid() {
+      return !isInvalidDate(this.time);
+    },
+  },
+  methods: {
+    format(format) {
+      return Time.formatTime(getValidTime(this.time), format);
+    },
   },
 };
 
@@ -89,7 +100,7 @@ function getValidTime(time) {
 }
 
 function isInvalidDate(time) {
-  return Time.formatString(time) === 'Invalid date';
+  return Time.formatTime(time) === 'Invalid date';
 }
 </script>
 

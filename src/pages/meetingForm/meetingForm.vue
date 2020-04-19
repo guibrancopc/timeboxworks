@@ -1,14 +1,14 @@
 <template>
   <tw-container>
-    <tw-row>
-      <tw-col>
-        <tw-heading>Meeting Setup</tw-heading>
-      </tw-col>
-    </tw-row>
     <tw-page>
       <tw-form
         @submit="onSubmit"
         @reset="onReset">
+        <tw-row>
+          <tw-col>
+            <tw-heading>Meeting Setup</tw-heading>
+          </tw-col>
+        </tw-row>
         <tw-row>
           <tw-col>
             <tw-row>
