@@ -28,7 +28,7 @@ export default {
     el.addEventListener('input', updateElementHeight);
   },
   unbind: (el, binding) => {
-    if (binding.value && binding.value.disabled) { return; }
+    if (binding.value?.disabled) { return; }
     el.removeEventListener('input', updateElementHeight);
   },
 };

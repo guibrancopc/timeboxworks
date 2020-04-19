@@ -10,11 +10,14 @@
     @input="onInput"
     @blur="onBlur"
     @keydown="onKeydown"
-    v-dynamic-height="vDynamicHeightSetup()" />
+    v-dynamic-height="vDynamicHeightSetup()"
+    v-double-return="vDoubleReturnSetup()" />
 </template>
 
 <script>
-import dynamicHeight from '../../directives/dynamicHeight/dynamicHeight';
+import DynamicHeight from '../../directives/dynamicHeight/dynamicHeight';
+import DoubleReturn from '../../directives/doubleReturn/doubleReturn';
+
 import {
   initForm,
   runValidation,
@@ -60,8 +63,9 @@ export default {
       type: Number,
       default: 0,
     },
-    disableDynamicHeight: Boolean,
     required: Boolean,
+    disableDynamicHeight: Boolean,
+    disableDoubleReturn: Boolean,
     customValidation: Function,
   },
   methods: {
@@ -81,6 +85,9 @@ export default {
     vDynamicHeightSetup() {
       return { disabled: this.disableDynamicHeight };
     },
+    vDoubleReturnSetup() {
+      return { disabled: this.disableDoubleReturn };
+    },
     getInputHtmlId() {
       return setupInputHtmlId(this);
     },
@@ -92,7 +99,8 @@ export default {
     initForm(this.value, this);
   },
   directives: {
-    dynamicHeight,
+    DynamicHeight,
+    DoubleReturn,
   },
 };
 </script>
