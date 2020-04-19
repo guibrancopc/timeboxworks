@@ -1,8 +1,10 @@
 function handleDoubleReturn(event) {
   if (selectionEnabled(event.target)) { return; }
+
   if (event.key === 'Enter') {
     addSecondReturnWhenNeeded(event.target);
   }
+
   if (event.key === 'Backspace') {
     removeSecondReturnWhenNeeded(event.target);
   }
@@ -13,7 +15,7 @@ function selectionEnabled(el) {
 }
 
 function addSecondReturnWhenNeeded(el) {
-  if (isReturnInEvenQuantity(el.value)) {
+  if (isReturnInEvenQuantity(el)) {
     const { selectionEnd } = el;
     el.value = `${el.value.substring(0, selectionEnd)}\n${el.value.substring(selectionEnd, el.value.length)}`;
     el.selectionEnd = selectionEnd + 1;
@@ -21,15 +23,16 @@ function addSecondReturnWhenNeeded(el) {
 }
 
 function removeSecondReturnWhenNeeded(el) {
-  if (isReturnInEvenQuantity(el.value) && selectionEndIsReturn(el)) {
+  if (selectionEndIsReturn(el) && isReturnInEvenQuantity(el)) {
     const { selectionEnd } = el;
     el.value = `${el.value.substring(0, el.selectionEnd - 1)}${el.value.substring(el.selectionEnd, el.value.length)}`;
     el.selectionEnd = selectionEnd - 1;
   }
 }
 
-function isReturnInEvenQuantity(value) {
-  return !((countLastReturnCharactersSequence(value) || 0) % 2);
+function isReturnInEvenQuantity(el) {
+  const subValue = el.value.substring(0, el.selectionEnd);
+  return !((countLastReturnCharactersSequence(subValue) || 0) % 2);
 }
 
 function selectionEndIsReturn(el) {
@@ -42,24 +45,22 @@ function getReturnOccurrencies(str) {
 
 function countLastReturnCharactersSequence(str) {
   let counter = 0;
-  for (let i = str.length; i >= 0; i -= 1) {
-    if (counter > 0 && !getReturnOccurrencies(str[i])) {
-      return counter;
-    }
+  for (let i = str.length - 1; i >= 0; i -= 1) {
     if (getReturnOccurrencies(str[i])) {
       counter += 1;
-    }
+    } else { break; }
   }
+
   return counter;
 }
 
 export default {
   bind: (el, binding) => {
-    if (binding.value?.disabled) { return; }
+    if (binding?.value?.disabled) { return; }
     el.addEventListener('keydown', handleDoubleReturn);
   },
   unbind: (el, binding) => {
-    if (binding.value?.disabled) { return; }
+    if (binding?.value?.disabled) { return; }
     el.removeEventListener('keydown', handleDoubleReturn);
   },
 };

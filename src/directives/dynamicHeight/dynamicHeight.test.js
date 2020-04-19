@@ -69,7 +69,7 @@ describe('Dynamic Height Directive', () => {
     expect(el.removeEventListener).toHaveBeenCalled();
   });
 
-  it('sould do nothing when directive is disabled', () => {
+  it('should do nothing when directive is disabled', () => {
     const binding = {
       value: {
         disabled: true,
