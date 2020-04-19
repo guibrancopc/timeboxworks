@@ -10,13 +10,11 @@
     @input="onInput"
     @blur="onBlur"
     @keydown="onKeydown"
-    v-dynamic-height="vDynamicHeightSetup()"
-    v-double-return="vDoubleReturnSetup()" />
+    v-dynamic-height="vDynamicHeightSetup()" />
 </template>
 
 <script>
 import DynamicHeight from '../../directives/dynamicHeight/dynamicHeight';
-import DoubleReturn from '../../directives/doubleReturn/doubleReturn';
 
 import {
   initForm,
@@ -100,7 +98,6 @@ export default {
   },
   directives: {
     DynamicHeight,
-    DoubleReturn,
   },
 };
 </script>
