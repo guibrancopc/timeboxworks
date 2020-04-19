@@ -27,7 +27,7 @@
             <tw-form-field label="Conclusions">
               <tw-form-textarea
                 :ref="`textarea-${index}`"
-                :disabled="disabled || isGoalChecked(goal)"
+                :readonly="disabled || isGoalChecked(goal)"
                 :name="goal.name"
                 v-model="goal.decisions"/>
             </tw-form-field>

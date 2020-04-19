@@ -71,11 +71,18 @@
   opacity: 1;
 }
 
-.form-control:disabled, .form-control[readonly] {
+.form-control[readonly] {
   background-color: transparent;
   padding-left: 0;
   padding-right: 0;
   border: none;
+  outline: none;
+  box-shadow: none;
+  opacity: 1;
+}
+
+.form-control:disabled {
+  background-color: var(--gray-light);
   opacity: 1;
 }
 
