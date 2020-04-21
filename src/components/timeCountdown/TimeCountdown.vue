@@ -1,15 +1,17 @@
 <template>
   <div class="tw-time-countdown">
     <tw-time-display
-      :precision="precision"
-      :time="timeDisplay"
+      v-bind="$attrs"
+      :disabled="disabled"
       :theme="displayTheme"
-      :negative="shouldShowNegativeSymbol">
+      :time="timeTarget"
+      :diffTime="currentTime"
+      @diffUpdated="diffUpdate" >
       <div slot="header">
-        time left
+        {{ isNegative ? 'overtime' : 'time left'}}
       </div>
       <div slot="footer">
-        finishes at {{ endTime }}
+        should finish at {{ endTimeFormatted }}
       </div>
     </tw-time-display>
   </div>
@@ -17,54 +19,54 @@
 
 <script>
 import TwTimeDisplay from '../timeDisplay/TimeDisplay.vue';
-import Time from '../../services/timeService/timeService';
+import {
+  momentFactory,
+  getFullFormatOf,
+} from '../../services/timeService/timeService';
 
-const getInterval = precision => ({
-  hour: 60 * 60 * 1000,
-  min: 60 * 1000,
-  sec: 1000,
-}[precision]);
+function getIntervalInMiliseconds(precision) {
+  return {
+    hour: 60 * 60 * 1000,
+    min: 60 * 1000,
+    sec: 1000,
+  }[precision];
+}
 
 export default {
   name: 'TwTimeCountdown',
   props: {
     timeTarget: {
-      type: String,
+      type: [String, Object, Number],
       required: true,
     },
     disabled: Boolean,
-    precision: TwTimeDisplay.props.precision,
-    theme: TwTimeDisplay.props.theme,
   },
   data() {
     return {
-      timeDisplay: null,
-      timeTargetModel: null,
+      diffTimeDisplay: null,
       intervalId: null,
-      isTimeLeftNegative: false,
+      isNegative: false,
+      currentTime: momentFactory('now'),
     };
   },
   computed: {
-    shouldShowNegativeSymbol() {
-      return this.isTimeLeftNegative && !this.disabled;
+    shouldShowNegativeTheme() {
+      return this.isNegative && !this.disabled;
     },
     displayTheme() {
       if (this.disabled) {
         return 'secondary';
       }
-      if (this.shouldShowNegativeSymbol) {
+      if (this.shouldShowNegativeTheme) {
         return 'danger';
       }
-      return this.theme;
+      return 'primary';
     },
-    endTime() {
-      return this.timeTargetModel.humanize();
+    endTimeFormatted() {
+      return getFullFormatOf(this.timeTarget);
     },
   },
   watch: {
-    timeTarget(value) {
-      this.setTimeTargetModel(value);
-    },
     disabled(value) {
       if (value) {
         this.stopCounter();
@@ -74,32 +76,29 @@ export default {
     },
   },
   beforeMount() {
-    this.setTimeTargetModel(this.timeTarget);
-    this.startCounter();
+    if (!this.disabled) {
+      this.startCounter();
+    }
   },
   methods: {
-    setTimeTargetModel(value) {
-      this.timeTargetModel = new Time(value);
-    },
     startCounter() {
-      if (this.disabled) { return; }
-      this.theTimeTick();
-      this.intervalId = setInterval(this.theTimeTick, getInterval(this.precision));
+      this.runTimeTick();
+      const intervalInMiliseconds = getIntervalInMiliseconds(this.precision);
+      this.intervalId = setInterval(this.runTimeTick, intervalInMiliseconds);
     },
-    theTimeTick() {
-      this.updateDisplayWithTimeLeft();
-      this.updateNegativeStatus();
-    },
-    updateDisplayWithTimeLeft() {
-      this.timeDisplay = this.timeTargetModel.diffFromNow();
-    },
-    updateNegativeStatus() {
-      this.isTimeLeftNegative = !this.timeTargetModel.isAheadFromNow();
+    runTimeTick() {
+      this.currentTime = momentFactory('now');
     },
     stopCounter() {
       clearInterval(this.intervalId);
       this.timeDisplay = null;
     },
+    diffUpdate(value) {
+      this.isNegative = value < 0;
+    },
+  },
+  components: {
+    TwTimeDisplay,
   },
 };
 </script>
