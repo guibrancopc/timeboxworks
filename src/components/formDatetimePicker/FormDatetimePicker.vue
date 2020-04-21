@@ -21,7 +21,7 @@
 <script>
 import { Datetime } from 'vue-datetime';
 import { Settings } from 'luxon';
-import Time from '../../services/timeService/timeService';
+import { getISOStringOf } from '../../services/timeService/timeService';
 
 import {
   initForm,
@@ -96,7 +96,7 @@ export default {
 };
 
 function getISOFormatWithOffset(value) {
-  return Time.convertToISOString(value);
+  return getISOStringOf(value);
 }
 
 function convertToEventFormat(value) {

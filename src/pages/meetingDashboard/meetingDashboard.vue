@@ -8,15 +8,15 @@
             <tw-box>
               <tw-time-countdown
                 precision="min"
+                size="lg"
                 :time-target="expectedEndTime"
-                :disabled="!isMeetingActive"
-                theme="primary"/>
+                :disabled="!isMeetingActive" />
             </tw-box>
             <tw-box>
               <tw-the-burndown-chart
                 :start-time="expectedStartTime"
                 :end-time="expectedEndTime"
-                :dataset="burndownDataset"/>
+                :dataset="burndownDataset" />
             </tw-box>
           </tw-col>
           <tw-col>
@@ -40,7 +40,7 @@
 import TwMeetingDashboardHeader from './meetingDashboardHeader.vue';
 import TwMeetingDashboardFooter from './meetingDashboardFooter.vue';
 import dialogs from '../../services/dialogs/dialogs';
-import Time from '../../services/timeService/timeService';
+import { getNowISOString } from '../../services/timeService/timeService';
 import { isMeetingModelValid } from '../../servicesApp/meetingValidator/meetingValidatorService';
 
 export default {
@@ -76,6 +76,7 @@ export default {
     },
   },
   beforeMount() {
+    // Double check if this is the right place for this validation
     this.verifyRequiredDataInStore();
   },
   methods: {
@@ -83,7 +84,7 @@ export default {
       this.$router.push({ name: 'meetingForm' });
     },
     onStartMeeting() {
-      this.$store.dispatch('asyncUpdateRealStartTime', Time.getNowISOString());
+      this.$store.dispatch('asyncUpdateRealStartTime', getNowISOString());
     },
     onCancelMeeting() {
       const confirmation = dialogs.confirm('Are you sure to cancel it?');
@@ -92,12 +93,9 @@ export default {
       }
     },
     onFinishMeeting() {
-      this.$store.dispatch('asyncUpdateRealEndTime', Time.getNowISOString());
+      this.$store.dispatch('asyncUpdateRealEndTime', getNowISOString());
       console.log('End meeting model: ', this.$store.getters.currentMeeting);
       this.$router.push({ name: 'meetingReport' });
-    },
-    getNow() {
-      return Time.getNowISOString();
     },
     verifyRequiredDataInStore() {
       const meetingModel = this.$store.getters.currentMeeting;

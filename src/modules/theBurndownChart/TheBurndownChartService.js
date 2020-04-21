@@ -1,12 +1,4 @@
-import Time from '../../services/timeService/timeService';
-
-export function getTimeDefaultModel(value) {
-  return new Time(value);
-}
-
-export function getTimeMomentModel(value) {
-  return new Time(value).time;
-}
+import { momentFactory, getTimestampOf } from '../../services/timeService/timeService';
 
 export function getLabels({ startTimestamp, endTimestamp, scaleX }) {
   const labels = [];
@@ -14,7 +6,7 @@ export function getLabels({ startTimestamp, endTimestamp, scaleX }) {
 
   for (let i = 0; i <= scaleX; i += 1) {
     const timestamp = startTimestamp + timeOffset * i;
-    labels[i] = getTimeMomentModel(timestamp);
+    labels[i] = momentFactory(timestamp);
   }
 
   return labels;
@@ -51,7 +43,7 @@ function getOrderedDatasetByEndTime(dataset) {
 }
 
 function getValidTimestamp(time) {
-  return time ? new Time(time).timestamp() : 0;
+  return time ? getTimestampOf(time) : 0;
 }
 
 function removeItemFromProgressData(progressData, datasetItemId) {
@@ -67,7 +59,7 @@ function getProgressDataItemById(progressData, id) {
 }
 
 function updateProgressDataItem(progressDataItem, finishedAt, finishedTaskCounter) {
-  progressDataItem.x = getTimeMomentModel(finishedAt);
+  progressDataItem.x = momentFactory(finishedAt);
   progressDataItem.y = finishedTaskCounter;
 }
 
@@ -75,7 +67,7 @@ function addNewProgressDataItem(progressData, id, title, finishedAt, finishedTas
   progressData.push({
     id,
     title,
-    x: getTimeMomentModel(finishedAt),
+    x: momentFactory(finishedAt),
     y: finishedTaskCounter,
   });
 }

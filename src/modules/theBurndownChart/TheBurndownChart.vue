@@ -10,8 +10,9 @@
 
 <script>
 import {
-  getLabels, getTimeDefaultModel, getTimeMomentModel, updateProgressData,
+  getLabels, updateProgressData,
 } from './TheBurndownChartService';
+import { momentFactory, getTimestampOf } from '../../services/timeService/timeService';
 
 const scaleX = 10;
 
@@ -42,12 +43,6 @@ export default {
     },
   },
   computed: {
-    startTimeModel() {
-      return getTimeDefaultModel(this.startTime);
-    },
-    endTimeModel() {
-      return getTimeDefaultModel(this.endTime);
-    },
     totalItems() {
       return this.dataset.length;
     },
@@ -56,8 +51,8 @@ export default {
     },
     labels() {
       return getLabels({
-        startTimestamp: this.startTimeModel.timestamp(),
-        endTimestamp: this.endTimeModel.timestamp(),
+        startTimestamp: getTimestampOf(this.startTime),
+        endTimestamp: getTimestampOf(this.endTime),
         scaleX,
       });
     },
@@ -98,7 +93,7 @@ export default {
       this.progressData.push({
         id: 'first-dot',
         title: 'No task is done yet.',
-        x: getTimeMomentModel(this.startTime),
+        x: momentFactory(this.startTime),
         y: this.totalItems,
       });
     },
