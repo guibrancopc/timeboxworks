@@ -1,70 +1,54 @@
 import Moment from 'moment';
 
-export default class Time {
-  constructor(timeString) {
-    this.time = timeString;
+export function momentFactory(timeValue) {
+  if (Moment.isMoment(timeValue)) {
+    return timeValue;
   }
-
-  get time() {
-    return this._time;
-  }
-
-  set time(timeString) {
-    if (timeString === 'now') {
-      this._time = new Moment();
-    } else if (timeString) {
-      this._time = new Moment(timeString);
-    } else {
-      console.error(`Wrong value received in Time class constructor. Value received: ${timeString}; Type: ${typeof timeString}.`);
-      this._time = new Moment(0);
-    }
-  }
-
-  timestamp() {
-    return this.time.valueOf();
-  }
-
-  format(definition) {
-    return this.time.format(definition);
-  }
-
-  humanize() {
-    return this.time.format('dddd, MMMM Do YYYY, HH:mm a');
-  }
-
-  toISOString() {
-    return Moment(this.time).toISOString(true);
-  }
-
-  diffFromNow() {
-    return Moment(this.diffFromNowTimestamp()).utc();
-  }
-
-  diffFromNowTimestamp() {
-    const { time } = this;
-    const now = this.constructor._getNow();
-    return this.isAheadFromNow() ? time.diff(now) : now.diff(time);
-  }
-
-  isAheadFromNow() {
-    const { time } = this;
-    const now = this.constructor._getNow();
-    return time.unix() > now.unix();
-  }
-
-  static _getNow() {
+  if (timeValue === 'now') {
     return new Moment();
   }
-
-  static getNowISOString() {
-    return Moment().toISOString(true);
+  if (timeValue) {
+    return new Moment(timeValue);
   }
+  console.error(`Wrong value received in Time Service. Value received: ${timeValue}; Type: ${typeof timeValue}.`);
+  return new Moment(0);
+}
 
-  static convertToISOString(value) {
-    return Moment(value).toISOString(true);
-  }
+export function getFormattedTime(time, theFormat) {
+  return momentFactory(time).format(theFormat);
+}
 
-  static formatTime(time, format) {
-    return Moment(time).format(format);
-  }
+export function getTimestampOf(value) {
+  return momentFactory(value).valueOf();
+}
+
+export function getFullFormatOf(value) {
+  return momentFactory(value).format('dddd, MMMM Do YYYY, HH:mm a');
+}
+
+export function getISOStringOf(value) {
+  return momentFactory(value).toISOString(true);
+}
+
+export function getNow() {
+  return momentFactory('now');
+}
+
+export function getNowISOString() {
+  return getISOStringOf(momentFactory('now'));
+}
+
+export function getDiffOf(first, second) {
+  const firstMoment = momentFactory(first);
+  const secondMoment = momentFactory(second);
+  return firstMoment.diff(secondMoment);
+}
+
+export function durationFactory(value) {
+  const Duration = Moment.duration;
+  return new Duration(value);
+}
+
+export function isDuration(value) {
+  return Moment.isDuration(value);
 }
