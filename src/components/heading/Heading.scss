@@ -1,30 +1,39 @@
-h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+.tw-heading {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 0;
   font-weight: 500;
   line-height: 1.2;
 }
 
-h1, .h1 {
+.tw-heading--divider {
+  border-bottom: 1px solid var(--gray-light);
+}
+
+h1.tw-heading {
   font-size: 2.5rem;
+  padding-bottom: 10px;
+  margin-top: 0;
 }
 
-h2, .h2 {
+h2.tw-heading {
   font-size: 2rem;
+  padding-bottom: 10px;
 }
 
-h3, .h3 {
+h3.tw-heading {
   font-size: 1.75rem;
 }
 
-h4, .h4 {
+h4.tw-heading {
   font-size: 1.5rem;
 }
 
-h5, .h5 {
+h5.tw-heading {
   font-size: 1.25rem;
 }
 
-h6, .h6 {
-  font-size: 1rem;
+h6.tw-heading {
+  font-size: 0.85rem;
+  color: var(--gray)
 }

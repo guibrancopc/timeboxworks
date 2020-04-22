@@ -10,7 +10,7 @@ export default {
 
 <style lang="scss" scoped>
 .tw-divider {
-  border-bottom: none;
+  border-bottom: solid 1px var(--gray-ice);
   border-top: var(--border);
   border-left: none;
   border-right: none;

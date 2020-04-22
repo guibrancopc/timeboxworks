@@ -1,8 +1,11 @@
 <template>
   <component
     class="tw-heading"
-    :is="headingKey()">
-    <slot/>
+    :class="classes"
+    :is="headingKey">
+    <slot>
+      {{ title }}
+    </slot>
   </component>
 </template>
 
@@ -12,18 +15,24 @@ const validSizes = ['xl', 'lg', 'md', 'sm', 'xs', 'xxs'];
 export default {
   name: 'TwHeading',
   props: {
+    title: String,
     size: {
       type: String,
       default: 'xl',
       validator: value => validSizes.includes(value),
     },
   },
-  methods: {
-    headingKey() {
-      const headingNumber = this.getHeadingNumber();
-      if (headingNumber === 0) { return 'h1'; }
-      return `h${headingNumber}`;
+  computed: {
+    classes() {
+      return {
+        'tw-heading--divider': ['lg'].includes(this.size),
+      };
     },
+    headingKey() {
+      return `h${this.getHeadingNumber()}`;
+    },
+  },
+  methods: {
     getHeadingNumber() {
       return validSizes.indexOf(this.size) + 1;
     },
