@@ -1,13 +1,13 @@
 <template>
-    <header class="tw-header">
+    <header class="tw-the-header">
       <tw-container full-width>
-        <div class="tw-header__content">
-          <div class="tw-header__logo-side">
+        <div class="tw-the-header__content">
+          <div class="tw-the-header__logo-side">
             <router-link to="/">
               <tw-logo :width="150" />
             </router-link>
           </div>
-          <div class="tw-header__nav-side">
+          <div class="tw-the-header__nav-side">
             <tw-the-menu />
           </div>
         </div>
@@ -26,18 +26,18 @@ export default {
 };
 </script>
 
-<style>
-.tw-header {
+<style scoped>
+.tw-the-header {
   background-color: #E8E8E8;
   margin-bottom: 45px;
 }
 
-.tw-header__content {
+.tw-the-header__content {
   margin: 0 auto;
   padding: 10px;
 }
 
-.tw-header__nav-side a {
+.tw-the-header__nav-side a {
   display: inline-block;
   padding: 15px;
   color: #3a3d47;
@@ -45,23 +45,23 @@ export default {
 }
 
 @media screen and (min-width: 1000px) {
-  .tw-header__content {
+  .tw-the-header__content {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
   }
 
-  .tw-header__nav-side {
+  .tw-the-header__nav-side {
     align-self: center;
   }
 }
 
 @media screen and (max-width: 999px) {
-  .tw-header__content {
+  .tw-the-header__content {
     text-align: center;
   }
 
-  .tw-header__nav-side {
+  .tw-the-header__nav-side {
     display: none;
   }
 }
