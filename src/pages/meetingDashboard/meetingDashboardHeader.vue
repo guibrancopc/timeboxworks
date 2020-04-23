@@ -3,7 +3,7 @@
     <tw-row>
       <tw-col>
         <tw-heading>{{ name }}</tw-heading>
-        <tw-paragraph v-if="description" :text="description" />
+        <tw-p v-if="description" :text="description" />
       </tw-col>
     </tw-row>
   </header>

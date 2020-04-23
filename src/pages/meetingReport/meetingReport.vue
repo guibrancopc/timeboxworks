@@ -1,31 +1,92 @@
 <template>
-  <tw-container>
+  <tw-container class="tw-meeting-report">
     <tw-page>
-      <tw-footer>
-        <tw-button
-          slot="left"
-          theme="secondary"
-          @click="backToDashboard"
-          outline>Back to dashboard</tw-button>
-        <tw-gutter slot="right" left bottom inline-block>
-          <tw-button
-            outline
-            theme="primary"
-            @click="startNewMeeting">Start new meeting</tw-button>
-        </tw-gutter>
-        <tw-gutter slot="right" left bottom inline-block>
-          <tw-button
-            theme="success"
-            @click="copyReportToClipboard">Copy to clipboard</tw-button>
-        </tw-gutter>
-      </tw-footer>
+      <tw-header>
+        <tw-heading size="xl" :title="name" />
+        <tw-heading size="xxs">
+          <tw-time-format :time="realEndTime" precision="full"/>
+        </tw-heading>
+        <tw-article v-if="description" :text="description" />
+      </tw-header>
+      <main>
+        <tw-row>
+          <tw-col>
+            <tw-heading size="lg" title="Decisions" />
+            <tw-meeting-report-goals :goals="goals" />
+          </tw-col>
+        </tw-row>
+        <tw-row>
+          <tw-col>
+            <tw-heading size="lg" title="Performance" />
+            <tw-the-burndown-chart
+              :start-time="expectedStartTime"
+              :end-time="expectedEndTime"
+              :dataset="burndownDataset"/>
+          </tw-col>
+        </tw-row>
+        <tw-row>
+          <tw-col>
+            <tw-meeting-report-cards-grid
+              :expected-start-time="expectedStartTime"
+              :expected-end-time="expectedEndTime"
+              :real-start-time="realStartTime"
+              :real-end-time="realEndTime" />
+          </tw-col>
+        </tw-row>
+      </main>
+      <tw-meeting-report-footer
+        @backToDashboard="backToDashboard"
+        @startNewMeeting="startNewMeeting"
+        @copyReportToClipboard="copyReportToClipboard" />
     </tw-page>
   </tw-container>
 </template>
 
 <script>
+import TwMeetingReportGoals from './meetingReportGoals.vue';
+import TwMeetingReportCardsGrid from './meetingReportCardsGrid.vue';
+import TwMeetingReportFooter from './meetingReportFooter.vue';
+
 export default {
   name: 'TwMeetingReport',
+  components: {
+    TwMeetingReportCardsGrid,
+    TwMeetingReportGoals,
+    TwMeetingReportFooter,
+  },
+  computed: {
+    currentMeeting() {
+      return this.$store.getters.currentMeeting;
+    },
+    name() {
+      return this.currentMeeting.name;
+    },
+    description() {
+      return this.currentMeeting.description;
+    },
+    goals() {
+      return this.currentMeeting.goals;
+    },
+    expectedStartTime() {
+      return this.currentMeeting.expectedStartTime;
+    },
+    expectedEndTime() {
+      return this.currentMeeting.expectedEndTime;
+    },
+    realStartTime() {
+      return this.currentMeeting.realStartTime;
+    },
+    realEndTime() {
+      return this.currentMeeting.realEndTime;
+    },
+    burndownDataset() {
+      return this.goals.map(goal => ({
+        id: goal.name,
+        title: goal.value,
+        finishedAt: goal.finishedAt || null,
+      }));
+    },
+  },
   methods: {
     backToDashboard() {
       this.$router.push({ name: 'meetingDashboard' });

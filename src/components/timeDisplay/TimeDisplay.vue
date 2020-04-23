@@ -58,4 +58,8 @@ export default {
   text-align: center;
   border-radius: var(--border-radius);
 }
+
+.tw-time-display__time {
+  padding: 30px 0;
+}
 </style>
