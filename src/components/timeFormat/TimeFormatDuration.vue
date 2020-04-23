@@ -1,5 +1,5 @@
 <template>
-  <span class="tw-time-duration-format">
+  <span class="tw-time-format-duration">
     <span v-if="shouldShowYears">{{ years }}<small>y</small></span>
     <span v-if="shouldShowMonths">{{ months }}<small>m</small></span>
     <span v-if="shouldShowDays">{{ days }}<small>d</small></span>
@@ -15,14 +15,14 @@ import {
 } from '../../services/timeService/timeService';
 
 export default {
-  name: 'TwTimeDurationFormat',
+  name: 'TwTimeFormatDuration',
   props: {
     time: [String, Number, Object],
     diffTime: [String, Number, Object],
     showNegative: Boolean,
     precision: {
       type: String,
-      default: 'sec',
+      default: 'min',
       validator(value) {
         return ['year', 'month', 'day', 'hour', 'min', 'sec']
           .includes(value);
@@ -42,9 +42,6 @@ export default {
     durationModel() {
       const durationTime = this.diffTime ? this.getFinalDiff : this.time;
       return durationFactory(durationTime);
-    },
-    isDiffNegative() {
-      return this.timestampDiff < 0;
     },
     years() {
       return this.getDuration('years');

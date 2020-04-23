@@ -1,5 +1,5 @@
 <template>
-  <span class="tw-time-moment-format">
+  <span class="tw-time-formatmoment">
     {{ formatedMoment }}
   </span>
 </template>
@@ -10,14 +10,16 @@ import {
 } from '../../services/timeService/timeService';
 
 export default {
-  name: 'TwTimeMomentFormat',
+  name: 'TwTimeFormatMoment',
   props: {
     time: [String, Number, Object],
+    // TODO: Implement showOnlyMomentDiff
+    showOnlyMomentDiff: Boolean,
     precision: {
       type: String,
-      default: 'min',
+      default: 'year',
       validator(value) {
-        return ['year', 'month', 'day', 'hour', 'min', 'sec']
+        return ['full', 'year', 'month', 'day', 'hour', 'min', 'sec']
           .includes(value);
       },
     },
@@ -30,7 +32,7 @@ export default {
       return !isInvalidDate(this.time);
     },
     formatedMoment() {
-      return this.format(this.getFormatMoment(this.precision));
+      return getFormattedTime(this.time, this.getFormatMoment(this.precision));
     },
   },
   methods: {

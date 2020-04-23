@@ -3,7 +3,7 @@
     :class="classes"
     class="tw-time-format">
       <span v-if="isTimeValid && !disabled && isDuration">
-        <tw-time-duration-format
+        <tw-time-format-duration
           :time="time"
           :diffTime="diffTime"
           :showNegative="showNegative"
@@ -11,7 +11,7 @@
           @diffUpdated="onDiffUpdated" />
       </span>
       <span v-else-if="isTimeValid && !disabled">
-        <tw-time-moment-format
+        <tw-time-format-moment
           :time="time"
           :precision="precision" />
       </span>
@@ -25,8 +25,8 @@
 import {
   isDuration, getFormattedTime,
 } from '../../services/timeService/timeService';
-import TwTimeDurationFormat from './TimeDurationFormat.vue';
-import TwTimeMomentFormat from './TimeMomentFormat.vue';
+import TwTimeFormatDuration from './TimeFormatDuration.vue';
+import TwTimeFormatMoment from './TimeFormatMoment.vue';
 
 export default {
   name: 'TwTimeFormat',
@@ -35,14 +35,7 @@ export default {
     diffTime: [String, Number, Object],
     disabled: Boolean,
     showNegative: Boolean,
-    precision: {
-      type: String,
-      default: 'min',
-      validator(value) {
-        return ['year', 'month', 'day', 'hour', 'min', 'sec']
-          .includes(value);
-      },
-    },
+    precision: String,
     size: {
       type: String,
       default: 'inherit',
@@ -71,8 +64,8 @@ export default {
     },
   },
   components: {
-    TwTimeDurationFormat,
-    TwTimeMomentFormat,
+    TwTimeFormatDuration,
+    TwTimeFormatMoment,
   },
 };
 
