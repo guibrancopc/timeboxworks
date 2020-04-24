@@ -111,9 +111,9 @@ function isInvalidDate(time) {
 }
 
 .tw-time-format--size-md {
-  font-size: 50px;
+  font-size: 40px;
   /deep/ small {
-    font-size: 30px;
+    font-size: 25px;
   }
 }
 

@@ -38,12 +38,10 @@ export default {
         && ['day', 'hour', 'min', 'sec'].includes(this.precision);
     },
     shouldShowHour() {
-      return (this.shouldShowDay || !this.diffTime || !this.hasSame('hour') || this.precision === 'hour')
-        && ['hour', 'min', 'sec'].includes(this.precision);
+      return ['hour', 'min', 'sec'].includes(this.precision);
     },
     shouldShowMin() {
-      return (this.shouldShowHour || !this.diffTime || !this.hasSame('minutes') || this.precision === 'min')
-        && ['min', 'sec'].includes(this.precision);
+      return ['min', 'sec'].includes(this.precision);
     },
     shouldShowSec() {
       return this.precision === 'sec';

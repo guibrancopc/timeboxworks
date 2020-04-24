@@ -21,7 +21,7 @@
 <script>
 import { Datetime } from 'vue-datetime';
 import { Settings } from 'luxon';
-import { getISOStringOf } from '../../services/timeService/timeService';
+import { getISOStringOf, getNowISOString } from '../../services/timeService/timeService';
 
 import {
   initForm,
@@ -72,7 +72,8 @@ export default {
   },
   methods: {
     onInput(rawValue) {
-      const value = getISOFormatWithOffset(rawValue);
+      console.log('rawValue', rawValue);
+      const value = getValidData(rawValue);
       this.$emit('input', value);
       setInputAndFormDirty(this);
       this.runValidation(value);
@@ -88,12 +89,17 @@ export default {
     },
   },
   mounted() {
+    console.log('this.value', this.value);
     initForm(this.value, this);
   },
   components: {
     Datetime,
   },
 };
+
+function getValidData(data) {
+  return data ? getISOFormatWithOffset(data) : getNowISOString();
+}
 
 function getISOFormatWithOffset(value) {
   return getISOStringOf(value);

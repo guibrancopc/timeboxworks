@@ -3,7 +3,7 @@
     <tw-row>
       <tw-col>
         <tw-gutter vertical>
-          <tw-time-display size="sm" :time="expectedStartTime" :diffTime="realStartTime">
+          <tw-time-display size="md" :time="expectedStartTime" :diffTime="realStartTime">
             <span slot="header">Expected Start Time</span>
           </tw-time-display>
         </tw-gutter>
@@ -11,12 +11,12 @@
       <tw-col>
         <tw-gutter vertical>
           <tw-time-display
-            size="sm"
+            size="md"
             :time="realStartTime"
             :diffTime="expectedStartTime"
-            :theme="startDiffDisplayTheme">
+            :theme="startDiffFeedback.theme">
             <span slot="header">Real Start Time</span>
-            <span slot="footer">{{ getDiffLabel(startDiff) }}: <tw-time-format
+            <span slot="footer">{{ startDiffFeedback.momentMessage }} <tw-time-format
               type="duration"
               :time="expectedStartTime"
               :diffTime="realStartTime"
@@ -29,7 +29,7 @@
     <tw-row>
       <tw-col>
         <tw-gutter vertical>
-          <tw-time-display size="sm" :time="expectedEndTime" :diffTime="realEndTime">
+          <tw-time-display size="md" :time="expectedEndTime" :diffTime="realEndTime">
             <span slot="header">Epected End Time</span>
           </tw-time-display>
         </tw-gutter>
@@ -37,12 +37,12 @@
       <tw-col>
         <tw-gutter vertical>
           <tw-time-display
-          size="sm"
+          size="md"
           :time="realEndTime"
           :diffTime="expectedEndTime"
-          :theme="endDiffDisplayTheme">
+          :theme="endDiffFeedback.theme">
             <span slot="header">Real End Time</span>
-            <span slot="footer">{{ getDiffLabel(endDiff) }}: <tw-time-format
+            <span slot="footer">{{ endDiffFeedback.momentMessage }} <tw-time-format
               type="duration"
               :time="expectedEndTime"
               :diffTime="realEndTime"
@@ -56,7 +56,7 @@
       <tw-col>
         <tw-gutter vertical>
           <tw-time-display
-          size="sm"
+          size="md"
           type="duration"
           :time="expectedEndTime"
           :diffTime="expectedStartTime"
@@ -68,14 +68,14 @@
       <tw-col>
         <tw-gutter vertical>
           <tw-time-display
-          size="sm"
+          size="md"
           type="duration"
-          :theme="durationDiffDisplayTheme"
+          :theme="durationDiffFeedback.theme"
           :time="realEndTime"
           :diffTime="realStartTime"
           @diffUpdated="onRealDiffUpdated" >
             <span slot="header">Real Total Duration</span>
-            <span slot="footer">{{ getFinalDiffLabel(durationDiff) }}: <tw-time-format
+            <span slot="footer">{{ durationDiffFeedback.durationMessage }} <tw-time-format
               type="duration"
               :time="expectedDiff"
               :diffTime="realDiff" />
@@ -88,6 +88,10 @@
 </template>
 
 <script>
+import {
+  getTimeDisplayFeedbackByDiff,
+} from '../../servicesApp/timeDisplayFeedbackRules/timeDisplayFeedbackRules';
+
 export default {
   name: 'TwMeetingReportCardsGrid',
   props: {
@@ -105,17 +109,17 @@ export default {
     };
   },
   computed: {
-    startDiffDisplayTheme() {
-      return this.getDisplayThemeByDiff(this.startDiff);
-    },
-    endDiffDisplayTheme() {
-      return this.getDisplayThemeByDiff(this.endDiff);
-    },
     durationDiff() {
       return this.expectedDiff - this.realDiff;
     },
-    durationDiffDisplayTheme() {
-      return this.getDisplayThemeByDiff(this.durationDiff);
+    startDiffFeedback() {
+      return getTimeDisplayFeedbackByDiff(this.startDiff);
+    },
+    endDiffFeedback() {
+      return getTimeDisplayFeedbackByDiff(this.endDiff);
+    },
+    durationDiffFeedback() {
+      return getTimeDisplayFeedbackByDiff(this.durationDiff);
     },
   },
   methods: {
@@ -130,21 +134,6 @@ export default {
     },
     onRealDiffUpdated(diff) {
       this.realDiff = diff;
-    },
-    getDiffLabel(diff) {
-      return diff < 0 ? 'Late by' : 'In advance by';
-    },
-    getFinalDiffLabel(diff) {
-      return diff < 0 ? 'Wasted time' : 'Saved time';
-    },
-    getDisplayThemeByDiff(diff) { // Business rule TODO extract to service
-      if (diff < 60 * 1000) {
-        return 'danger';
-      }
-      if (diff < 0) {
-        return 'warning';
-      }
-      return 'success';
     },
   },
 };

@@ -2,6 +2,7 @@
   <div class="tw-time-countdown">
     <tw-time-display
       v-bind="$attrs"
+      type="duration"
       :disabled="disabled"
       :theme="displayTheme"
       :time="timeTarget"

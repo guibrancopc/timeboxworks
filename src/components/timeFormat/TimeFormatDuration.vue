@@ -74,7 +74,7 @@ export default {
         && ['min', 'sec'].includes(this.precision);
     },
     shouldShowSeconds() {
-      return this.precision === 'sec';
+      return this.precision === 'sec' || this.diffAbsLessThanAMinute();
     },
   },
   watch: {
@@ -88,6 +88,9 @@ export default {
   methods: {
     getDuration(format) {
       return this.durationModel.get(format);
+    },
+    diffAbsLessThanAMinute() {
+      return Math.abs(this.timestampDiff) < 60 * 1000;
     },
   },
 };
