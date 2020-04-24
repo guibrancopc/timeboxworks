@@ -1,60 +1,71 @@
 <template>
-  <span class="tw-time-formatmoment">
+  <span class="tw-time-format-moment">
     {{ formatedMoment }}
   </span>
 </template>
 
 <script>
 import {
-  momentFactory, getFormattedTime,
+  getFormattedTime, momentFactory,
 } from '../../services/timeService/timeService';
 
 export default {
   name: 'TwTimeFormatMoment',
   props: {
     time: [String, Number, Object],
-    // TODO: Implement showOnlyMomentDiff
-    showOnlyMomentDiff: Boolean,
-    precision: {
-      type: String,
-      default: 'year',
-      validator(value) {
-        return ['full', 'year', 'month', 'day', 'hour', 'min', 'sec']
-          .includes(value);
-      },
-    },
+    diffTime: [String, Number, Object],
+    precision: String,
   },
   computed: {
     momentModel() {
-      return momentFactory(this.time);
+      return this.time && momentFactory(this.time);
     },
-    isTimeValid() {
-      return !isInvalidDate(this.time);
+    diffModel() {
+      return this.diffTime && momentFactory(this.diffTime);
     },
     formatedMoment() {
       return getFormattedTime(this.time, this.getFormatMoment(this.precision));
     },
+    shouldShowYear() {
+      return !this.diffTime || !this.hasSame('year') || this.precision === 'year';
+    },
+    shouldShowMonth() {
+      return (this.shouldShowYear || !this.diffTime || !this.hasSame('month') || this.precision === 'month')
+        && ['month', 'day', 'hour', 'min', 'sec'].includes(this.precision);
+    },
+    shouldShowDay() {
+      return (this.shouldShowMonth || !this.diffTime || !this.hasSame('date') || this.precision === 'day')
+        && ['day', 'hour', 'min', 'sec'].includes(this.precision);
+    },
+    shouldShowHour() {
+      return (this.shouldShowDay || !this.diffTime || !this.hasSame('hour') || this.precision === 'hour')
+        && ['hour', 'min', 'sec'].includes(this.precision);
+    },
+    shouldShowMin() {
+      return (this.shouldShowHour || !this.diffTime || !this.hasSame('minutes') || this.precision === 'min')
+        && ['min', 'sec'].includes(this.precision);
+    },
+    shouldShowSec() {
+      return this.precision === 'sec';
+    },
   },
   methods: {
-    getFormatMoment(requestedFormat) {
-      return {
-        full: `dddd, MMMM Do YYYY, h:mm${getSecondsFormat(this.shouldShowSeconds)} a`,
-        year: `MMMM Do YYYY, h:mm${getSecondsFormat(this.shouldShowSeconds)} a`,
-        month: `MMMM Do, h:mm${getSecondsFormat(this.shouldShowSeconds)} a`,
-        day: `Do, h:mm${getSecondsFormat(this.shouldShowSeconds)} a`,
-        hour: `h:mm${getSecondsFormat(this.shouldShowSeconds)} a`,
-        min: `mm${getSecondsFormat(this.shouldShowSeconds)}`,
-        sec: 'ss',
-      }[requestedFormat];
+    hasSame(part) {
+      return this.momentModel && this.diffModel
+        && this.momentModel[part]() === this.diffModel[part]();
+    },
+    getFormatMoment() {
+      const year = this.shouldShowYear ? 'YYYY, ' : '';
+      const month = this.shouldShowMonth ? 'MMMM ' : '';
+      const weekDay = this.shouldShowDay ? 'ddd, ' : '';
+      const day = this.shouldShowDay ? 'Do ' : '';
+      const hour = this.shouldShowHour ? 'h' : '';
+      const min = this.shouldShowMin ? ':mm' : '';
+      const sec = this.shouldShowSec ? ':ss' : '';
+      const ampm = this.shouldShowHour ? ' a' : '';
+
+      return `${weekDay}${month}${day}${year}${hour}${min}${sec}${ampm}`;
     },
   },
 };
-
-function getSecondsFormat(shouldShowSeconds) {
-  return shouldShowSeconds ? ':ss' : '';
-}
-
-function isInvalidDate(time) {
-  return getFormattedTime(time) === 'Invalid date';
-}
 </script>

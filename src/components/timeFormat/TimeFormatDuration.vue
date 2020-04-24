@@ -20,14 +20,7 @@ export default {
     time: [String, Number, Object],
     diffTime: [String, Number, Object],
     showNegative: Boolean,
-    precision: {
-      type: String,
-      default: 'min',
-      validator(value) {
-        return ['year', 'month', 'day', 'hour', 'min', 'sec']
-          .includes(value);
-      },
-    },
+    precision: String,
   },
   computed: {
     timestampDiff() {

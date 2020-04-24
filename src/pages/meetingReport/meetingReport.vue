@@ -4,14 +4,14 @@
       <tw-header>
         <tw-heading size="xl" :title="name" />
         <tw-heading size="xxs">
-          <tw-time-format :time="realEndTime" precision="full"/>
+          <tw-time-format :time="realStartTime" /> to <tw-time-format :time="realEndTime" />
         </tw-heading>
         <tw-article v-if="description" :text="description" />
       </tw-header>
       <main>
         <tw-row>
           <tw-col>
-            <tw-heading size="lg" title="Decisions" />
+            <tw-heading size="lg" title="Goals" />
             <tw-meeting-report-goals :goals="goals" />
           </tw-col>
         </tw-row>

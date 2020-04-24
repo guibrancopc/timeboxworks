@@ -10,8 +10,7 @@
           <span v-if="goal.finishedAt">Done at </span>
           <tw-time-format
             v-if="goal.finishedAt"
-            :time="goal.finishedAt"
-            precision="full" />
+            :time="goal.finishedAt" />
           <span v-else>Item has not been completed</span>
         </tw-heading>
         <tw-article v-if="goal.decisions" :text="goal.decisions" />

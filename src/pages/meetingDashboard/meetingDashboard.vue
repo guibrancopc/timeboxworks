@@ -7,7 +7,6 @@
           <tw-col>
             <tw-box>
               <tw-time-countdown
-                precision="min"
                 size="lg"
                 :time-target="expectedEndTime"
                 :disabled="!isMeetingActive" />

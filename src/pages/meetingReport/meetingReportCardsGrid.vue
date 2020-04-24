@@ -3,16 +3,21 @@
     <tw-row>
       <tw-col>
         <tw-gutter vertical>
-          <tw-time-display size="sm" :time="expectedStartTime" >
+          <tw-time-display size="sm" :time="expectedStartTime" :diffTime="realStartTime">
             <span slot="header">Expected Start Time</span>
           </tw-time-display>
         </tw-gutter>
       </tw-col>
       <tw-col>
         <tw-gutter vertical>
-          <tw-time-display size="sm" :time="realStartTime" :theme="startDiffDisplayTheme">
+          <tw-time-display
+            size="sm"
+            :time="realStartTime"
+            :diffTime="expectedStartTime"
+            :theme="startDiffDisplayTheme">
             <span slot="header">Real Start Time</span>
             <span slot="footer">{{ getDiffLabel(startDiff) }}: <tw-time-format
+              type="duration"
               :time="expectedStartTime"
               :diffTime="realStartTime"
               @diffUpdated="onStartDiffUpdated"/>
@@ -24,7 +29,7 @@
     <tw-row>
       <tw-col>
         <tw-gutter vertical>
-          <tw-time-display size="sm" :time="expectedEndTime">
+          <tw-time-display size="sm" :time="expectedEndTime" :diffTime="realEndTime">
             <span slot="header">Epected End Time</span>
           </tw-time-display>
         </tw-gutter>
@@ -34,9 +39,11 @@
           <tw-time-display
           size="sm"
           :time="realEndTime"
+          :diffTime="expectedEndTime"
           :theme="endDiffDisplayTheme">
             <span slot="header">Real End Time</span>
             <span slot="footer">{{ getDiffLabel(endDiff) }}: <tw-time-format
+              type="duration"
               :time="expectedEndTime"
               :diffTime="realEndTime"
               @diffUpdated="onEndDiffUpdated" />
@@ -50,6 +57,7 @@
         <tw-gutter vertical>
           <tw-time-display
           size="sm"
+          type="duration"
           :time="expectedEndTime"
           :diffTime="expectedStartTime"
           @diffUpdated="onExpectedDiffUpdated" >
@@ -61,12 +69,14 @@
         <tw-gutter vertical>
           <tw-time-display
           size="sm"
+          type="duration"
           :theme="durationDiffDisplayTheme"
           :time="realEndTime"
           :diffTime="realStartTime"
           @diffUpdated="onRealDiffUpdated" >
             <span slot="header">Real Total Duration</span>
-            <span slot="footer">{{ getDiffLabel(durationDiff) }}: <tw-time-format
+            <span slot="footer">{{ getFinalDiffLabel(durationDiff) }}: <tw-time-format
+              type="duration"
               :time="expectedDiff"
               :diffTime="realDiff" />
             </span>
@@ -122,7 +132,10 @@ export default {
       this.realDiff = diff;
     },
     getDiffLabel(diff) {
-      return diff <= 60 * 1000 ? 'Wasted time' : 'Saved time';
+      return diff < 0 ? 'Late by' : 'In advance by';
+    },
+    getFinalDiffLabel(diff) {
+      return diff < 0 ? 'Wasted time' : 'Saved time';
     },
     getDisplayThemeByDiff(diff) { // Business rule TODO extract to service
       if (diff < 60 * 1000) {

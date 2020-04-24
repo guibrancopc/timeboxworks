@@ -15,7 +15,7 @@
     <tw-gutter slot="right" left bottom inline-block>
       <tw-button
         theme="success"
-        @click="$emit('copyReportToClipboard')">Copy to clipboard</tw-button>
+        @click="$emit('copyReportToClipboard')">Preview email</tw-button>
     </tw-gutter>
   </tw-footer>
 </template>

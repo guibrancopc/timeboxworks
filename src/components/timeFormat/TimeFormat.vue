@@ -13,6 +13,7 @@
       <span v-else-if="isTimeValid && !disabled">
         <tw-time-format-moment
           :time="time"
+          :diffTime="diffTime"
           :precision="precision" />
       </span>
       <span v-else class="tw-time-format__fallback">
@@ -35,7 +36,21 @@ export default {
     diffTime: [String, Number, Object],
     disabled: Boolean,
     showNegative: Boolean,
-    precision: String,
+    precision: {
+      type: String,
+      default: 'min',
+      validator(value) {
+        return ['year', 'month', 'day', 'hour', 'min', 'sec']
+          .includes(value);
+      },
+    },
+    type: {
+      type: String,
+      default: 'moment',
+      validator(value) {
+        return ['moment', 'duration'].includes(value);
+      },
+    },
     size: {
       type: String,
       default: 'inherit',
@@ -47,7 +62,7 @@ export default {
   },
   computed: {
     isDuration() {
-      return isDuration(this.time) || this.diffTime;
+      return isDuration(this.time) || this.type === 'duration';
     },
     isTimeValid() {
       return !isInvalidDate(this.time);
