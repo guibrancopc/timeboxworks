@@ -1,24 +1,23 @@
 <template>
-  <div
-    :class="classes"
+  <tw-alert
+    :theme="theme"
     class="tw-time-display">
-    <tw-gutter full inner>
-      <div class="tw-time-display__header">
-        <slot name="header" />
-      </div>
-      <div class="tw-time-display__time">
-        <tw-time-format
-          v-bind="$attrs"
-          v-on="$listeners" />
-      </div>
-      <div class="tw-time-display__footer">
-        <slot name="footer" />
-      </div>
-    </tw-gutter>
-  </div>
+    <div class="tw-time-display__header">
+      <slot name="header" />
+    </div>
+    <div class="tw-time-display__time">
+      <tw-time-format
+        v-bind="$attrs"
+        v-on="$listeners" />
+    </div>
+    <div class="tw-time-display__footer">
+      <slot name="footer" />
+    </div>
+  </tw-alert>
 </template>
 
 <script>
+import TwAlert from '../alert/Alert.vue';
 import TwTimeFormat from '../timeFormat/TimeFormat.vue';
 
 export default {
@@ -28,27 +27,7 @@ export default {
     TwTimeFormat,
   },
   props: {
-    theme: {
-      type: String,
-      default: 'secondary',
-      validator(value) {
-        return [
-          'primary',
-          'secondary',
-          'success',
-          'warning',
-          'danger',
-          'info',
-        ].includes(value);
-      },
-    },
-  },
-  computed: {
-    classes() {
-      return {
-        [`tw-alert--${this.theme}`]: true,
-      };
-    },
+    theme: TwAlert.props.theme,
   },
 };
 </script>
