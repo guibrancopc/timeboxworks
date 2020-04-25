@@ -24,11 +24,11 @@ export default {
     classes() {
       const type = this.inner ? 'padding' : 'margin';
       return {
-        [`tw-u_${type}--top`]: this.marginTop(),
-        [`tw-u_${type}--bottom`]: this.marginBottom(),
-        [`tw-u_${type}--left`]: this.marginLeft(),
-        [`tw-u_${type}--right`]: this.marginRight(),
-        'tw-u_display--inline-block': this.inlineBlock,
+        [`tw-u-${type}--top`]: this.marginTop(),
+        [`tw-u-${type}--bottom`]: this.marginBottom(),
+        [`tw-u-${type}--left`]: this.marginLeft(),
+        [`tw-u-${type}--right`]: this.marginRight(),
+        'tw-u-display--inline-block': this.inlineBlock,
       };
     },
     marginTop() {

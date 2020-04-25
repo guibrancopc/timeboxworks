@@ -6,7 +6,7 @@
         <tw-col>
           <slot name="left" />
         </tw-col>
-        <tw-col class="tw-u_text--right">
+        <tw-col class="tw-u-text--right">
           <slot name="right" />
         </tw-col>
       </tw-row>

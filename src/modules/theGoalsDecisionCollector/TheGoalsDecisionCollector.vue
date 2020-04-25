@@ -3,7 +3,7 @@
     <tw-box>
       <tw-row>
         <tw-col>
-          <tw-gutter bottom class="tw-u_text--right">
+          <tw-gutter bottom class="tw-u-text--right">
             <tw-button
               @click="onToggleCloseWhenChecked"
               theme="info"
