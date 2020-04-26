@@ -39,8 +39,6 @@
 </template>
 
 <script>
-import { getNowISOString } from '../../services/timeService/timeService';
-
 export default {
   name: 'TwTheGoalsDecisionCollector',
   mounted() {
@@ -83,7 +81,7 @@ export default {
     },
     onCheckboxChange({ value }, goal, index) {
       if (value) {
-        setGoalFinishTime(goal, getNowISOString());
+        setGoalFinishTime(goal, this.getNowISOString());
         this.toggleNextUncheckedGoal(index, true);
       } else {
         setGoalFinishTime(goal, '');
@@ -134,6 +132,9 @@ export default {
     },
     isGoalChecked(goal) {
       return !!goal.finishedAt;
+    },
+    getNowISOString() {
+      return this.$TwTime.getNowISOString();
     },
   },
 };

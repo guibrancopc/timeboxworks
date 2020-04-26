@@ -18,7 +18,7 @@
         <tw-row>
           <tw-col>
             <tw-heading size="lg" title="Performance" />
-            <tw-the-burndown-chart
+            <tw-burndown-chart
               :start-time="expectedStartTime"
               :end-time="expectedEndTime"
               :dataset="burndownDataset"/>

@@ -12,7 +12,7 @@
                 :disabled="!isMeetingActive" />
             </tw-box>
             <tw-box>
-              <tw-the-burndown-chart
+              <tw-burndown-chart
                 :start-time="expectedStartTime"
                 :end-time="expectedEndTime"
                 :dataset="burndownDataset" />
@@ -38,8 +38,6 @@
 <script>
 import TwMeetingDashboardHeader from './meetingDashboardHeader.vue';
 import TwMeetingDashboardFooter from './meetingDashboardFooter.vue';
-import dialogs from '../../services/dialogs/dialogs';
-import { getNowISOString } from '../../services/timeService/timeService';
 import { isMeetingModelValid } from '../../servicesApp/meetingValidator/meetingValidatorService';
 
 export default {
@@ -83,16 +81,16 @@ export default {
       this.$router.push({ name: 'meetingForm' });
     },
     onStartMeeting() {
-      this.$store.dispatch('asyncUpdateRealStartTime', getNowISOString());
+      this.$store.dispatch('asyncUpdateRealStartTime', this.getNowISOString());
     },
     onCancelMeeting() {
-      const confirmation = dialogs.confirm('Are you sure to cancel it?');
+      const confirmation = this.$twDialog.confirm('Are you sure to cancel it?');
       if (confirmation) {
         this.$store.dispatch('asyncUpdateRealStartTime', '');
       }
     },
     onFinishMeeting() {
-      this.$store.dispatch('asyncUpdateRealEndTime', getNowISOString());
+      this.$store.dispatch('asyncUpdateRealEndTime', this.getNowISOString());
       console.log('End meeting model: ', this.$store.getters.currentMeeting);
       this.$router.push({ name: 'meetingReport' });
     },
@@ -100,9 +98,12 @@ export default {
       const meetingModel = this.$store.getters.currentMeeting;
       if (!isMeetingModelValid(meetingModel)) {
         // TODO: But if I have the local storage with data???? Try to catch a real fail case.
-        dialogs.alert('You must setup your event before open your dashboard. :)');
+        this.$twDialog.alert('You must setup your event before open your dashboard. :)');
         this.onGoStepBack();
       }
+    },
+    getNowISOString() {
+      return this.$TwTime.getNowISOString();
     },
   },
   components: {

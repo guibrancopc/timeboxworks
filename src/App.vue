@@ -7,7 +7,3 @@
     <tw-the-footer/>
   </div>
 </template>
-
-<style lang="scss">
-@import "./assets/styles/index.scss";
-</style>
