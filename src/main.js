@@ -1,14 +1,15 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import './modules';
-import './registerServiceWorker';
+import store from './store';
+import { TwModules } from './modules';
 import { TwComponents } from './library';
 import { BrowserStorage } from './plugins/browserStorage';
 import { browserStorageSetup } from './servicesApp/constants/browserStorageSetup';
-import store from './store';
+import './registerServiceWorker';
 
 Vue.use(TwComponents);
+Vue.use(TwModules);
 Vue.use(BrowserStorage, { browserStorageSetup });
 
 Vue.config.productionTip = false;
