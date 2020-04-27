@@ -1,8 +1,24 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { BrowserStorage } from './plugins/browserStorage/BrowserStorage';
+import { browserStorageSetup } from './servicesApp/constants/browserStorageSetup';
 import { isMeetingModelValid } from './servicesApp/meetingValidator/meetingValidatorService';
 
 Vue.use(Vuex);
+
+const currentMeetingLocalStorage = new BrowserStorage('current-meeting', browserStorageSetup);
+
+function deleteCurrentMeetingInLocalStorage() {
+  currentMeetingLocalStorage.destroy();
+}
+
+function setCurrentMeetingInLocalStorage(newValue) {
+  currentMeetingLocalStorage.content = newValue;
+}
+
+function getCurrentMeetingFromLocalStorage() {
+  return currentMeetingLocalStorage.content;
+}
 
 const store = new Vuex.Store({
   state: {
@@ -44,12 +60,11 @@ const store = new Vuex.Store({
   },
   mutations: {
     updateCurrentMeeting(state, payload) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const key of Object.keys(payload)) {
+      Object.keys(payload).forEach(key => {
         if ({}.hasOwnProperty.call(payload, key)) {
           state.currentMeeting[key] = payload[key];
         }
-      }
+      });
     },
     updateRealStartTime(state, payload) {
       state.currentMeeting.realStartTime = payload;
@@ -88,18 +103,6 @@ const store = new Vuex.Store({
     },
   },
 });
-
-function deleteCurrentMeetingInLocalStorage() {
-  localStorage.removeItem('tw-current-meeting');
-}
-
-function setCurrentMeetingInLocalStorage(meeting) {
-  localStorage.setItem('tw-current-meeting', JSON.stringify(meeting));
-}
-
-function getCurrentMeetingFromLocalStorage() {
-  return JSON.parse(localStorage.getItem('tw-current-meeting'));
-}
 
 function initStoreWithDataFromLocalStorage() {
   const initialCurrentMeeting = getCurrentMeetingFromLocalStorage();
