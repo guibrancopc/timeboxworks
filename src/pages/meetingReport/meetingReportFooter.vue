@@ -4,7 +4,7 @@
       <tw-button
         theme="secondary"
         @click="$emit('backToDashboard')"
-        outline>Back to dashboard</tw-button>
+        outline>Reopen meeting</tw-button>
     </tw-gutter>
     <tw-gutter slot="left" right bottom inline-block>
       <tw-button

@@ -76,8 +76,13 @@ export default {
     realStartTime() {
       return this.currentMeeting.realStartTime;
     },
-    realEndTime() {
-      return this.currentMeeting.realEndTime;
+    realEndTime: {
+      get() {
+        return this.currentMeeting.realEndTime;
+      },
+      set(value) {
+        this.currentMeeting.realEndTime = value;
+      },
     },
     burndownDataset() {
       return this.goals.map(goal => ({
@@ -89,6 +94,7 @@ export default {
   },
   methods: {
     backToDashboard() {
+      this.realEndTime = undefined;
       this.$router.push({ name: 'meetingDashboard' });
     },
     startNewMeeting() {

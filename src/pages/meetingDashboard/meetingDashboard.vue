@@ -28,7 +28,7 @@
         </tw-row>
         <tw-meeting-dashboard-footer
           :isMeetingActive="isMeetingActive"
-          @go-step-back="onGoStepBack"
+          @go-step-back="onGoToMeetingForm"
           @start-meeting="onStartMeeting"
           @cancel-meeting="onCancelMeeting"
           @finish-meeting="onFinishMeeting" />
@@ -71,6 +71,9 @@ export default {
     isMeetingActive() {
       return !!this.$store.getters.currentMeeting.realStartTime;
     },
+    isMeetingFinished() {
+      return !!this.$store.getters.currentMeeting.realEndTime;
+    },
     burndownDataset() {
       return this.goals.map(goal => ({
         id: goal.name,
@@ -86,11 +89,15 @@ export default {
   },
   beforeMount() {
     this.verifyRequiredDataInStore();
+    this.verifyIfMeetingIsFinishedAlready();
     this.initDashboardSetup();
   },
   methods: {
-    onGoStepBack() {
+    onGoToMeetingForm() {
       this.$router.push({ name: 'meetingForm' });
+    },
+    onGoToMeetingReport() {
+      this.$router.push({ name: 'meetingReport' });
     },
     onStartMeeting() {
       this.$store.dispatch('asyncUpdateRealStartTime', this.getNowISOString());
@@ -104,12 +111,17 @@ export default {
     onFinishMeeting() {
       this.$store.dispatch('asyncUpdateRealEndTime', this.getNowISOString());
       console.log('End meeting model: ', this.$store.getters.currentMeeting);
-      this.$router.push({ name: 'meetingReport' });
+      this.onGoToMeetingReport();
     },
     verifyRequiredDataInStore() {
       if (!this.name) {
         this.$twDialog.alert('You must setup your event before open your dashboard. :)');
-        this.onGoStepBack();
+        this.onGoToMeetingForm();
+      }
+    },
+    verifyIfMeetingIsFinishedAlready() {
+      if (this.isMeetingFinished) {
+        this.onGoToMeetingReport();
       }
     },
     getNowISOString() {
