@@ -2,7 +2,7 @@ const browserStorageSetup = {
   prefix: 'tw',
   validKeys: [
     'current-meeting',
-    'dashboard-setup',
+    'meeting-dashboard-setup',
   ],
 };
 

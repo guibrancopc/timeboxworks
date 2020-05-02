@@ -5,10 +5,10 @@
         <tw-col>
           <tw-gutter bottom class="tw-u-text--right">
             <tw-button
-              @click="onToggleCloseWhenChecked"
+              @click="onToggleAutomaticBehavior"
               theme="info"
-              :outline="!toggleOnCheck"
-              size="sm">{{ toggleWhenCheckedButtonLabel }}</tw-button>
+              :outline="!automaticBehavior"
+              size="sm">{{ automaticBehaviorButtonLabel }}</tw-button>
             <tw-button
               @click="onToggleAllCollapses"
               size="sm">{{ toggleAllButtonLabel }}</tw-button>
@@ -22,7 +22,7 @@
             :checkbox-disabled="disabled"
             checkbox-label="Done"
             :checkbox-value="isGoalChecked(goal)"
-            :close-when-checked="toggleOnCheck"
+            :close-when-checked="automaticBehavior"
             @checkbox-change="onCheckboxChange($event, goal, index)">
             <tw-form-field label="Conclusions">
               <tw-form-textarea
@@ -48,7 +48,6 @@ export default {
   data() {
     return {
       toggleAll: false,
-      toggleOnCheck: true,
     };
   },
   props: {
@@ -57,6 +56,10 @@ export default {
       required: true,
     },
     disabled: Boolean,
+    automaticBehavior: {
+      type: Boolean,
+      default: true,
+    },
   },
   watch: {
     disabled(value) {
@@ -69,8 +72,8 @@ export default {
     toggleAllButtonLabel() {
       return this.toggleAll ? 'Close all' : 'Open all';
     },
-    toggleWhenCheckedButtonLabel() {
-      return this.toggleOnCheck ? 'Automatic' : 'Manual';
+    automaticBehaviorButtonLabel() {
+      return this.automaticBehavior ? 'Automatic' : 'Manual';
     },
   },
   methods: {
@@ -90,7 +93,7 @@ export default {
       }
     },
     toggleNextUncheckedGoal(index, value) {
-      if (!this.toggleOnCheck) { return; }
+      if (!this.automaticBehavior) { return; }
       for (let i = index + 1; i < this.goals.length; i += 1) {
         if (!this.goals[i].finishedAt) {
           this.toggleSpecificCollapse(i, value);
@@ -127,8 +130,8 @@ export default {
     onToggleAllCollapses() {
       this.toggleAll = !this.toggleAll;
     },
-    onToggleCloseWhenChecked() {
-      this.toggleOnCheck = !this.toggleOnCheck;
+    onToggleAutomaticBehavior() {
+      this.$emit('update-automatic-behavior', !this.automaticBehavior);
     },
     isGoalChecked(goal) {
       return !!goal.finishedAt;

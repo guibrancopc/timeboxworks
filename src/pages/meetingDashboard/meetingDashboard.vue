@@ -21,7 +21,9 @@
           <tw-col>
             <tw-the-goals-decision-collector
               :goals="goals"
-              :disabled="!isMeetingActive" />
+              :disabled="!isMeetingActive"
+              :automatic-behavior="decisionsAutomaticBehaviorIsEnabled"
+              @update-automatic-behavior="onUpdateDecisionsAutomaticBehavior"/>
           </tw-col>
         </tw-row>
         <tw-meeting-dashboard-footer
@@ -42,6 +44,12 @@ import { isMeetingModelValid } from '../../servicesApp/meetingValidator/meetingV
 
 export default {
   name: 'TwMeetingDashboard',
+  data() {
+    return {
+      localStorageSetup: new this.$BrowserStorage('meeting-dashboard-setup'),
+      decisionsAutomaticBehaviorIsEnabled: true,
+    };
+  },
   computed: {
     name() {
       return this.$store.getters.currentMeeting.name;
@@ -72,9 +80,15 @@ export default {
       }));
     },
   },
+  watch: {
+    decisionsAutomaticBehaviorIsEnabled(value) {
+      this.localStorageSetup.setProp('decisionsAutomaticBehavior', value);
+    },
+  },
   beforeMount() {
     // Double check if this is the right place for this validation
     this.verifyRequiredDataInStore();
+    this.initDashboardSetup();
   },
   methods: {
     onGoStepBack() {
@@ -104,6 +118,13 @@ export default {
     },
     getNowISOString() {
       return this.$TwTime.getNowISOString();
+    },
+    onUpdateDecisionsAutomaticBehavior(value) {
+      this.decisionsAutomaticBehaviorIsEnabled = value;
+    },
+    initDashboardSetup() {
+      const storedValue = this.localStorageSetup.getProp('decisionsAutomaticBehavior');
+      this.decisionsAutomaticBehaviorIsEnabled = storedValue === null ? true : storedValue;
     },
   },
   components: {
