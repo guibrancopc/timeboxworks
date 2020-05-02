@@ -40,7 +40,6 @@
 <script>
 import TwMeetingDashboardHeader from './meetingDashboardHeader.vue';
 import TwMeetingDashboardFooter from './meetingDashboardFooter.vue';
-import { isMeetingModelValid } from '../../servicesApp/meetingValidator/meetingValidatorService';
 
 export default {
   name: 'TwMeetingDashboard',
@@ -86,7 +85,6 @@ export default {
     },
   },
   beforeMount() {
-    // Double check if this is the right place for this validation
     this.verifyRequiredDataInStore();
     this.initDashboardSetup();
   },
@@ -109,9 +107,7 @@ export default {
       this.$router.push({ name: 'meetingReport' });
     },
     verifyRequiredDataInStore() {
-      const meetingModel = this.$store.getters.currentMeeting;
-      if (!isMeetingModelValid(meetingModel)) {
-        // TODO: But if I have the local storage with data???? Try to catch a real fail case.
+      if (!this.name) {
         this.$twDialog.alert('You must setup your event before open your dashboard. :)');
         this.onGoStepBack();
       }

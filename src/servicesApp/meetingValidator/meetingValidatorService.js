@@ -1,7 +1,8 @@
 
 export function isMeetingModelValid(meeting) {
   const isValid = (
-    isStringAndRequired(meeting, 'name')
+    meeting
+    && isStringAndRequired(meeting, 'name')
     && isStringAndRequired(meeting, 'expectedStartTime')
     && isStringAndRequired(meeting, 'expectedEndTime')
     && isStringWhenExists(meeting, 'description')

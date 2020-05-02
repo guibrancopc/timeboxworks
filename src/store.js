@@ -74,10 +74,12 @@ const store = new Vuex.Store({
     },
   },
   actions: {
-    asyncUpdateCurrentMeeting({ commit, state }, payload) {
+    asyncUpdateCurrentMeeting({ commit, state, dispatch }, payload) {
       if (isMeetingModelValid(payload)) {
         commit('updateCurrentMeeting', payload);
         setCurrentMeetingInLocalStorage(state.currentMeeting);
+      } else {
+        dispatch('asyncCleanCurrentMeeting');
       }
     },
     asyncCleanCurrentMeeting({ commit }) {
