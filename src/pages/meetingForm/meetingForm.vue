@@ -112,11 +112,14 @@ export default {
   },
   methods: {
     syncFormWithStore() {
-      this.name = this.storeCurrentMeeting.name;
-      this.expectedStartTime = this.storeCurrentMeeting.expectedStartTime;
-      this.expectedEndTime = this.storeCurrentMeeting.expectedEndTime;
-      this.goals = [...this.storeCurrentMeeting.goals];
-      this.description = this.storeCurrentMeeting.description;
+      const {
+        name, expectedStartTime, expectedEndTime, goals, description,
+      } = this.storeCurrentMeeting;
+      this.name = name;
+      this.expectedStartTime = expectedStartTime || getNowISOString();
+      this.expectedEndTime = expectedEndTime || getNowISOStringOffsetHour(1);
+      this.goals = [...goals];
+      this.description = description;
     },
     verifyIfActiveMeetingExists() {
       if (this.isMeetingActive) {
@@ -151,5 +154,16 @@ export default {
 
 function getTimestamp(time) {
   return new Date(time).getTime();
+}
+
+function getNowISOString() {
+  return new Date().toISOString();
+}
+
+function getNowISOStringOffsetHour(offset = 0) {
+  const now = new Date();
+  const hours = now.getHours();
+  now.setHours(hours + offset);
+  return now.toISOString();
 }
 </script>
