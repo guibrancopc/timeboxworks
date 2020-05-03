@@ -38,6 +38,7 @@ export default {
 </script>
 
 <style scoped>
+/* TODO: Organize it with color palette */
 .tw-alert--primary {
   color: #004085;
   background-color: #cce5ff;

@@ -1,5 +1,6 @@
 <template>
   <tw-chart
+    ref="chart"
     type="line"
     axe-x-type="time"
     axe-y-begin-at-zero
@@ -25,6 +26,7 @@ export default {
       timeNow: getNow(),
       projectionData: [],
       intervalId: null,
+      datasetsFromChart: null,
     };
   },
   props: {
@@ -45,10 +47,15 @@ export default {
   watch: {
     dataset(value) {
       updateProgressData(value, this.progressData);
-      this.updatePojectionData();
+      this.updateProjectionData();
     },
-    showProjection() {
-      this.updatePojectionData();
+    showProjection(shouldShowProjection) {
+      this.updateProjectionDatasetExibition(shouldShowProjection);
+      if (shouldShowProjection) {
+        setTimeout(() => {
+          this.updateProjectionData();
+        });
+      }
     },
   },
   computed: {
@@ -71,11 +78,16 @@ export default {
   },
   methods: {
     getDatasets() {
-      return [
+      const datasets = [
         this.getTendencyDataset(),
         this.getProgressDataset(),
-        this.getProjectionDataset(),
       ];
+
+      if (this.showProjection) {
+        datasets.push(this.getProjectionDataset());
+      }
+
+      return datasets;
     },
     getTendencyDataset() {
       return {
@@ -120,10 +132,10 @@ export default {
       });
     },
     initProjection() {
-      this.updatePojectionData();
-      this.intervalId = setInterval(this.updatePojectionData, projectionUpdateInterval);
+      this.updateProjectionData();
+      this.intervalId = setInterval(this.updateProjectionData, projectionUpdateInterval);
     },
-    updatePojectionData() {
+    updateProjectionData() {
       this.timeNow = getNow();
       cleanUpArray(this.projectionData);
 
@@ -138,6 +150,13 @@ export default {
         y: progressDataLastItem.y - 1,
       });
     },
+    updateProjectionDatasetExibition(shouldShowProjection) {
+      if (shouldShowProjection) {
+        this.datasetsFromChart.push(this.getProjectionDataset());
+      } else {
+        this.datasetsFromChart.splice(2, 1);
+      }
+    },
     stopCounter() {
       clearInterval(this.intervalId);
     },
@@ -146,6 +165,9 @@ export default {
     this.insertFirstDotInProgressData();
     updateProgressData(this.dataset, this.progressData);
     this.initProjection();
+  },
+  mounted() {
+    this.datasetsFromChart = this.$refs.chart.datasets;
   },
   beforeDestroy() {
     this.stopCounter();
