@@ -71,3 +71,47 @@ function addNewProgressDataItem(progressData, id, title, finishedAt, finishedTas
     y: finishedTaskCounter,
   });
 }
+
+export function getCustomLabels({ totalTasks }) {
+  const TENDENCY_DATASET = 0;
+  const PROGRESS_DATASET = 1;
+  const PROJECTION_DATASET = 2;
+
+  return {
+    callbacks: {
+      title(tooltipItem, data) {
+        const { index, datasetIndex } = tooltipItem[0];
+        if (datasetIndex === TENDENCY_DATASET) {
+          return index === 0 ? 'Tendency begin' : 'Tendency end';
+        }
+        if (datasetIndex === PROGRESS_DATASET) {
+          const { title } = data.datasets[1].data[index];
+          return title;
+        }
+        if (datasetIndex === PROJECTION_DATASET) {
+          return index === 0 ? 'Last item done' : 'Next target';
+        }
+        return '';
+      },
+      beforeBody(tooltipItem) {
+        const { datasetIndex, label } = tooltipItem[0];
+        if (datasetIndex === TENDENCY_DATASET) { return ''; }
+        return label;
+      },
+      label(tooltipItem) {
+        const { index, datasetIndex } = tooltipItem;
+        if (datasetIndex === TENDENCY_DATASET) {
+          return index === 0 ? 'Start point' : 'Your deadline';
+        }
+        if (datasetIndex === PROGRESS_DATASET) {
+          return `Your progress: ${index}/${totalTasks}`;
+        }
+        if (datasetIndex === PROJECTION_DATASET) {
+          return index === 0 ? 'Projection begin' : 'Projection end';
+        }
+        return '';
+      },
+    },
+    bodySpacing: 5,
+  };
+}

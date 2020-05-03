@@ -16,7 +16,7 @@
                 :start-time="expectedStartTime"
                 :end-time="expectedEndTime"
                 :dataset="burndownDataset"
-                :disable-projection="!isMeetingActive" />
+                :show-projection="isMeetingActive" />
             </tw-box>
           </tw-col>
           <tw-col>

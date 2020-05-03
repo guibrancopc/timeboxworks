@@ -3,14 +3,14 @@
     type="line"
     axe-x-type="time"
     axe-y-begin-at-zero
-    :tooltips-setup="getCustomTooltipsSetup()"
+    :tooltips-setup="customTooltips"
     :labels="labels"
-    :datasets="datasets" />
+    :datasets="getDatasets()" />
 </template>
 
 <script>
 import {
-  getLabels, updateProgressData,
+  getLabels, getCustomLabels, updateProgressData,
 } from './BurndownChartService';
 import { momentFactory, getTimestampOf, getNow } from '../../services/timeService/timeService';
 
@@ -40,14 +40,14 @@ export default {
       type: Array,
       required: true,
     },
-    disableProjection: Boolean,
+    showProjection: Boolean,
   },
   watch: {
     dataset(value) {
       updateProgressData(value, this.progressData);
       this.updatePojectionData();
     },
-    disableProjection() {
+    showProjection() {
       this.updatePojectionData();
     },
   },
@@ -65,15 +65,18 @@ export default {
         scaleX,
       });
     },
-    datasets() {
+    customTooltips() {
+      return getCustomLabels({ totalTasks: this.dataset.length });
+    },
+  },
+  methods: {
+    getDatasets() {
       return [
         this.getTendencyDataset(),
         this.getProgressDataset(),
         this.getProjectionDataset(),
       ];
     },
-  },
-  methods: {
     getTendencyDataset() {
       return {
         label: 'Tendency',
@@ -116,50 +119,6 @@ export default {
         y: this.totalItems,
       });
     },
-    getCustomTooltipsSetup() {
-      const TOTAL_TASKS = this.dataset.length;
-      const TENDENCY_DATASET = 0;
-      const PROGRESS_DATASET = 1;
-      const PROJECTION_DATASET = 2;
-
-      return {
-        callbacks: {
-          title(tooltipItem, data) {
-            const { index, datasetIndex } = tooltipItem[0];
-            if (datasetIndex === TENDENCY_DATASET) {
-              return index === 0 ? 'Tendency begin' : 'Tendency end';
-            }
-            if (datasetIndex === PROGRESS_DATASET) {
-              const { title } = data.datasets[1].data[index];
-              return title;
-            }
-            if (datasetIndex === PROJECTION_DATASET) {
-              return index === 0 ? 'Last item done' : 'Next target';
-            }
-            return '';
-          },
-          beforeBody(tooltipItem) {
-            const { datasetIndex, label } = tooltipItem[0];
-            if (datasetIndex === TENDENCY_DATASET) { return ''; }
-            return label;
-          },
-          label(tooltipItem) {
-            const { index, datasetIndex } = tooltipItem;
-            if (datasetIndex === TENDENCY_DATASET) {
-              return index === 0 ? 'Start point' : 'Your deadline';
-            }
-            if (datasetIndex === PROGRESS_DATASET) {
-              return `Your progress: ${index}/${TOTAL_TASKS}`;
-            }
-            if (datasetIndex === PROJECTION_DATASET) {
-              return index === 0 ? 'Projection begin' : 'Projection end';
-            }
-            return '';
-          },
-        },
-        bodySpacing: 5,
-      };
-    },
     initProjection() {
       this.updatePojectionData();
       this.intervalId = setInterval(this.updatePojectionData, projectionUpdateInterval);
@@ -169,7 +128,7 @@ export default {
       cleanUpArray(this.projectionData);
 
       const progressDataLastItem = getArrayLastItem(this.progressData);
-      if (progressDataLastItem.y === 0 || this.disableProjection) { return; }
+      if (!this.showProjection || allItensAreDone(progressDataLastItem)) { return; }
 
       this.projectionData.push(progressDataLastItem);
       this.projectionData.push({
@@ -194,12 +153,14 @@ export default {
 };
 
 function cleanUpArray(array) {
-  while (array.length > 0) {
-    array.pop();
-  }
+  array.splice(0, array.length);
 }
 
 function getArrayLastItem(array) {
   return array[array.length - 1];
+}
+
+function allItensAreDone(item) {
+  return item?.y === 0;
 }
 </script>
