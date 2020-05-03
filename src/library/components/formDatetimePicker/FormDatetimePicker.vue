@@ -66,8 +66,8 @@ export default {
   },
   computed: {
     valueModel() {
-      if (this.value) { return this.value; }
-      return this.formFieldVm.input.value;
+      const { value, formFieldVm } = this;
+      return value || formFieldVm.input.value;
     },
   },
   methods: {

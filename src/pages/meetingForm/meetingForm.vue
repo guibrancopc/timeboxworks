@@ -116,8 +116,8 @@ export default {
         name, expectedStartTime, expectedEndTime, goals, description,
       } = this.storeCurrentMeeting;
       this.name = name;
-      this.expectedStartTime = expectedStartTime || getNowISOString();
-      this.expectedEndTime = expectedEndTime || getNowISOStringOffsetHour(1);
+      this.expectedStartTime = expectedStartTime || this.getNowISOString();
+      this.expectedEndTime = expectedEndTime || this.getNowISOStringOffsetHour(1);
       this.goals = [...goals];
       this.description = description;
     },
@@ -137,8 +137,8 @@ export default {
       this.$store.dispatch('asyncCleanCurrentMeeting');
     },
     timeGapCustomValidation() {
-      const startDateTime = getTimestamp(this.expectedStartTime);
-      const endDateTime = getTimestamp(this.expectedEndTime);
+      const startDateTime = this.getTimestampOf(this.expectedStartTime);
+      const endDateTime = this.getTimestampOf(this.expectedEndTime);
       if (!(this.expectedStartTime && this.expectedEndTime) || startDateTime < endDateTime) {
         return true;
       }
@@ -149,21 +149,18 @@ export default {
       // eslint-disable-next-line no-unused-expressions
       this.$refs[theOtherTimeName]?.runValidation(this[theOtherTimeName]);
     },
+    getNowISOString() {
+      return this.$TwTime.getNowISOString();
+    },
+    getNowISOStringOffsetHour(offset = 0) {
+      const time = new Date();
+      const hours = time.getHours();
+      time.setHours(hours + offset);
+      return this.$TwTime.getISOStringOf(time);
+    },
+    getTimestampOf(time) {
+      return this.$TwTime.getTimestampOf(time);
+    },
   },
 };
-
-function getTimestamp(time) {
-  return new Date(time).getTime();
-}
-
-function getNowISOString() {
-  return new Date().toISOString();
-}
-
-function getNowISOStringOffsetHour(offset = 0) {
-  const now = new Date();
-  const hours = now.getHours();
-  now.setHours(hours + offset);
-  return now.toISOString();
-}
 </script>
