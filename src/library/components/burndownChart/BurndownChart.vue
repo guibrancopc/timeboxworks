@@ -12,15 +12,19 @@
 import {
   getLabels, updateProgressData,
 } from './BurndownChartService';
-import { momentFactory, getTimestampOf } from '../../services/timeService/timeService';
+import { momentFactory, getTimestampOf, getNow } from '../../services/timeService/timeService';
 
 const scaleX = 10;
+const projectionUpdateInterval = 60 * 1000;
 
 export default {
   name: 'TwBurndownChart',
   data() {
     return {
       progressData: [],
+      timeNow: getNow(),
+      projectionData: [],
+      intervalId: null,
     };
   },
   props: {
@@ -36,10 +40,15 @@ export default {
       type: Array,
       required: true,
     },
+    disableProjection: Boolean,
   },
   watch: {
     dataset(value) {
       updateProgressData(value, this.progressData);
+      this.updatePojectionData();
+    },
+    disableProjection() {
+      this.updatePojectionData();
     },
   },
   computed: {
@@ -60,6 +69,7 @@ export default {
       return [
         this.getTendencyDataset(),
         this.getProgressDataset(),
+        this.getProjectionDataset(),
       ];
     },
   },
@@ -89,6 +99,15 @@ export default {
         borderWidth: 1,
       };
     },
+    getProjectionDataset() {
+      return {
+        label: 'Projection',
+        data: this.projectionData,
+        backgroundColor: 'rgba(0, 200, 0, 0.2)',
+        borderColor: 'rgba(99, 255, 99, 1)',
+        borderWidth: 1,
+      };
+    },
     insertFirstDotInProgressData() {
       this.progressData.push({
         id: 'first-dot',
@@ -98,38 +117,89 @@ export default {
       });
     },
     getCustomTooltipsSetup() {
+      const TOTAL_TASKS = this.dataset.length;
+      const TENDENCY_DATASET = 0;
+      const PROGRESS_DATASET = 1;
+      const PROJECTION_DATASET = 2;
+
       return {
         callbacks: {
           title(tooltipItem, data) {
             const { index, datasetIndex } = tooltipItem[0];
-            if (datasetIndex === 0) {
+            if (datasetIndex === TENDENCY_DATASET) {
               return index === 0 ? 'Tendency begin' : 'Tendency end';
             }
-            const { title } = data.datasets[1].data[index];
-            return title;
+            if (datasetIndex === PROGRESS_DATASET) {
+              const { title } = data.datasets[1].data[index];
+              return title;
+            }
+            if (datasetIndex === PROJECTION_DATASET) {
+              return index === 0 ? 'Last item done' : 'Next target';
+            }
+            return '';
           },
           beforeBody(tooltipItem) {
             const { datasetIndex, label } = tooltipItem[0];
-            if (datasetIndex === 0) { return ''; }
+            if (datasetIndex === TENDENCY_DATASET) { return ''; }
             return label;
           },
-          label(tooltipItem, data) {
+          label(tooltipItem) {
             const { index, datasetIndex } = tooltipItem;
-            if (datasetIndex === 0) {
+            if (datasetIndex === TENDENCY_DATASET) {
               return index === 0 ? 'Start point' : 'Your deadline';
             }
-            const { length } = data.datasets[1].data;
-            const totalTasks = length - 1;
-            return `Your progress: ${index}/${totalTasks}`;
+            if (datasetIndex === PROGRESS_DATASET) {
+              return `Your progress: ${index}/${TOTAL_TASKS}`;
+            }
+            if (datasetIndex === PROJECTION_DATASET) {
+              return index === 0 ? 'Projection begin' : 'Projection end';
+            }
+            return '';
           },
         },
         bodySpacing: 5,
       };
     },
+    initProjection() {
+      this.updatePojectionData();
+      this.intervalId = setInterval(this.updatePojectionData, projectionUpdateInterval);
+    },
+    updatePojectionData() {
+      this.timeNow = getNow();
+      cleanUpArray(this.projectionData);
+
+      const progressDataLastItem = getArrayLastItem(this.progressData);
+      if (progressDataLastItem.y === 0 || this.disableProjection) { return; }
+
+      this.projectionData.push(progressDataLastItem);
+      this.projectionData.push({
+        id: '_projection-now',
+        title: 'Projection',
+        x: this.timeNow,
+        y: progressDataLastItem.y - 1,
+      });
+    },
+    stopCounter() {
+      clearInterval(this.intervalId);
+    },
   },
   beforeMount() {
     this.insertFirstDotInProgressData();
     updateProgressData(this.dataset, this.progressData);
+    this.initProjection();
+  },
+  beforeDestroy() {
+    this.stopCounter();
   },
 };
+
+function cleanUpArray(array) {
+  while (array.length > 0) {
+    array.pop();
+  }
+}
+
+function getArrayLastItem(array) {
+  return array[array.length - 1];
+}
 </script>

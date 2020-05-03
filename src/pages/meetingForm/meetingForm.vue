@@ -150,16 +150,16 @@ export default {
       this.$refs[theOtherTimeName]?.runValidation(this[theOtherTimeName]);
     },
     getNowISOString() {
-      return this.$TwTime.getNowISOString();
+      return this.$twTime.getNowISOString();
     },
     getNowISOStringOffsetHour(offset = 0) {
       const time = new Date();
       const hours = time.getHours();
       time.setHours(hours + offset);
-      return this.$TwTime.getISOStringOf(time);
+      return this.$twTime.getISOStringOf(time);
     },
     getTimestampOf(time) {
-      return this.$TwTime.getTimestampOf(time);
+      return this.$twTime.getTimestampOf(time);
     },
   },
 };

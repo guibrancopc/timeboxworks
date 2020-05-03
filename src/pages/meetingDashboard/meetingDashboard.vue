@@ -15,7 +15,8 @@
               <tw-burndown-chart
                 :start-time="expectedStartTime"
                 :end-time="expectedEndTime"
-                :dataset="burndownDataset" />
+                :dataset="burndownDataset"
+                :disable-projection="!isMeetingActive" />
             </tw-box>
           </tw-col>
           <tw-col>
@@ -125,7 +126,7 @@ export default {
       }
     },
     getNowISOString() {
-      return this.$TwTime.getNowISOString();
+      return this.$twTime.getNowISOString();
     },
     onUpdateDecisionsAutomaticBehavior(value) {
       this.decisionsAutomaticBehaviorIsEnabled = value;

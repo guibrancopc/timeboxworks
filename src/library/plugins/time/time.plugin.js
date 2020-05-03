@@ -4,7 +4,7 @@ import {
 
 export default {
   install(Vue) {
-    Vue.prototype.$TwTime = {
+    Vue.prototype.$twTime = {
       getISOStringOf,
       getNowISOString,
       getTimestampOf,

@@ -81,6 +81,9 @@ export default {
       this.startCounter();
     }
   },
+  beforeDestroy() {
+    this.stopCounter();
+  },
   methods: {
     startCounter() {
       this.runTimeTick();

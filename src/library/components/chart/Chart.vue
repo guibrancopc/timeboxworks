@@ -44,8 +44,11 @@ export default {
     axeYBeginAtZero: Boolean,
   },
   watch: {
-    datasets() {
-      this.chart.update();
+    datasets: {
+      deep: true,
+      async handler() {
+        this.chart.update();
+      },
     },
   },
   methods: {
