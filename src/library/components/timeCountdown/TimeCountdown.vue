@@ -9,7 +9,7 @@
       :diffTime="currentTime"
       @diffUpdated="diffUpdate" >
       <div slot="header">
-        {{ isNegative ? 'overtime' : 'time left'}}
+        {{ isNegative ? 'overdue time' : 'time left'}}
       </div>
       <div slot="footer">
         should finish at {{ endTimeFormatted }}

@@ -12,8 +12,14 @@
 export default {
   name: 'TwAnimation',
   props: {
-    enterActiveClass: String,
-    leaveActiveClass: String,
+    enterActiveClass: {
+      type: String,
+      validator: animationValidator,
+    },
+    leaveActiveClass: {
+      type: String,
+      validator: animationValidator,
+    },
   },
   methods: {
     add(className) {
@@ -21,6 +27,10 @@ export default {
     },
   },
 };
+
+function animationValidator(value) {
+  return ['fadeIn', 'fadeOut', 'bounceInDown', 'bounceOutUp'].includes(value);
+}
 </script>
 
 <style scoped>

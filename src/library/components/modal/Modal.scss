@@ -1,0 +1,55 @@
+.tw-modal {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/deep/ .tw-page {
+  box-shadow: none;
+}
+
+/deep/ .tw-divider {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.tw-modal__overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--zindex-modal);
+}
+
+.tw-modal__container {
+  width: 100%;
+  z-index: var(--zindex-modal);
+  padding-top: 50px;
+  padding-bottom: 50px;
+
+  &--md {
+    width: 720px;
+  }
+
+  &--sm {
+    width: 540px;
+  }
+
+  &--xs {
+    width: 470px;
+  }
+}
+
+.tw-container {
+  position: relative;
+}
+
+.tw-modal__body {
+  margin: 30px 0;
+}

@@ -46,9 +46,15 @@
 import TwMeetingReportGoals from './meetingReportGoals.vue';
 import TwMeetingReportCardsGrid from './meetingReportCardsGrid.vue';
 import TwMeetingReportFooter from './meetingReportFooter.vue';
+import TemplatePreviewModal from './TemplatePreviewModal.vue';
 
 export default {
   name: 'TwMeetingReport',
+  data() {
+    return {
+      testModal: false,
+    };
+  },
   components: {
     TwMeetingReportCardsGrid,
     TwMeetingReportGoals,
@@ -101,7 +107,7 @@ export default {
       console.log('TODO');
     },
     copyReportToClipboard() {
-      console.log('TODO');
+      this.$append(TemplatePreviewModal).open();
     },
   },
 };
