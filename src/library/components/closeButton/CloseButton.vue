@@ -17,13 +17,13 @@ export default {
 .tw-close-button {
   position: absolute;
   top: 0;
-  right: 15px;
+  right: 0;
   display: inline-block;
   padding: 5px 10px;
   border: none;
   background-color: transparent;
   outline: none;
-  font-size: 16px;
+  font-size: 20px;
   cursor: pointer;
 }
 </style>

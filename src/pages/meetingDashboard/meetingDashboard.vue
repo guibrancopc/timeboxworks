@@ -104,10 +104,15 @@ export default {
       this.$store.dispatch('asyncUpdateRealStartTime', this.getNowISOString());
     },
     onCancelMeeting() {
-      const confirmation = this.$twDialog.confirm('Are you sure to cancel it?');
-      if (confirmation) {
-        this.$store.dispatch('asyncUpdateRealStartTime', '');
-      }
+      this.$twDialog.confirm({
+        text: 'Are you sure to cancel it?',
+        confirmButtonTheme: 'danger',
+        confirmButtonText: 'Yes, do it',
+        cancelButtonText: 'Not anymore',
+        callback: isConfirmed => {
+          if (isConfirmed) { this.$store.dispatch('asyncUpdateRealStartTime', ''); }
+        },
+      });
     },
     onFinishMeeting() {
       this.$store.dispatch('asyncUpdateRealEndTime', this.getNowISOString());

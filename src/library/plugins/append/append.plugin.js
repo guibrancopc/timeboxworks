@@ -10,7 +10,7 @@ function getArgsWithClass(args) {
 
 export default {
   install(Vue) {
-    Vue.prototype.$append = (ComponentConstructor, args = {}) => {
+    Vue.prototype.$twAppend = (ComponentConstructor, args = {}) => {
       const wrapper = new Vue({
         render: h => h(ComponentConstructor, getArgsWithClass(args)),
       });
@@ -27,6 +27,7 @@ export default {
           const grandChildVm = wrapper?.$children[0]?.$children[0];
           if (grandChildVm) { grandChildVm.close(); }
         },
+        self: wrapper,
       };
     };
   },

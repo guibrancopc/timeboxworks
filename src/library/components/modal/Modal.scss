@@ -8,10 +8,6 @@
   width: 100%;
 }
 
-/deep/ .tw-page {
-  box-shadow: none;
-}
-
 /deep/ .tw-divider {
   margin-left: -15px;
   margin-right: -15px;
@@ -48,6 +44,10 @@
 
 .tw-container {
   position: relative;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 15px;
+  background-color: var(--white)
 }
 
 .tw-modal__body {

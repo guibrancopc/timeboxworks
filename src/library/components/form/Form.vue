@@ -61,14 +61,20 @@ export default {
       }
     },
     onReset(event) {
-      const resetIsConfirmed = this.$twDialog.confirm('Are you sure you want to reset it at all?');
-      if (resetIsConfirmed) {
-        this.cleanFormUp();
-        this.runResetCallbacks();
-        this.$emit('reset');
-      } else {
-        event.preventDefault();
-      }
+      event.preventDefault();
+      this.$twDialog.confirm({
+        text: 'Are you sure you want to reset it at all?',
+        confirmButtonTheme: 'danger',
+        confirmButtonText: 'Yes, do it',
+        cancelButtonText: 'Not anymore',
+        callback: isConfirmed => {
+          if (isConfirmed) {
+            this.cleanFormUp();
+            this.runResetCallbacks();
+            this.$emit('reset');
+          }
+        },
+      });
     },
     cleanFormUp() {
       this.isDirty = false;

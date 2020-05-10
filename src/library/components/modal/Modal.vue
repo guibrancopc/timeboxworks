@@ -3,7 +3,7 @@
     <tw-animation
       enter-active-class="fadeIn"
       leave-active-class="fadeOut">
-      <div v-if="shouldShowDialog" class="tw-modal__overlay" @click="closeOnOverlayClick"></div>
+      <div v-if="shouldShowDialog" class="tw-modal__overlay" @click="onOverlayClick"></div>
     </tw-animation>
     <tw-animation
       enter-active-class="bounceInDown"
@@ -13,30 +13,28 @@
         role="dialog"
         class="tw-modal__container tw-u-overflow-y--scroll tw-u-overflow-scroll--invisible"
         :class="dialogWidth"
-        @click="closeOnOverlayClick">
+        @click="onOverlayClick">
         <tw-container>
-          <tw-page>
-            <tw-header v-if="title || $slots.header">
-              <slot v-if="shouldShowHeader" name="header">
-                <tw-heading size="sm" :title="title" />
-              </slot>
-              <tw-divider />
-            </tw-header>
-            <main class="tw-modal__body">
-              <slot />
-            </main>
-            <tw-footer>
-              <tw-row v-if="$slots.footer || $slots.footerRight">
-                <tw-col v-if="$slots.footer">
-                  <slot name="footer" />
-                </tw-col>
-                <tw-col v-if="$slots.footerRight" class="tw-u-text-align--right">
-                  <slot name="footerRight" />
-                </tw-col>
-              </tw-row>
-            </tw-footer>
-          </tw-page>
-          <tw-close-button @close="close" />
+          <tw-header v-if="title || $slots.header">
+            <slot v-if="shouldShowHeader" name="header">
+              <tw-heading size="sm" :title="title" />
+            </slot>
+            <tw-divider />
+          </tw-header>
+          <main class="tw-modal__body">
+            <slot />
+          </main>
+          <tw-footer v-if="$slots.footer || $slots.footerRight">
+            <tw-row>
+              <tw-col v-if="$slots.footer">
+                <slot name="footer" />
+              </tw-col>
+              <tw-col v-if="$slots.footerRight" class="tw-u-text-align--right">
+                <slot name="footerRight" />
+              </tw-col>
+            </tw-row>
+          </tw-footer>
+          <tw-close-button @close="close" v-if="!disableCloseButton" />
         </tw-container>
       </div>
     </tw-animation>
@@ -68,7 +66,7 @@ export default {
   props: {
     title: String,
     disableCloseButton: Boolean,
-    disableCloseOnOverlayClick: Boolean,
+    closeOnOverlayClick: Boolean,
     width: {
       type: String,
       default: 'lg',
@@ -103,9 +101,10 @@ export default {
     },
     close() {
       this.shouldOpenModal = false;
+      this.$emit('closed');
     },
-    closeOnOverlayClick(e) {
-      if (!this.disableCloseOnOverlayClick && isTargetElementOfEvent(e)) {
+    onOverlayClick(e) {
+      if (this.closeOnOverlayClick && isTargetElementOfEvent(e)) {
         this.close();
       }
     },

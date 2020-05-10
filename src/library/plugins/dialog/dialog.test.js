@@ -1,4 +1,4 @@
-import dialogs from './dialogs';
+import dialogs from './dialog';
 
 const { confirm } = dialogs;
 

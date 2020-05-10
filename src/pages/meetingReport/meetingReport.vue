@@ -107,7 +107,24 @@ export default {
       console.log('TODO');
     },
     copyReportToClipboard() {
-      this.$append(TemplatePreviewModal).open();
+      this.$twAppend(TemplatePreviewModal).open();
+      // this.$twDialog.alert({
+      //   title: 'Are you sure?',
+      //   text: 'This action may cause some disruption in your life.',
+      //   buttonTheme: 'danger',
+      //   buttonText: 'Yes, I do',
+      // });
+      // this.$twDialog.confirm({
+      //   title: 'Are you sure to delete it?',
+      //   text: 'This action has no revert option and may cause harm on your application.',
+      //   cancelButtonTheme: 'info',
+      //   cancelButtonText: 'Not at all',
+      //   confirmButtonTheme: 'danger',
+      //   confirmButtonText: 'Yes, do it!',
+      //   callback: value => {
+      //     console.log('THIS IS THE RESULT!!!! ', value);
+      //   },
+      // });
     },
   },
 };
