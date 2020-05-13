@@ -1,9 +1,11 @@
 <template>
   <button
+    v-bind="$attrs"
+    v-on="$listeners"
     class="tw-button btn"
     :class="styleClasses"
     :type="type"
-    @click="onClick($event)">
+    :disabled="disabled">
     <slot></slot>
   </button>
 </template>
@@ -64,20 +66,6 @@ export default {
     outline: Boolean,
     block: Boolean,
     disabled: Boolean,
-  },
-  methods: {
-    onClick(event) {
-      if (!this.disabled) {
-        this.$emit('click', event);
-      }
-      this.shouldPreventDefault(event);
-    },
-    shouldPreventDefault(event) {
-      const currentTypeUsesDefaultOption = ['submit', 'reset'].includes(this.type);
-      if (this.disabled || !currentTypeUsesDefaultOption) {
-        event.preventDefault();
-      }
-    },
   },
 };
 </script>
