@@ -47,7 +47,7 @@ export default {
 
 .tw-alert--secondary {
   color: #383d41;
-  background-color: #e2e3e5;
+  background-color: #f9f9f9;
   border: 1px solid #d6d8db;
 }
 
