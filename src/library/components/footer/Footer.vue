@@ -3,10 +3,10 @@
     <tw-divider />
     <slot>
       <tw-row>
-        <tw-col>
+        <tw-col v-if="$slots.left">
           <slot name="left" />
         </tw-col>
-        <tw-col class="tw-u-text-align--right">
+        <tw-col class="tw-u-text-align--right" v-if="$slots.right">
           <slot name="right" />
         </tw-col>
       </tw-row>

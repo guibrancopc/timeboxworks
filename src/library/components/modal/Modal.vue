@@ -25,14 +25,8 @@
             <slot />
           </main>
           <tw-footer v-if="$slots.footer || $slots.footerRight">
-            <tw-row>
-              <tw-col v-if="$slots.footer">
-                <slot name="footer" />
-              </tw-col>
-              <tw-col v-if="$slots.footerRight" class="tw-u-text-align--right">
-                <slot name="footerRight" />
-              </tw-col>
-            </tw-row>
+            <slot name="footer" slot="left" />
+            <slot name="footerRight" slot="right" />
           </tw-footer>
           <tw-close-button @close="close" v-if="!disableCloseButton" />
         </tw-container>
