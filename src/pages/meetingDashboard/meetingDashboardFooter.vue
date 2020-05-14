@@ -16,12 +16,12 @@
       slot="right"
       v-if="isMeetingActive"
       theme="success"
-      @click="onFinishMeeting">Finish meeting</tw-button>
+      @click="onFinishMeeting">Finish event</tw-button>
     <tw-button
       slot="right"
       v-else
       theme="success"
-      @click="onStartMeeting">Start meeting</tw-button>
+      @click="onStartMeeting">Start event</tw-button>
   </tw-footer>
 </template>
 

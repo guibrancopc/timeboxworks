@@ -6,7 +6,7 @@
         @reset="onReset">
         <tw-row>
           <tw-col>
-            <tw-heading>Meeting Setup</tw-heading>
+            <tw-heading>Event Setup</tw-heading>
           </tw-col>
         </tw-row>
         <tw-row>
@@ -14,7 +14,7 @@
             <tw-row>
               <tw-col>
                 <tw-form-field
-                  label="Meeting name">
+                  label="Event name">
                   <tw-form-input
                     name="name"
                     :value="name"
@@ -72,11 +72,11 @@
               </tw-col>
             </tw-row>
             <tw-footer>
-              <tw-gutter slot="right" left bottom inline-block>
+              <tw-gutter slot="left" bottom inline-block>
                 <tw-form-reset-button>Clean Form</tw-form-reset-button>
               </tw-gutter>
-              <tw-gutter slot="right" left bottom inline-block>
-                <tw-form-submit-button>Start Meeting</tw-form-submit-button>
+              <tw-gutter slot="right" bottom inline-block>
+                <tw-form-submit-button>Open Dashboard</tw-form-submit-button>
               </tw-gutter>
             </tw-footer>
           </tw-col>

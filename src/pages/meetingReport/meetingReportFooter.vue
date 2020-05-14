@@ -4,13 +4,13 @@
       <tw-button
         theme="secondary"
         @click="$emit('backToDashboard')"
-        outline>Reopen meeting</tw-button>
+        outline>Reopen event</tw-button>
     </tw-gutter>
     <tw-gutter slot="left" right bottom inline-block>
       <tw-button
         outline
         theme="primary"
-        @click="$emit('startNewMeeting')">Start new meeting</tw-button>
+        @click="$emit('startNewMeeting')">Start new event</tw-button>
     </tw-gutter>
     <tw-gutter slot="right" left bottom inline-block>
       <tw-button
