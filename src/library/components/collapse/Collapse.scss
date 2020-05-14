@@ -1,5 +1,5 @@
 .tw-collapse__header {
-  padding: 10px;
+  padding: 5px;
   position: relative;
   background-color: var(--gray-ice);
   border-radius: var(--border-radius);
@@ -8,12 +8,14 @@
   .tw-collapse__header-arrow {
     margin: 0 10px 0 5px;
     display: inline-block;
-    font-size: 20px;
+    font-size: 14px;
     color: var(--gray);
     transition: transform .2s ease-in-out;
   }
 
   .tw-collapse__toggle-button {
+    padding: 0;
+    min-height: 30px;
     border: none;
     background: none;
     font: inherit;
