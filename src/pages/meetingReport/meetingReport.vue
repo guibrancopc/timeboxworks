@@ -99,6 +99,25 @@ export default {
     },
   },
   methods: {
+    validateRequiredData() {
+      if (!this.name) {
+        this.redirectAlert('Event Form', 'meetingForm');
+      } else if (!this.realEndTime) {
+        this.redirectAlert('Event Dashboard', 'meetingDashboard');
+      }
+    },
+    redirectAlert(pageTitle, pageName) {
+      const scope = this;
+      this.$twDialog.alert({
+        title: 'Oops!',
+        text: `You have not completed this event yet to see a report. We will redirect to the ${pageTitle}  page.`,
+        buttonTheme: 'info',
+        buttonText: 'Understood',
+        callback() {
+          scope.$router.push({ name: pageName });
+        },
+      });
+    },
     backToDashboard() {
       this.realEndTime = undefined;
       this.$router.push({ name: 'meetingDashboard' });
@@ -126,6 +145,9 @@ export default {
       //   },
       // });
     },
+  },
+  mounted() {
+    this.validateRequiredData();
   },
 };
 </script>
