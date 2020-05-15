@@ -31,24 +31,21 @@ export class BrowserStorage {
   }
 
   getProp(propKey) {
-    if (validateObject(this.content)) {
+    if (isValidObject(this.content)) {
       return this.content[propKey];
     }
     return null;
   }
 
   setProp(propKey, newValue) {
-    const { content } = this;
-    if (validateObject(content)) {
-      const validContent = { ...content };
-      validContent[propKey] = newValue;
-      this.content = validContent;
-    }
+    const validContent = getValidObject(this.content);
+    validContent[propKey] = newValue;
+    this.content = validContent;
   }
 
   setProps(newModel) {
     const { content } = this;
-    if (validateObject(content)) {
+    if (isValidObject(content)) {
       const validContent = { ...content };
       Object.keys(content).forEach(propKey => {
         validContent[propKey] = newModel[propKey];
@@ -62,10 +59,10 @@ export class BrowserStorage {
   }
 }
 
-function validateObject(content) {
-  if (typeof content === 'object') {
-    return true;
-  }
-  console.error('Browser Storage cannot manipulate property of non object content.');
-  return false;
+function getValidObject(value) {
+  return isValidObject(value) ? { ...value } : {};
+}
+
+function isValidObject(value) {
+  return value && typeof value === 'object';
 }
