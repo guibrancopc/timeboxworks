@@ -25,10 +25,15 @@ export default {
       type: String,
       default: 'Ok',
     },
+    callback: {
+      type: Function,
+      default: () => {},
+    },
   },
   methods: {
     onClose() {
       this.$emit('close');
+      this.callback();
       this.$refs.modal.close();
     },
   },

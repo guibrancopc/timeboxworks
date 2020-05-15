@@ -3,7 +3,7 @@
     :title="title"
     width="xs"
     ref="modal"
-    disableCloseButton>
+    disable-close-button>
     {{ text }}
     <tw-button
       slot="footer"
