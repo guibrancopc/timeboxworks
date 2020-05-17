@@ -6,6 +6,8 @@
     axe-y-begin-at-zero
     :tooltips-setup="customTooltips"
     :labels="labels"
+    v-bind="$attrs"
+    v-on="$listeners"
     :datasets="getDatasets()" />
 </template>
 

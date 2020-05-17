@@ -1,6 +1,11 @@
 <template>
-  <div class="tw-chart">
-    <canvas ref="chart"></canvas>
+  <div
+    ref="container"
+    class="tw-chart">
+    <canvas
+      ref="chart"
+      :class="canvasClasses">
+    </canvas>
   </div>
 </template>
 
@@ -22,6 +27,7 @@ export default {
         return ['line'].includes(value);
       },
     },
+    getImageAndDestroyComponent: Boolean,
     labels: {
       type: Array,
       default: () => [],
@@ -42,6 +48,13 @@ export default {
       },
     },
     axeYBeginAtZero: Boolean,
+  },
+  computed: {
+    canvasClasses() {
+      return {
+        'tw-u-display--none': this.getImageAndDestroyComponent,
+      };
+    },
   },
   watch: {
     datasets: {
@@ -76,9 +89,19 @@ export default {
         },
       });
     },
+    imageGetterHandler() {
+      if (this.getImageAndDestroyComponent) {
+        setTimeout(() => {
+          this.$emit('image-generated', this.chart.toBase64Image());
+          this.$refs.container.remove();
+          this.$destroy();
+        }, 2000);
+      }
+    },
   },
   mounted() {
     this.chartSetup();
+    this.imageGetterHandler();
   },
   beforeDestroy() {
     if (this.chart) {
