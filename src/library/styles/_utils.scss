@@ -3,65 +3,69 @@
 **/
 
 .tw-u-display--inline-block {
-  display: inline-block;
+  display: inline-block !important;
+}
+
+.tw-u-display--none {
+  display: none !important;
 }
 
 .tw-u-filter-blur--5px {
-  filter: blur(5px);
+  filter: blur(5px) !important;
 }
 
 .tw-u-margin--bottom {
-  margin-bottom: var(--gutter);
+  margin-bottom: var(--gutter) !important;
 }
 
 .tw-u-margin--left {
-  margin-left: var(--gutter);
+  margin-left: var(--gutter) !important;
 }
 
 .tw-u-margin--right {
-  margin-right: var(--gutter);
+  margin-right: var(--gutter) !important;
 }
 
 .tw-u-margin--top {
-  margin-top: var(--gutter);
+  margin-top: var(--gutter) !important;
 }
 
 .tw-u-overflow-y--hidden {
-  overflow-y: hidden;
+  overflow-y: hidden !important;
 }
 
 .tw-u-overflow-y--scroll {
-  overflow-y: scroll;
+  overflow-y: scroll !important;
 }
 
 .tw-u-overflow-scroll--invisible {
-  scrollbar-width: none;  /* Firefox */
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none !important;  /* Firefox */
+  -ms-overflow-style: none !important;  /* Internet Explorer 10+ */
 
   /* Safari and Chrome */
   &::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 }
 
 .tw-u-padding--bottom {
-  padding-bottom: var(--gutter);
+  padding-bottom: var(--gutter) !important;
 }
 
 .tw-u-padding--left {
-  padding-left: var(--gutter);
+  padding-left: var(--gutter) !important;
 }
 
 .tw-u-padding--right {
-  padding-right: var(--gutter);
+  padding-right: var(--gutter) !important;
 }
 
 .tw-u-padding--top {
-  padding-top: var(--gutter);
+  padding-top: var(--gutter) !important;
 }
 
 .tw-u-text-align--right {
-  text-align: right;
+  text-align: right !important;
 }
