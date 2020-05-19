@@ -137,7 +137,7 @@ export default {
       return !!goal.finishedAt;
     },
     getNowISOString() {
-      return this.$twTime.getNowISOString();
+      return this.$twServices.time.getNowISOString();
     },
   },
 };

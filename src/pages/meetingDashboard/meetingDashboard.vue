@@ -130,7 +130,7 @@ export default {
       }
     },
     getNowISOString() {
-      return this.$twTime.getNowISOString();
+      return this.$twServices.time.getNowISOString();
     },
     onUpdateDecisionsAutomaticBehavior(value) {
       this.decisionsAutomaticBehaviorIsEnabled = value;
