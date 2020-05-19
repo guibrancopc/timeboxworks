@@ -24,9 +24,8 @@
           <main class="tw-modal__body">
             <slot />
           </main>
-          <tw-footer v-if="$slots.footer || $slots.footerRight">
-            <slot name="footer" slot="left" />
-            <slot name="footerRight" slot="right" />
+          <tw-footer :justify-content="footerJustifyContent">
+            <slot name="footer" />
           </tw-footer>
           <tw-close-button @close="close" v-if="!disableCloseButton" />
         </tw-container>
@@ -61,6 +60,10 @@ export default {
     title: String,
     disableCloseButton: Boolean,
     closeOnOverlayClick: Boolean,
+    footerJustifyContent: {
+      type: String,
+      default: 'space-between',
+    },
     width: {
       type: String,
       default: 'lg',

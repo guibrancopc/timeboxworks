@@ -6,7 +6,7 @@
     disable-close-button>
     {{ text }}
     <tw-button
-      slot="footerRight"
+      slot="footer"
       @click="onClose"
       :theme="buttonTheme">
       {{ buttonText }}

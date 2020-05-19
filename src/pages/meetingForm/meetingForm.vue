@@ -71,11 +71,11 @@
                 </tw-form-field>
               </tw-col>
             </tw-row>
-            <tw-footer>
-              <tw-gutter slot="left" bottom inline-block>
+            <tw-footer justify-content="flex-end">
+              <tw-gutter bottom inline-block>
                 <tw-form-reset-button>Clean Form</tw-form-reset-button>
               </tw-gutter>
-              <tw-gutter slot="right" bottom inline-block>
+              <tw-gutter bottom left inline-block>
                 <tw-form-submit-button>Open Dashboard</tw-form-submit-button>
               </tw-gutter>
             </tw-footer>

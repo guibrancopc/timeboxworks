@@ -1,24 +1,20 @@
 <template>
-  <tw-footer>
+  <tw-footer justify-content="space-between">
     <tw-button
-      slot="left"
       v-if="isMeetingActive"
       theme="secondary"
       @click="onCancelMeeting"
       outline>Cancel it</tw-button>
     <tw-button
-      slot="left"
       v-else
       theme="secondary"
       @click="onGoStepBack"
       outline>Go back</tw-button>
     <tw-button
-      slot="right"
       v-if="isMeetingActive"
       theme="success"
       @click="onFinishMeeting">Finish event</tw-button>
     <tw-button
-      slot="right"
       v-else
       theme="success"
       @click="onStartMeeting">Start event</tw-button>

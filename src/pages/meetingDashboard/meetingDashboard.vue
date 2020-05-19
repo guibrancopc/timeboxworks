@@ -116,7 +116,6 @@ export default {
     },
     onFinishMeeting() {
       this.$store.dispatch('asyncUpdateRealEndTime', this.getNowISOString());
-      console.log('End meeting model: ', this.$store.getters.currentMeeting);
       this.onGoToMeetingReport();
     },
     verifyRequiredDataInStore() {

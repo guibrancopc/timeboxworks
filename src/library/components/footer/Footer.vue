@@ -1,30 +1,42 @@
 <template>
   <footer class="tw-footer">
     <tw-divider />
-    <slot>
-      <tw-row>
-        <tw-col v-if="$slots.left">
-          <slot name="left" />
-        </tw-col>
-        <tw-col class="tw-u-text-align--right" v-if="$slots.right">
-          <slot name="right" />
-        </tw-col>
-      </tw-row>
-    </slot>
+    <div
+      class="tw-footer__container tw-u-display--flex"
+      :class="classes">
+      <slot />
+    </div>
   </footer>
 </template>
 
 <script>
 import TwDivider from '../divider/Divider.vue';
-import TwRow from '../row/Row.vue';
-import TwCol from '../col/Col.vue';
 
 export default {
   name: 'TwFooter',
   components: {
     TwDivider,
-    TwRow,
-    TwCol,
+  },
+  props: {
+    justifyContent: {
+      type: String,
+      validator(value) {
+        return [
+          'flex-start',
+          'flex-end',
+          'center',
+          'space-around',
+          'space-between',
+        ].includes(value);
+      },
+    },
+  },
+  computed: {
+    classes() {
+      return {
+        [`tw-u-justify-content--${this.justifyContent}`]: this.justifyContent,
+      };
+    },
   },
 };
 </script>

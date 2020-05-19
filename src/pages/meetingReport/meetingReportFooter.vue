@@ -1,18 +1,20 @@
 <template>
-  <tw-footer>
-    <tw-gutter slot="left" right bottom inline-block>
-      <tw-button
-        theme="secondary"
-        @click="$emit('backToDashboard')"
-        outline>Reopen event</tw-button>
-    </tw-gutter>
-    <tw-gutter slot="left" right bottom inline-block>
-      <tw-button
-        outline
-        theme="primary"
-        @click="$emit('startNewMeeting')">Start new event</tw-button>
-    </tw-gutter>
-    <tw-gutter slot="right" left bottom inline-block>
+  <tw-footer justify-content="space-between">
+    <div>
+      <tw-gutter right bottom inline-block>
+        <tw-button
+          theme="secondary"
+          @click="$emit('backToDashboard')"
+          outline>Reopen event</tw-button>
+      </tw-gutter>
+      <tw-gutter right bottom inline-block>
+        <tw-button
+          outline
+          theme="primary"
+          @click="$emit('startNewMeeting')">Start new event</tw-button>
+      </tw-gutter>
+    </div>
+    <tw-gutter left bottom inline-block>
       <tw-button
         theme="success"
         @click="$emit('copyReportToClipboard')">Preview email</tw-button>

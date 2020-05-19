@@ -13,7 +13,7 @@
       {{ cancelButtonText }}
     </tw-button>
     <tw-button
-      slot="footerRight"
+      slot="footer"
       @click="onConfirm"
       :theme="confirmButtonTheme">
       {{ confirmButtonText }}
