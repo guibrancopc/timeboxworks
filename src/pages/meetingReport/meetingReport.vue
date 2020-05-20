@@ -19,6 +19,7 @@
           <tw-col>
             <tw-heading size="lg" title="Performance" />
             <tw-burndown-chart
+              ref="burndown"
               :start-time="expectedStartTime"
               :end-time="expectedEndTime"
               :dataset="burndownDataset"/>
@@ -123,27 +124,29 @@ export default {
       this.$router.push({ name: 'meetingDashboard' });
     },
     startNewMeeting() {
-      console.log('TODO');
+      this.$twDialog.confirm({
+        text: 'This action will lose this report. Are you sure to start a new event?',
+        confirmButtonTheme: 'primary',
+        confirmButtonText: 'Yes, do it',
+        cancelButtonText: 'Not anymore',
+        callback: isConfirmed => {
+          if (isConfirmed) {
+            this.$store.dispatch('asyncCleanCurrentMeeting', '');
+            this.$router.push({ name: 'meetingForm' });
+          }
+        },
+      });
+    },
+    getChartImageSrc() {
+      return this.$refs.burndown.$children[0].public().getBase64Image();
     },
     copyReportToClipboard() {
-      this.$twAppend(TemplatePreviewModal).open();
-      // this.$twDialog.alert({
-      //   title: 'Are you sure?',
-      //   text: 'This action may cause some disruption in your life.',
-      //   buttonTheme: 'danger',
-      //   buttonText: 'Yes, I do',
-      // });
-      // this.$twDialog.confirm({
-      //   title: 'Are you sure to delete it?',
-      //   text: 'This action has no revert option and may cause harm on your application.',
-      //   cancelButtonTheme: 'info',
-      //   cancelButtonText: 'Not at all',
-      //   confirmButtonTheme: 'danger',
-      //   confirmButtonText: 'Yes, do it!',
-      //   callback: value => {
-      //     console.log('THIS IS THE RESULT!!!! ', value);
-      //   },
-      // });
+      this.$twAppend(TemplatePreviewModal, {
+        props: {
+          currentMeeting: this.currentMeeting,
+          chartImageSrc: this.getChartImageSrc(),
+        },
+      }).open();
     },
   },
   mounted() {

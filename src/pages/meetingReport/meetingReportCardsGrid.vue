@@ -37,10 +37,10 @@
       <tw-col>
         <tw-gutter vertical>
           <tw-time-display
-          size="md"
-          :time="realEndTime"
-          :diffTime="expectedEndTime"
-          :theme="endDiffFeedback.theme">
+            size="md"
+            :time="realEndTime"
+            :diffTime="expectedEndTime"
+            :theme="endDiffFeedback.theme">
             <span slot="header">Real End Time</span>
             <span slot="footer">{{ endDiffFeedback.momentMessage }} <tw-time-format
               type="duration"
@@ -56,11 +56,11 @@
       <tw-col>
         <tw-gutter vertical>
           <tw-time-display
-          size="md"
-          type="duration"
-          :time="expectedEndTime"
-          :diffTime="expectedStartTime"
-          @diffUpdated="onExpectedDiffUpdated" >
+            size="md"
+            type="duration"
+            :time="expectedEndTime"
+            :diffTime="expectedStartTime"
+            @diffUpdated="onExpectedDiffUpdated" >
             <span slot="header">Expected Total Duration</span>
           </tw-time-display>
         </tw-gutter>
@@ -68,12 +68,12 @@
       <tw-col>
         <tw-gutter vertical>
           <tw-time-display
-          size="md"
-          type="duration"
-          :theme="durationDiffFeedback.theme"
-          :time="realEndTime"
-          :diffTime="realStartTime"
-          @diffUpdated="onRealDiffUpdated" >
+            size="md"
+            type="duration"
+            :theme="durationDiffFeedback.theme"
+            :time="realEndTime"
+            :diffTime="realStartTime"
+            @diffUpdated="onRealDiffUpdated" >
             <span slot="header">Real Total Duration</span>
             <span slot="footer">{{ durationDiffFeedback.durationMessage }} <tw-time-format
               type="duration"
