@@ -6,7 +6,7 @@
         color: #333;
         font-family: Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
         font-size: 16px;">
-        <div>
+        <header>
           <h1>{{ currentMeeting.name }}</h1>
           <label style="color: #777">
             &#9200; From <tw-time-format
@@ -16,8 +16,8 @@
           <tw-template-preview-modal-article
             v-if="currentMeeting.description"
             :text="currentMeeting.description" />
-        </div>
-        <div>
+        </header>
+        <main>
           <section>
             <h2 style="border-bottom: 1px solid #ddd">Goals</h2>
             <div style="margin-left: 20px">
@@ -49,9 +49,10 @@
                 v-if="chartImageSrc"
                 :src="chartImageSrc" />
             </div>
+            <tw-template-preview-modal-cards :current-meeting="currentMeeting" />
           </section>
-        </div>
-        <div style="text-align: center;">
+        </main>
+        <footer style="text-align: center;">
           <hr style="border: 1px solid #ddd; border-top: 1px solid #ccc; margin: 50px 0;"/>
           <div style="margin: 15px;">
             Generated with ❤️ in <a
@@ -62,7 +63,7 @@
           <a :href="getOriginHref()" target="_blank" style="cursor: pointer;">
             <img width="150" height="150" :src="getLogoImageSrc()" alt="Logo Timebox Works" />
           </a>
-        </div>
+        </footer>
       </div>
     </div>
     </tw-page>
@@ -80,6 +81,7 @@
 
 <script>
 import TwTemplatePreviewModalArticle from './TemplatePreviewModalArticle.vue';
+import TwTemplatePreviewModalCards from './TemplatePreviewModalCards.vue';
 import roundedLogo from '../../assets/images/logos/timebox-works_logo-rounded.png';
 
 export default {
@@ -129,6 +131,7 @@ export default {
   },
   components: {
     TwTemplatePreviewModalArticle,
+    TwTemplatePreviewModalCards,
   },
 };
 </script>
