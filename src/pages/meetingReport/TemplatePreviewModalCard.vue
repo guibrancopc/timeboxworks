@@ -1,14 +1,14 @@
 <template>
   <div
-    style="text-align: center; border-radius: 3px; padding: 15px; width: 100%; height: 100%;"
+    style="text-align:center;border-radius:3px;padding:15px;width:100%;box-sizing:border-box;"
     :style="styles">
-    <div>
+    <div style="font-size:20px;text-align:center;">
       <slot name="header" />
     </div>
-    <div style="margin: 30px 0;">
+    <div style="margin-top:30px;margin-bottom:30px;font-size:24px;text-align:center;">
       <slot />
     </div>
-    <div>
+    <div style="font-size:20px;text-align:center;">
       <slot name="footer" />
     </div>
   </div>

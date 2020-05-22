@@ -1,7 +1,7 @@
 <template>
   <article>
     <p
-      style="line-height: 22px;"
+      style="line-height: 30px; font-size: 20px;"
       v-for="(text, index) in texts" :key="index">{{ text }}</p>
   </article>
 </template>

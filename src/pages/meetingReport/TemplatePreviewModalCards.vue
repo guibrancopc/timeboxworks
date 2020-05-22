@@ -4,13 +4,13 @@
       <div :style="styles.col">
           <tw-template-preview-modal-card>
             <span slot="header">Expected Start Time</span>
-            <tw-time-format size="sm" :time="expectedStartTime" :diffTime="realStartTime" />
+            <tw-time-format :time="expectedStartTime" :diffTime="realStartTime" />
           </tw-template-preview-modal-card>
       </div>
       <div :style="styles.col">
           <tw-template-preview-modal-card :theme="startDiffFeedback.theme">
             <span slot="header">Real Start Time</span>
-            <tw-time-format size="sm" :time="realStartTime" :diffTime="expectedStartTime" />
+            <tw-time-format :time="realStartTime" :diffTime="expectedStartTime" />
             <span slot="footer">{{ startDiffFeedback.momentMessage }} <tw-time-format
               type="duration"
               :time="expectedStartTime"
@@ -24,13 +24,13 @@
       <div :style="styles.col">
           <tw-template-preview-modal-card>
             <span slot="header">Epected End Time</span>
-            <tw-time-format size="sm" :time="expectedEndTime" :diffTime="realEndTime" />
+            <tw-time-format :time="expectedEndTime" :diffTime="realEndTime" />
           </tw-template-preview-modal-card>
       </div>
       <div :style="styles.col">
           <tw-template-preview-modal-card :theme="endDiffFeedback.theme">
             <span slot="header">Real End Time</span>
-            <tw-time-format size="sm" :time="realEndTime" :diffTime="expectedEndTime" />
+            <tw-time-format :time="realEndTime" :diffTime="expectedEndTime" />
             <span slot="footer">{{ endDiffFeedback.momentMessage }} <tw-time-format
               type="duration"
               :time="expectedEndTime"
@@ -45,7 +45,6 @@
           <tw-template-preview-modal-card>
             <span slot="header">Expected Total Duration</span>
             <tw-time-format
-              size="sm"
               type="duration"
               :time="expectedEndTime"
               :diffTime="expectedStartTime"
@@ -56,7 +55,6 @@
           <tw-template-preview-modal-card :theme="durationDiffFeedback.theme">
             <span slot="header">Real Total Duration</span>
             <tw-time-format
-              size="sm"
               type="duration"
               :time="realEndTime"
               :diffTime="realStartTime"
@@ -119,8 +117,8 @@ export default {
     styles() {
       return {
         container: 'margin: 15px 0',
-        row: 'display: flex; justify-content: space-around;',
-        col: 'width: 100%; margin: 15px;',
+        row: 'display: flex; align-items: stretch; justify-content: center;',
+        col: 'width: 100%;  max-width: 320px; margin: 15px; box-sizing: border-box;display: flex; align-items: stretch;',
       };
     },
   },
