@@ -1,6 +1,6 @@
 <template>
   <div
-    style="text-align:center;border-radius:3px;padding:15px;width:100%;box-sizing:border-box;"
+    style="text-align:center;border-radius:3px;padding:15px;width:100%;box-sizing:border-box;min-height: 190px"
     :style="styles">
     <div style="font-size:20px;text-align:center;">
       <slot name="header" />

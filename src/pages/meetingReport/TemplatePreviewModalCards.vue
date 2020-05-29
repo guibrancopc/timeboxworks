@@ -1,13 +1,13 @@
 <template>
-  <div :style="styles.container">
-    <div :style="styles.row">
-      <div :style="styles.col">
+  <table :style="styles.table" cellpadding="15">
+    <tr :style="styles.row">
+      <td :style="styles.col">
           <tw-template-preview-modal-card>
             <span slot="header">Expected Start Time</span>
             <tw-time-format :time="expectedStartTime" :diffTime="realStartTime" />
           </tw-template-preview-modal-card>
-      </div>
-      <div :style="styles.col">
+      </td>
+      <td :style="styles.col">
           <tw-template-preview-modal-card :theme="startDiffFeedback.theme">
             <span slot="header">Real Start Time</span>
             <tw-time-format :time="realStartTime" :diffTime="expectedStartTime" />
@@ -18,16 +18,16 @@
               @diffUpdated="onStartDiffUpdated"/>
             </span>
           </tw-template-preview-modal-card>
-      </div>
-    </div>
-    <div :style="styles.row">
-      <div :style="styles.col">
+      </td>
+    </tr>
+    <tr :style="styles.row">
+      <td :style="styles.col">
           <tw-template-preview-modal-card>
             <span slot="header">Epected End Time</span>
             <tw-time-format :time="expectedEndTime" :diffTime="realEndTime" />
           </tw-template-preview-modal-card>
-      </div>
-      <div :style="styles.col">
+      </td>
+      <td :style="styles.col">
           <tw-template-preview-modal-card :theme="endDiffFeedback.theme">
             <span slot="header">Real End Time</span>
             <tw-time-format :time="realEndTime" :diffTime="expectedEndTime" />
@@ -38,10 +38,10 @@
               @diffUpdated="onEndDiffUpdated" />
             </span>
           </tw-template-preview-modal-card>
-      </div>
-    </div>
-    <div :style="styles.row">
-      <div :style="styles.col">
+      </td>
+    </tr>
+    <tr :style="styles.row">
+      <td :style="styles.col">
           <tw-template-preview-modal-card>
             <span slot="header">Expected Total Duration</span>
             <tw-time-format
@@ -50,8 +50,8 @@
               :diffTime="expectedStartTime"
               @diffUpdated="onExpectedDiffUpdated" />
           </tw-template-preview-modal-card>
-      </div>
-      <div :style="styles.col">
+      </td>
+      <td :style="styles.col">
           <tw-template-preview-modal-card :theme="durationDiffFeedback.theme">
             <span slot="header">Real Total Duration</span>
             <tw-time-format
@@ -65,9 +65,9 @@
               :diffTime="realDiff" />
             </span>
           </tw-template-preview-modal-card>
-      </div>
-    </div>
-  </div>
+      </td>
+    </tr>
+  </table>
 </template>
 
 <script>
@@ -116,9 +116,9 @@ export default {
     },
     styles() {
       return {
-        container: 'margin: 15px 0',
-        row: 'display: flex; align-items: stretch; justify-content: center;',
-        col: 'width: 100%;  max-width: 320px; margin: 15px; box-sizing: border-box;display: flex; align-items: stretch;',
+        table: 'margin: 15px 0; width: 100%;',
+        row: 'width: 50%;',
+        col: 'margin: 15px; box-sizing: border-box;',
       };
     },
   },

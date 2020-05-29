@@ -1,79 +1,90 @@
 <template>
-  <tw-modal title="Email template preview" ref="modal" width="md" close-on-overlay-click>
+  <tw-modal
+    title="Email template preview"
+    ref="modal"
+    width="md"
+    close-on-overlay-click>
     <tw-page>
-    <div class="tw-template-preview-modal__main" ref="emailTemplate">
-      <div :style="styles.container">
-        <header>
-          <h1 :style="styles.h1">{{ currentMeeting.name }}</h1>
-          <div style="margin-bottom: 5px;">
-            <label :style="styles.label">
-              &#9200; Started at <tw-time-format
-                :time="currentMeeting.realStartTime" />
-            </label>
-          </div>
-          <div>
-            <label :style="styles.label">
-              &#9200; Ended at <tw-time-format
-                :time="currentMeeting.realEndTime" />
-            </label>
-          </div>
-          <tw-template-preview-modal-article
-            v-if="currentMeeting.description"
-            :text="currentMeeting.description" />
-        </header>
-        <main>
-          <section>
-            <h2 :style="styles.h2">Goals</h2>
-            <div style="margin-left: 20px">
-              <div
-                v-for="(goal, index) in currentMeeting.goals"
-                style="margin-bottom: 50px"
-                :key="goal.name">
-                  <h3 :style="styles.h3">{{ index + 1 }}. {{ goal.value }}</h3>
-                  <label :style="styles.label">
-                    &#9200;  <span v-if="goal.finishedAt">Done at </span>
-                    <tw-time-format
-                      v-if="goal.finishedAt"
-                      :time="goal.finishedAt" />
-                    <span v-else>Item has not been completed</span>
-                  </label>
-                  <div v-if="goal.decisions">
-                    <h4 :style="styles.h4">Notes</h4>
-                    <tw-template-preview-modal-article
-                      :text="goal.decisions" />
-                  </div>
-              </div>
+      <table
+        :style="styles.container"
+        class="tw-template-preview-modal__main"
+        ref="emailTemplate">
+        <tr>
+          <td>
+            <h1 :style="styles.h1">{{ currentMeeting.name }}</h1>
+            <div style="margin-bottom: 5px;">
+              <label :style="styles.label">
+                &#9200; Started at <tw-time-format
+                  :time="currentMeeting.realStartTime" />
+              </label>
             </div>
-          </section>
-          <section>
-            <h2 :style="styles.h2">Performance</h2>
             <div>
-              <center>
-                <img
-                  width="100%"
-                  v-if="chartImageSrc"
-                  :src="chartImageSrc" />
-              </center>
+              <label :style="styles.label">
+                &#9200; Ended at <tw-time-format
+                  :time="currentMeeting.realEndTime" />
+              </label>
             </div>
-            <tw-template-preview-modal-cards :current-meeting="currentMeeting" />
-          </section>
-        </main>
-        <div :style="styles.textCenter">
-          <hr :style="styles.hr"/>
-          <div style="margin: 15px; text-align: center;">
-            Generated with ❤️ in <a
-              :style="styles.anchor"
-              :href="getOriginHref()"
-              target="_blank">Timebox Works</a>.
-          </div>
-          <div style="text-align: center;">
-            <a :href="getOriginHref()" target="_blank" :style="styles.anchor">
-              <img width="150" height="150" :src="getLogoImageSrc()" alt="Logo Timebox Works" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+            <tw-template-preview-modal-article
+              v-if="currentMeeting.description"
+              :text="currentMeeting.description" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <section>
+              <h2 :style="styles.h2">Goals</h2>
+              <div style="margin-left: 20px">
+                <div
+                  v-for="(goal, index) in currentMeeting.goals"
+                  style="margin-bottom: 50px"
+                  :key="goal.name">
+                    <h3 :style="styles.h3">{{ index + 1 }}. {{ goal.value }}</h3>
+                    <label :style="styles.label">
+                      &#9200;  <span v-if="goal.finishedAt">Done at </span>
+                      <tw-time-format
+                        v-if="goal.finishedAt"
+                        :time="goal.finishedAt" />
+                      <span v-else>Item has not been completed</span>
+                    </label>
+                    <div v-if="goal.decisions">
+                      <h4 :style="styles.h4">Notes</h4>
+                      <tw-template-preview-modal-article
+                        :text="goal.decisions" />
+                    </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <h2 :style="styles.h2">Performance</h2>
+              <div>
+                <center>
+                  <img
+                    width="100%"
+                    v-if="chartImageSrc"
+                    :src="chartImageSrc" />
+                </center>
+              </div>
+              <tw-template-preview-modal-cards :current-meeting="currentMeeting" />
+            </section>
+          </td>
+        </tr>
+        <tr :style="styles.textCenter">
+          <td>
+            <hr :style="styles.hr"/>
+            <div style="margin: 15px; text-align: center;">
+              Generated with ❤️ in <a
+                :style="styles.anchor"
+                :href="getOriginHref()"
+                target="_blank">Timebox Works</a>.
+            </div>
+            <div style="text-align: center;">
+              <a :href="getOriginHref()" target="_blank" :style="styles.anchor">
+                <img width="150" height="150" :src="getLogoImageSrc()" alt="Logo Timebox Works" />
+              </a>
+            </div>
+          </td>
+        </tr>
+      </table>
     </tw-page>
     <tw-button
       slot="footer"
@@ -117,6 +128,7 @@ export default {
     styles() {
       return {
         container: `box-sizing: border-box;
+        max-width: 660px;
         color: #333;
         margin: auto;
         font-family: Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';`,
