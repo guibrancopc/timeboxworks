@@ -43,7 +43,7 @@
                     <tw-time-format
                       v-if="goal.finishedAt"
                       :time="goal.finishedAt" />
-                    <span v-else>Item has not been completed</span>
+                    <span v-else>&#9888; Item has not been completed</span>
                   </label>
                   <div v-if="goal.decisions">
                     <h4 :style="styles.h4">Notes</h4>
