@@ -75,10 +75,20 @@ export default {
             yAxes: [{
               ticks: {
                 beginAtZero: this.axeYBeginAtZero,
+                stepSize: 1,
+              },
+              gridLines: {
+                color: '#F8F8F8',
               },
             }],
             xAxes: [{
               type: this.axeXType,
+              ticks: {
+                maxTicksLimit: 20,
+              },
+              gridLines: {
+                color: '#F8F8F8',
+              },
             }],
           },
         },
