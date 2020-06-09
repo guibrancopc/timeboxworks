@@ -23,7 +23,7 @@
     <tr :style="styles.row">
       <td :style="styles.col">
           <tw-template-preview-modal-card>
-            <span slot="header">Epected End Time</span>
+            <span slot="header">Expected End Time</span>
             <tw-time-format :time="expectedEndTime" :diffTime="realEndTime" />
           </tw-template-preview-modal-card>
       </td>
