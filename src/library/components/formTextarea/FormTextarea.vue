@@ -1,10 +1,11 @@
 <template>
   <textarea
+    ref="textarea"
     :placeholder="placeholder"
     :name="name"
     :id="getInputHtmlId()"
     class="tw-form-textarea form-control form-control-lg"
-    :value="formFieldVm.input.value"
+    :value="value"
     :maxlength="maxLength"
     :style="style"
     @input="onInput"
@@ -66,6 +67,11 @@ export default {
     disableDoubleReturn: Boolean,
     customValidation: Function,
   },
+  watch: {
+    value() {
+      this.triggerEventToDynamicHeight();
+    },
+  },
   methods: {
     onInput(event) {
       if (event && event.target) {
@@ -91,6 +97,11 @@ export default {
     },
     focus() {
       this.$el.focus();
+    },
+    triggerEventToDynamicHeight() {
+      this.$nextTick(() => {
+        this.$refs.textarea.dispatchEvent(new Event('input'));
+      });
     },
   },
   mounted() {
