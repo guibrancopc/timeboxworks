@@ -4,7 +4,10 @@
       <tw-header>
         <tw-heading size="xl" :title="name" />
         <tw-heading size="xxs">
-          <tw-time-format :time="realStartTime" /> to <tw-time-format :time="realEndTime" />
+          &#9200; Started at <tw-time-format :time="realStartTime" />
+        </tw-heading>
+        <tw-heading size="xxs">
+          &#9200; Finished at <tw-time-format :time="realEndTime" />
         </tw-heading>
         <tw-article v-if="description" :text="description" />
       </tw-header>

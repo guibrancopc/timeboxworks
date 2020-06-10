@@ -1,8 +1,8 @@
 <template>
   <tw-modal
-    title="Email template preview"
     ref="modal"
     width="md"
+    title="Email template preview"
     close-on-overlay-click>
     <table
       :style="styles.container"
