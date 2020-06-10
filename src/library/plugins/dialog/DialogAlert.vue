@@ -3,11 +3,12 @@
     :title="title"
     width="xs"
     ref="modal"
-    disable-close-button>
+    :disable-close-button="disableCloseButton"
+    @closed="onClose">
     {{ text }}
     <tw-button
       slot="footer"
-      @click="onClose"
+      @click="onCloseInternal"
       :theme="buttonTheme">
       {{ buttonText }}
     </tw-button>
@@ -25,6 +26,7 @@ export default {
       type: String,
       default: 'Ok',
     },
+    disableCloseButton: Boolean,
     callback: {
       type: Function,
       default: () => {},
@@ -32,9 +34,11 @@ export default {
   },
   methods: {
     onClose() {
-      this.$emit('close');
+      this.$emit('closed');
       this.callback();
-      this.$refs.modal.close();
+    },
+    onCloseInternal() {
+      this.$refs.modal.public().close();
     },
   },
 };

@@ -27,7 +27,7 @@
           <tw-footer :justify-content="footerJustifyContent">
             <slot name="footer" />
           </tw-footer>
-          <tw-close-button @close="close" v-if="!disableCloseButton" />
+          <tw-close-button @close="close(true)" v-if="!disableCloseButton" />
         </tw-container>
       </div>
     </tw-animation>
@@ -96,13 +96,13 @@ export default {
     open() {
       this.shouldOpenModal = true;
     },
-    close() {
+    close(isModalTrigger) {
       this.shouldOpenModal = false;
-      this.$emit('closed');
+      this.$emit('closed', { isModalTrigger });
     },
     onOverlayClick(e) {
       if (this.closeOnOverlayClick && isTargetElementOfEvent(e)) {
-        this.close();
+        this.close(true);
       }
     },
     openingHandler(DURATION) {
@@ -130,8 +130,15 @@ export default {
     },
     escapeClosingHandler(event) {
       if (event.key === 'Escape' && !this.disableCloseButton) {
-        this.close();
+        this.close(true);
       }
+    },
+    public(value) {
+      const _public = {
+        open: this.open,
+        close: this.close,
+      };
+      return value ? _public[value] : _public;
     },
   },
   mounted() {

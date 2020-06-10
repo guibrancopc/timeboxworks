@@ -3,11 +3,12 @@
     :title="title"
     width="xs"
     ref="modal"
-    disable-close-button>
+    :disable-close-button="disableCloseButton">
     {{ text }}
     <tw-button
       slot="footer"
-      @click="onClose"
+      ref="cancelButton"
+      @click="onDismiss"
       outline
       :theme="cancelButtonTheme">
       {{ cancelButtonText }}
@@ -27,6 +28,10 @@ export default {
   props: {
     text: String,
     title: String,
+    disableCloseButton: {
+      type: Boolean,
+      default: true,
+    },
     callback: {
       type: Function,
       required: true,
@@ -49,16 +54,24 @@ export default {
     },
   },
   methods: {
-    onClose() {
-      this.$emit('is-confirmed', false);
+    onDismiss() {
+      this.$emit('confirmed', false);
       this.callback(false);
-      this.$refs.modal.close();
+      this.$refs.modal.public().close();
     },
     onConfirm() {
-      this.$emit('is-confirmed', true);
+      this.$emit('confirmed', true);
       this.callback(true);
-      this.$refs.modal.close();
+      this.$refs.modal.public().close();
     },
+    focusOnCancelButton() {
+      setTimeout(() => {
+        this.$refs.cancelButton.$el.focus();
+      }, 200);
+    },
+  },
+  mounted() {
+    this.focusOnCancelButton();
   },
 };
 </script>
