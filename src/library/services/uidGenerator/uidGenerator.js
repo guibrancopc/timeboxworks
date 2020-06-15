@@ -1,6 +1,3 @@
-let uidIndex = 0;
+import { v1 as uuidv1 } from 'uuid';
 
-export const getUid = () => {
-  uidIndex += 1;
-  return uidIndex;
-};
+export const getUid = () => uuidv1();
