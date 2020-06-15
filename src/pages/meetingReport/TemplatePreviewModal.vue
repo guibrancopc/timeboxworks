@@ -5,9 +5,9 @@
     title="Email template preview"
     close-on-overlay-click>
     <table
+      ref="emailTemplate"
       :style="styles.container"
-      class="tw-template-preview-modal__main"
-      ref="emailTemplate">
+      class="tw-template-preview-modal__main">
       <tr>
         <td>
           <h1 :style="styles.h1">{{ currentMeeting.name }}</h1>
@@ -30,57 +30,37 @@
       </tr>
       <tr>
         <td>
-          <div>
-            <h2 :style="styles.h2">Goals</h2>
-            <div style="margin-left: 20px">
-              <div
-                v-for="(goal, index) in currentMeeting.goals"
-                style="margin-bottom: 50px"
-                :key="goal.name">
-                  <h3 :style="styles.h3">{{ index + 1 }}. {{ goal.value }}</h3>
-                  <label :style="styles.label">
-                    <span v-if="goal.finishedAt">&#9989; Done at </span>
-                    <tw-time-format
-                      v-if="goal.finishedAt"
-                      :time="goal.finishedAt" />
-                    <span v-else>&#9888; Item has not been completed</span>
-                  </label>
-                  <div v-if="goal.decisions">
-                    <h4 :style="styles.h4">Notes</h4>
-                    <tw-template-preview-modal-article
-                      :text="goal.decisions" />
-                  </div>
-              </div>
-            </div>
-          </div>
+          <tw-template-preview-modal-goals
+            :styles="styles"
+            :goals="currentMeeting.goals" />
+        </td>
+      </tr>
+      <tr v-if="shouldShowSideTopics">
+        <td>
+          <tw-template-preview-modal-side-topics
+            :styles="styles"
+            :items="currentMeeting.sideTopics" />
+        </td>
+      </tr>
+      <tr>
+        <td>
           <div>
             <h2 :style="styles.h2">Performance</h2>
             <div style="text-align: center;">
               <center>
                 <img
                   width="100%"
-                  v-if="chartImageSrc"
+                  v-if="!!chartImageSrc"
                   :src="chartImageSrc" />
               </center>
             </div>
-            <tw-template-preview-modal-cards :current-meeting="currentMeeting" />
+            <tw-template-preview-modal-time-cards :current-meeting="currentMeeting" />
           </div>
         </td>
       </tr>
       <tr :style="styles.textCenter">
         <td>
-          <hr :style="styles.hr"/>
-          <div style="margin: 15px; text-align: center;">
-            Generated with ❤️ in <a
-              :style="styles.anchor"
-              :href="getOriginHref()"
-              target="_blank">Timebox Works</a>.
-          </div>
-          <div style="text-align: center;">
-            <a :href="getOriginHref()" target="_blank" :style="styles.anchor">
-              <img width="150" height="150" :src="getLogoImageSrc()" alt="Logo Timebox Works" />
-            </a>
-          </div>
+          <tw-template-preview-modal-footer :styles="styles" />
         </td>
       </tr>
     </table>
@@ -98,8 +78,10 @@
 
 <script>
 import TwTemplatePreviewModalArticle from './TemplatePreviewModalArticle.vue';
-import TwTemplatePreviewModalCards from './TemplatePreviewModalCards.vue';
-import roundedLogo from '../../assets/images/logos/timebox-works_logo-rounded.png';
+import TwTemplatePreviewModalFooter from './TemplatePreviewModalFooter.vue';
+import TwTemplatePreviewModalGoals from './TemplatePreviewModalGoals.vue';
+import TwTemplatePreviewModalSideTopics from './TemplatePreviewModalSideTopics.vue';
+import TwTemplatePreviewModalTimeCards from './TemplatePreviewModalTimeCards.vue';
 
 export default {
   name: 'TwTemplatePreviewModal',
@@ -113,6 +95,9 @@ export default {
     chartImageSrc: String,
   },
   computed: {
+    shouldShowSideTopics() {
+      return !!this.currentMeeting.sideTopics.length;
+    },
     copyButtonText() {
       return this.copied ? 'Copied! ✓' : 'Copy to clipboard';
     },
@@ -138,7 +123,7 @@ export default {
         h1: 'font-size: 32px',
         h2: 'font-size: 28px; border-bottom: 1px solid #ddd;',
         h3: 'font-size: 24px;',
-        h4: 'font-size: 21px;',
+        h4: 'font-size: 19px; margin: 15px 0;',
         hr: 'border: 1px solid #ddd; border-top: 1px solid #ccc; margin: 50px 0;',
         textCenter: 'text-align: center;',
         anchor: 'cursor: pointer; color: #967f30; text-decoration: none;',
@@ -157,19 +142,13 @@ export default {
     onCopyBlur() {
       this.copied = false;
     },
-    onGetChartImage(chartImageSrc) {
-      this.chartImageSrc = chartImageSrc;
-    },
-    getOriginHref() {
-      return window.origin;
-    },
-    getLogoImageSrc() {
-      return roundedLogo;
-    },
   },
   components: {
     TwTemplatePreviewModalArticle,
-    TwTemplatePreviewModalCards,
+    TwTemplatePreviewModalFooter,
+    TwTemplatePreviewModalGoals,
+    TwTemplatePreviewModalSideTopics,
+    TwTemplatePreviewModalTimeCards,
   },
 };
 </script>

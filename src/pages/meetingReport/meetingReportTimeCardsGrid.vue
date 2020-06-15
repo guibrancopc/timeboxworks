@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-meeting-report-cards-grid">
+  <div class="tw-meeting-report-time-cards-grid">
     <tw-row>
       <tw-col>
         <tw-gutter vertical>
@@ -93,7 +93,7 @@ import {
 } from '../../servicesApp/timeDisplayFeedbackRules/timeDisplayFeedbackRules';
 
 export default {
-  name: 'TwMeetingReportCardsGrid',
+  name: 'TwMeetingReportTimeCardsGrid',
   props: {
     expectedStartTime: String,
     expectedEndTime: String,

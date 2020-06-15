@@ -1,7 +1,5 @@
 <template>
-  <div
-    style="text-align:center;border-radius:3px;padding:15px;width:100%;box-sizing:border-box;min-height: 190px"
-    :style="styles">
+  <div :style="styles">
     <div style="font-size:20px;text-align:center;">
       <slot name="header" />
     </div>
@@ -16,7 +14,7 @@
 
 <script>
 export default {
-  name: 'TwMeetingReportCards',
+  name: 'TwMeetingReportTimeCard',
   props: {
     theme: {
       type: String,
@@ -35,7 +33,16 @@ export default {
   },
   computed: {
     styles() {
-      return {
+      const defaultStyle = {
+        'text-align': ' center',
+        'border-radius': '3px',
+        'box-sizing': 'border-box',
+        'min-height': ' 190px',
+        padding: '15px',
+        width: '100%',
+      };
+
+      const customStyle = {
         primary: {
           color: '#004085',
           backgroundColor: '#cce5ff',
@@ -67,6 +74,11 @@ export default {
           border: '1px solid #bee5eb',
         },
       }[this.theme];
+
+      return {
+        ...defaultStyle,
+        ...customStyle,
+      };
     },
   },
 };

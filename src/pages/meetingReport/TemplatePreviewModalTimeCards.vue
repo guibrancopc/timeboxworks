@@ -2,13 +2,13 @@
   <table :style="styles.table" cellpadding="15">
     <tr :style="styles.row">
       <td :style="styles.col">
-          <tw-template-preview-modal-card>
+          <tw-template-preview-modal-time-card>
             <span slot="header">Expected Start Time</span>
             <tw-time-format :time="expectedStartTime" :diffTime="realStartTime" />
-          </tw-template-preview-modal-card>
+          </tw-template-preview-modal-time-card>
       </td>
       <td :style="styles.col">
-          <tw-template-preview-modal-card :theme="startDiffFeedback.theme">
+          <tw-template-preview-modal-time-card :theme="startDiffFeedback.theme">
             <span slot="header">Real Start Time</span>
             <tw-time-format :time="realStartTime" :diffTime="expectedStartTime" />
             <span slot="footer">{{ startDiffFeedback.momentMessage }} <tw-time-format
@@ -17,18 +17,18 @@
               :diffTime="realStartTime"
               @diffUpdated="onStartDiffUpdated"/>
             </span>
-          </tw-template-preview-modal-card>
+          </tw-template-preview-modal-time-card>
       </td>
     </tr>
     <tr :style="styles.row">
       <td :style="styles.col">
-          <tw-template-preview-modal-card>
+          <tw-template-preview-modal-time-card>
             <span slot="header">Expected End Time</span>
             <tw-time-format :time="expectedEndTime" :diffTime="realEndTime" />
-          </tw-template-preview-modal-card>
+          </tw-template-preview-modal-time-card>
       </td>
       <td :style="styles.col">
-          <tw-template-preview-modal-card :theme="endDiffFeedback.theme">
+          <tw-template-preview-modal-time-card :theme="endDiffFeedback.theme">
             <span slot="header">Real End Time</span>
             <tw-time-format :time="realEndTime" :diffTime="expectedEndTime" />
             <span slot="footer">{{ endDiffFeedback.momentMessage }} <tw-time-format
@@ -37,22 +37,22 @@
               :diffTime="realEndTime"
               @diffUpdated="onEndDiffUpdated" />
             </span>
-          </tw-template-preview-modal-card>
+          </tw-template-preview-modal-time-card>
       </td>
     </tr>
     <tr :style="styles.row">
       <td :style="styles.col">
-          <tw-template-preview-modal-card>
+          <tw-template-preview-modal-time-card>
             <span slot="header">Expected Total Duration</span>
             <tw-time-format
               type="duration"
               :time="expectedEndTime"
               :diffTime="expectedStartTime"
               @diffUpdated="onExpectedDiffUpdated" />
-          </tw-template-preview-modal-card>
+          </tw-template-preview-modal-time-card>
       </td>
       <td :style="styles.col">
-          <tw-template-preview-modal-card :theme="durationDiffFeedback.theme">
+          <tw-template-preview-modal-time-card :theme="durationDiffFeedback.theme">
             <span slot="header">Real Total Duration</span>
             <tw-time-format
               type="duration"
@@ -64,7 +64,7 @@
               :time="expectedDiff"
               :diffTime="realDiff" />
             </span>
-          </tw-template-preview-modal-card>
+          </tw-template-preview-modal-time-card>
       </td>
     </tr>
   </table>
@@ -74,7 +74,7 @@
 import {
   getTimeDisplayFeedbackByDiff,
 } from '../../servicesApp/timeDisplayFeedbackRules/timeDisplayFeedbackRules';
-import TwTemplatePreviewModalCard from './TemplatePreviewModalCard.vue';
+import TwTemplatePreviewModalTimeCard from './TemplatePreviewModalTimeCard.vue';
 
 export default {
   name: 'TwMeetingReportCards',
@@ -137,7 +137,7 @@ export default {
     },
   },
   components: {
-    TwTemplatePreviewModalCard,
+    TwTemplatePreviewModalTimeCard,
   },
 };
 </script>

@@ -18,6 +18,12 @@
             <tw-meeting-report-goals :goals="goals" />
           </tw-col>
         </tw-row>
+        <tw-row v-if="sideTopics.length">
+          <tw-col>
+            <tw-heading size="lg" title="Side Topics" />
+            <tw-meeting-report-side-topics :items="sideTopics" />
+          </tw-col>
+        </tw-row>
         <tw-row>
           <tw-col>
             <tw-heading size="lg" title="Performance" />
@@ -30,7 +36,7 @@
         </tw-row>
         <tw-row>
           <tw-col>
-            <tw-meeting-report-cards-grid
+            <tw-meeting-report-time-cards-grid
               :expected-start-time="expectedStartTime"
               :expected-end-time="expectedEndTime"
               :real-start-time="realStartTime"
@@ -48,7 +54,8 @@
 
 <script>
 import TwMeetingReportGoals from './meetingReportGoals.vue';
-import TwMeetingReportCardsGrid from './meetingReportCardsGrid.vue';
+import TwMeetingReportSideTopics from './meetingReportSideTopics.vue';
+import TwMeetingReportTimeCardsGrid from './meetingReportTimeCardsGrid.vue';
 import TwMeetingReportFooter from './meetingReportFooter.vue';
 import TemplatePreviewModal from './TemplatePreviewModal.vue';
 
@@ -60,7 +67,8 @@ export default {
     };
   },
   components: {
-    TwMeetingReportCardsGrid,
+    TwMeetingReportTimeCardsGrid,
+    TwMeetingReportSideTopics,
     TwMeetingReportGoals,
     TwMeetingReportFooter,
   },
@@ -76,6 +84,9 @@ export default {
     },
     goals() {
       return this.currentMeeting.goals;
+    },
+    sideTopics() {
+      return this.currentMeeting.sideTopics;
     },
     expectedStartTime() {
       return this.currentMeeting.expectedStartTime;

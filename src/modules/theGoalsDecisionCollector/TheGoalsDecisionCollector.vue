@@ -24,7 +24,7 @@
             :checkbox-value="isGoalChecked(goal)"
             :close-when-checked="automaticBehavior"
             @checkbox-change="onCheckboxChange($event, goal, index)">
-            <tw-form-field label="Conclusions">
+            <tw-form-field label="Notes">
               <tw-form-textarea
                 :ref="`textarea-${index}`"
                 :readonly="disabled || isGoalChecked(goal)"

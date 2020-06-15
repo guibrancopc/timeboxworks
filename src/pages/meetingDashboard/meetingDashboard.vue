@@ -5,19 +5,32 @@
         <tw-meeting-dashboard-header :name="name" :description="description" />
         <tw-row>
           <tw-col>
-            <tw-box>
-              <tw-time-countdown
-                size="lg"
-                :time-target="expectedEndTime"
-                :disabled="!isMeetingActive" />
-            </tw-box>
-            <tw-box>
-              <tw-burndown-chart
-                :start-time="expectedStartTime"
-                :end-time="expectedEndTime"
-                :dataset="burndownDataset"
-                :show-projection="isMeetingActive" />
-            </tw-box>
+            <tw-row>
+              <tw-col>
+                <tw-box>
+                  <tw-time-countdown
+                    size="lg"
+                    :time-target="expectedEndTime"
+                    :disabled="!isMeetingActive" />
+                </tw-box>
+              </tw-col>
+            </tw-row>
+            <tw-row>
+              <tw-col>
+                <tw-box>
+                  <tw-burndown-chart
+                    :start-time="expectedStartTime"
+                    :end-time="expectedEndTime"
+                    :dataset="burndownDataset"
+                    :show-projection="isMeetingActive" />
+                </tw-box>
+              </tw-col>
+            </tw-row>
+            <tw-row>
+              <tw-col>
+                <tw-meeting-dashboard-side-topics :items="sideTopics" />
+              </tw-col>
+            </tw-row>
           </tw-col>
           <tw-col>
             <tw-the-goals-decision-collector
@@ -41,6 +54,7 @@
 <script>
 import TwMeetingDashboardHeader from './meetingDashboardHeader.vue';
 import TwMeetingDashboardFooter from './meetingDashboardFooter.vue';
+import TwMeetingDashboardSideTopics from './meetindDashboardSideTopics.vue';
 
 export default {
   name: 'TwMeetingDashboard',
@@ -59,6 +73,9 @@ export default {
     },
     goals() {
       return this.$store.getters.currentMeeting.goals;
+    },
+    sideTopics() {
+      return this.$store.getters.currentMeeting.sideTopics;
     },
     expectedStartTime() {
       return this.$store.getters.currentMeeting.expectedStartTime;
@@ -143,6 +160,7 @@ export default {
   components: {
     TwMeetingDashboardHeader,
     TwMeetingDashboardFooter,
+    TwMeetingDashboardSideTopics,
   },
 };
 </script>

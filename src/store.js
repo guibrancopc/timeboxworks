@@ -29,6 +29,7 @@ const store = new Vuex.Store({
       realStartTime: '',
       realEndTime: '',
       goals: [],
+      sideTopics: [],
       description: '',
     },
   },
@@ -90,6 +91,7 @@ const store = new Vuex.Store({
         realStartTime: '',
         realEndTime: '',
         goals: [],
+        sideTopics: [],
         description: '',
       };
       commit('updateCurrentMeeting', emptyModel);
