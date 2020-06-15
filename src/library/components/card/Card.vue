@@ -2,7 +2,8 @@
   <tw-gutter
     inner
     full
-    class="tw-alert"
+    :style="styles"
+    class="tw-card"
     :class="classes">
     <slot />
   </tw-gutter>
@@ -10,7 +11,7 @@
 
 <script>
 export default {
-  name: 'TwAlert',
+  name: 'TwCard',
   props: {
     theme: {
       type: String,
@@ -26,11 +27,19 @@ export default {
         ].includes(value);
       },
     },
+    width: {
+      type: String,
+    },
   },
   computed: {
+    styles() {
+      return this.width ? {
+        width: this.width,
+      } : {};
+    },
     classes() {
       return {
-        [`tw-alert--${this.theme}`]: true,
+        [`tw-card--${this.theme}`]: true,
       };
     },
   },
@@ -38,38 +47,43 @@ export default {
 </script>
 
 <style scoped>
+.tw-card {
+  border-radius: var(--border-radius);
+  overflow-wrap: break-word;
+}
+
 /* TODO: Organize it with color palette */
-.tw-alert--primary {
+.tw-card--primary {
   color: #004085;
   background-color: #cce5ff;
   border: 1px solid #b8daff;
 }
 
-.tw-alert--secondary {
+.tw-card--secondary {
   color: #383d41;
   background-color: #f9f9f9;
   border: 1px solid #d6d8db;
 }
 
-.tw-alert--success {
+.tw-card--success {
   color: #155724;
   background-color: #d4edda;
   border: 1px solid #c3e6cb;
 }
 
-.tw-alert--danger {
+.tw-card--danger {
   color: #721c24;
   background-color: #f8d7da;
   border: 1px solid #f5c6cb;
 }
 
-.tw-alert--warning {
+.tw-card--warning {
   color: #856404;
   background-color: #fff3cd;
   border: 1px solid #ffeeba;
 }
 
-.tw-alert--info {
+.tw-card--info {
   color: #0c5460;
   background-color: #d1ecf1;
   border: 1px solid #bee5eb;
