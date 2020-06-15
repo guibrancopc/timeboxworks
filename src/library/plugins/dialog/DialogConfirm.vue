@@ -7,7 +7,6 @@
     {{ text }}
     <tw-button
       slot="footer"
-      ref="cancelButton"
       @click="onDismiss"
       outline
       :theme="cancelButtonTheme">
@@ -15,6 +14,7 @@
     </tw-button>
     <tw-button
       slot="footer"
+      ref="confirmButton"
       @click="onConfirm"
       :theme="confirmButtonTheme">
       {{ confirmButtonText }}
@@ -30,7 +30,7 @@ export default {
     title: String,
     disableCloseButton: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     callback: {
       type: Function,
@@ -64,14 +64,14 @@ export default {
       this.callback(true);
       this.$refs.modal.public().close();
     },
-    focusOnCancelButton() {
+    focusOnConfirmButton() {
       setTimeout(() => {
-        this.$refs.cancelButton.$el.focus();
+        this.$refs.confirmButton.$el.focus();
       }, 200);
     },
   },
   mounted() {
-    this.focusOnCancelButton();
+    this.focusOnConfirmButton();
   },
 };
 </script>

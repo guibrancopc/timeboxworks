@@ -3,11 +3,13 @@
     :title="title"
     width="xs"
     ref="modal"
+    footer-justify-content="flex-end"
     :disable-close-button="disableCloseButton"
     @closed="onClose">
     {{ text }}
     <tw-button
       slot="footer"
+      ref="okButton"
       @click="onCloseInternal"
       :theme="buttonTheme">
       {{ buttonText }}
@@ -40,6 +42,14 @@ export default {
     onCloseInternal() {
       this.$refs.modal.public().close();
     },
+    focusOnOkButton() {
+      setTimeout(() => {
+        this.$refs.okButton.$el.focus();
+      }, 200);
+    },
+  },
+  mounted() {
+    this.focusOnOkButton();
   },
 };
 </script>
