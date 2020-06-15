@@ -11,7 +11,7 @@
 export default {
   name: 'TwForm',
   props: {
-    allowSubmitWhenInvalid: Boolean,
+    enableSubmitButtonWhenInvalid: Boolean,
   },
   data() {
     return {
@@ -38,7 +38,7 @@ export default {
       this.emitSubmitEventWhenFormIsValid();
     },
     updateIsSubmittedFlagWhenAllowed() {
-      this.isSubmitted = !!(this.allowSubmitWhenInvalid || this.isValid);
+      this.isSubmitted = !!(this.enableSubmitButtonWhenInvalid || this.isValid);
     },
     emitSubmitEventWhenFormIsValid() {
       if (this.isValid) { this.$emit('submit', this.buildOutput()); }

@@ -135,6 +135,11 @@ export default {
     },
     onReset() {
       this.$store.dispatch('asyncCleanCurrentMeeting');
+      this.name = '';
+      this.expectedStartTime = null;
+      this.expectedEndTime = null;
+      this.goals = [];
+      this.description = '';
     },
     timeGapCustomValidation() {
       const startDateTime = this.getTimestampOf(this.expectedStartTime);
