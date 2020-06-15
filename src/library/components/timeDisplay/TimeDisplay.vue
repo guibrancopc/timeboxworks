@@ -1,5 +1,5 @@
 <template>
-  <tw-alert
+  <tw-card
     :theme="theme"
     class="tw-time-display">
     <div class="tw-time-display__header">
@@ -13,11 +13,11 @@
     <div class="tw-time-display__footer">
       <slot name="footer" />
     </div>
-  </tw-alert>
+  </tw-card>
 </template>
 
 <script>
-import TwAlert from '../alert/Alert.vue';
+import TwCard from '../card';
 import TwTimeFormat from '../timeFormat/TimeFormat.vue';
 
 export default {
@@ -27,7 +27,7 @@ export default {
     TwTimeFormat,
   },
   props: {
-    theme: TwAlert.props.theme,
+    theme: TwCard.props.theme,
   },
 };
 </script>
@@ -35,7 +35,6 @@ export default {
 <style lang="scss" scoped>
 .tw-time-display {
   text-align: center;
-  border-radius: var(--border-radius);
 }
 
 .tw-time-display__time {

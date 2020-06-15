@@ -107,7 +107,7 @@ const getComponentName = scope => scope.$vnode.tag.split('-').pop();
 
 function getInputId(scope) {
   const id = scope.id || scope.formFieldVm.input.id || getUid();
-  if (id > 0) { return id; }
+  if (id) { return id; }
   console.error(`${getComponentName(scope)} component received invalid id: ${id}`);
   return 'ID_ERROR';
 }

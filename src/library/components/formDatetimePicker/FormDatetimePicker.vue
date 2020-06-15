@@ -35,7 +35,14 @@ Settings.defaultLocale = 'en';
 
 export default {
   name: 'TwFormDatetimePicker',
-  inject: ['formVm', 'formFieldVm'],
+  inject: {
+    formVm: {
+      default: null,
+    },
+    formFieldVm: {
+      default: null,
+    },
+  },
   props: {
     id: {
       value: Number,

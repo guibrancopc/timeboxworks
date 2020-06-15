@@ -11,7 +11,7 @@
     @input="onInput"
     @blur="onBlur"
     @keydown="onKeydown"
-    v-dynamic-height="vDynamicHeightSetup()" />
+    v-dynamic-height="vDynamicHeightSetup()"></textarea>
 </template>
 
 <script>
@@ -32,7 +32,14 @@ export default {
       return { 'min-height': `${this.minHeight}px` };
     },
   },
-  inject: ['formVm', 'formFieldVm'],
+  inject: {
+    formVm: {
+      default: null,
+    },
+    formFieldVm: {
+      default: null,
+    },
+  },
   props: {
     id: {
       value: Number,
@@ -88,9 +95,6 @@ export default {
     },
     vDynamicHeightSetup() {
       return { disabled: this.disableDynamicHeight };
-    },
-    vDoubleReturnSetup() {
-      return { disabled: this.disableDoubleReturn };
     },
     getInputHtmlId() {
       return setupInputHtmlId(this);

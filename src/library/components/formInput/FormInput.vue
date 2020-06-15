@@ -23,7 +23,14 @@ import {
 
 export default {
   name: 'TwFormInput',
-  inject: ['formVm', 'formFieldVm'],
+  inject: {
+    formVm: {
+      default: null,
+    },
+    formFieldVm: {
+      default: null,
+    },
+  },
   props: {
     id: {
       value: Number,
