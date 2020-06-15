@@ -3,7 +3,7 @@ import components from './components';
 import plugins from './plugins';
 
 
-export const TwComponents = Vue => {
+export const BricksComponents = Vue => {
   Vue.use(components);
   Vue.use(plugins);
 };
