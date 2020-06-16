@@ -40,7 +40,7 @@ export default {
       type: String,
       required: true,
     },
-    prefix: Boolean,
+    prefix: String,
   },
   computed: {
     finalValue() {
@@ -101,6 +101,10 @@ export default {
 .tw-post-it__textarea {
   padding: 5px;
   height: 120px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: inherit;
 }
 
 .tw-post-it__read-mode {
