@@ -72,12 +72,12 @@
               </tw-col>
             </tw-row>
             <tw-footer justify-content="flex-end">
-              <tw-gutter bottom inline-block>
+              <div class="tw-u-margin--bottom tw-u-display--inline-block">
                 <tw-form-reset-button>Clean Form</tw-form-reset-button>
-              </tw-gutter>
-              <tw-gutter bottom left inline-block>
+              </div>
+              <div class="tw-u-margin--bottom tw-u-margin--left tw-u-display--inline-block">
                 <tw-form-submit-button>Open Dashboard</tw-form-submit-button>
-              </tw-gutter>
+              </div>
             </tw-footer>
           </tw-col>
         </tw-row>

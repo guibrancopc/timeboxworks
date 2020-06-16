@@ -1,13 +1,13 @@
 <template>
   <tw-container full-width>
-    <tw-gutter vertical>
+    <div class="tw-u-margin--vertical">
       <tw-card theme="info" v-if="!isMeetingActive">
         <strong>Ready to go!</strong>
         <span>
           Now you can start your event pressing the "Start event" button below this dashboard. :)
         </span>
       </tw-card>
-    </tw-gutter>
+    </div>
     <tw-page>
       <tw-form>
         <tw-meeting-dashboard-header :name="name" :description="description" />

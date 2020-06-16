@@ -1,12 +1,10 @@
 <template>
-  <tw-gutter
-    inner
-    full
+  <div
     :style="styles"
-    class="tw-card"
+    class="tw-card tw-u-padding"
     :class="classes">
     <slot />
-  </tw-gutter>
+  </div>
 </template>
 
 <script>
@@ -50,6 +48,7 @@ export default {
 .tw-card {
   border-radius: var(--border-radius);
   overflow-wrap: break-word;
+  width: 100%;
 }
 
 /* TODO: Organize it with color palette */

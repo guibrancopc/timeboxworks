@@ -3,7 +3,7 @@
     <tw-box>
       <tw-row>
         <tw-col>
-          <tw-gutter bottom class="tw-u-text-align--right">
+          <div class="tw-u-margin--bottom tw-u-text-align--right">
             <tw-button
               @click="onToggleAutomaticBehavior"
               theme="info"
@@ -12,7 +12,7 @@
             <tw-button
               @click="onToggleAllCollapses"
               size="sm">{{ toggleAllButtonLabel }}</tw-button>
-          </tw-gutter>
+          </div>
           <tw-collapse
             v-for="(goal, index) in goals"
             :ref="`goal-${index}`"

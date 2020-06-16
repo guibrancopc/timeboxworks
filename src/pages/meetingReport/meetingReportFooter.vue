@@ -1,24 +1,24 @@
 <template>
   <tw-footer justify-content="space-between">
     <div>
-      <tw-gutter right bottom inline-block>
+      <div class="tw-u-margin--bottom tw-u-margin--right tw-u-display--inline-block">
         <tw-button
           theme="secondary"
           @click="$emit('backToDashboard')"
           outline>Reopen event</tw-button>
-      </tw-gutter>
-      <tw-gutter right bottom inline-block>
+      </div>
+      <div class="tw-u-margin--bottom tw-u-margin--right tw-u-display--inline-block">
         <tw-button
           outline
           theme="primary"
           @click="$emit('startNewMeeting')">Start new event</tw-button>
-      </tw-gutter>
+      </div>
     </div>
-    <tw-gutter left bottom inline-block>
+    <div class="tw-u-margin--bottom tw-u-margin--left tw-u-display--inline-block">
       <tw-button
         theme="success"
         @click="$emit('copyReportToClipboard')">Preview email</tw-button>
-    </tw-gutter>
+    </div>
   </tw-footer>
 </template>
 

@@ -1,17 +1,19 @@
 <template>
-  <div class="tw-meeting-report-time-cards-grid">
+  <div class="tw-meeting-report-time-cards-grid tw-u-margin--vertical">
     <tw-row>
-      <tw-col>
-        <tw-gutter vertical>
-          <tw-time-display size="md" :time="expectedStartTime" :diffTime="realStartTime">
-            <span slot="header">Expected Start Time</span>
-          </tw-time-display>
-        </tw-gutter>
-      </tw-col>
-      <tw-col>
-        <tw-gutter vertical>
+      <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
+            class="tw-u-margin--vertical"
+            :time="expectedStartTime"
+            :diffTime="realStartTime">
+            <span slot="header">Expected Start Time</span>
+          </tw-time-display>
+      </tw-col>
+      <tw-col class="tw-u-display--flex">
+          <tw-time-display
+            size="md"
+            class="tw-u-margin--vertical"
             :time="realStartTime"
             :diffTime="expectedStartTime"
             :theme="startDiffFeedback.theme">
@@ -23,21 +25,22 @@
               @diffUpdated="onStartDiffUpdated"/>
             </span>
           </tw-time-display>
-        </tw-gutter>
       </tw-col>
     </tw-row>
     <tw-row>
-      <tw-col>
-        <tw-gutter vertical>
-          <tw-time-display size="md" :time="expectedEndTime" :diffTime="realEndTime">
-            <span slot="header">Epected End Time</span>
-          </tw-time-display>
-        </tw-gutter>
-      </tw-col>
-      <tw-col>
-        <tw-gutter vertical>
+      <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
+            class="tw-u-margin--vertical"
+            :time="expectedEndTime"
+            :diffTime="realEndTime">
+            <span slot="header">Epected End Time</span>
+          </tw-time-display>
+      </tw-col>
+      <tw-col class="tw-u-display--flex">
+          <tw-time-display
+            size="md"
+            class="tw-u-margin--vertical"
             :time="realEndTime"
             :diffTime="expectedEndTime"
             :theme="endDiffFeedback.theme">
@@ -49,26 +52,24 @@
               @diffUpdated="onEndDiffUpdated" />
             </span>
           </tw-time-display>
-        </tw-gutter>
       </tw-col>
     </tw-row>
     <tw-row>
-      <tw-col>
-        <tw-gutter vertical>
+      <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
+            class="tw-u-margin--vertical"
             type="duration"
             :time="expectedEndTime"
             :diffTime="expectedStartTime"
             @diffUpdated="onExpectedDiffUpdated" >
             <span slot="header">Expected Total Duration</span>
           </tw-time-display>
-        </tw-gutter>
       </tw-col>
-      <tw-col>
-        <tw-gutter vertical>
+      <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
+            class="tw-u-margin--vertical"
             type="duration"
             :theme="durationDiffFeedback.theme"
             :time="realEndTime"
@@ -81,7 +82,6 @@
               :diffTime="realDiff" />
             </span>
           </tw-time-display>
-        </tw-gutter>
       </tw-col>
     </tw-row>
   </div>
@@ -138,15 +138,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.tw-meeting-report-cards-grid {
-  /deep/ .tw-gutter {
-    height: calc(100% - 30px);
-  }
-
-  .tw-time-display {
-    height: 100%;
-  }
-}
-</style>

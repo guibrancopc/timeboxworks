@@ -26,12 +26,12 @@
             @click="deleteInputWithDelayedFocus(index)">&times;</tw-button>
         </div>
     </tw-form-field>
-    <tw-gutter bottom>
+    <div class="tw-u-margin--bottom">
       <tw-button
         class="tw-form-inputs-list__add-button"
         @click="addNewInput({ shouldFocus: true })"
         block outline>+ Add {{label}}</tw-button>
-    </tw-gutter>
+    </div>
   </div>
 </template>
 

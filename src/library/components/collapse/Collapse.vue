@@ -18,9 +18,9 @@
     <div
       ref="mainContent"
       class="tw-collapse__main-content">
-      <tw-gutter full inner>
+      <div class="tw-u-padding">
         <slot />
-      </tw-gutter>
+      </div>
     </div>
   </div>
 </template>
