@@ -48,7 +48,6 @@ export default {
 .tw-card {
   border-radius: var(--border-radius);
   overflow-wrap: break-word;
-  width: 100%;
 }
 
 /* TODO: Organize it with color palette */

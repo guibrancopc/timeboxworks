@@ -4,7 +4,7 @@
       <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
-            class="tw-u-margin--vertical"
+            class="tw-u-margin--vertical tw-width--full"
             :time="expectedStartTime"
             :diffTime="realStartTime">
             <span slot="header">Expected Start Time</span>
@@ -13,7 +13,7 @@
       <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
-            class="tw-u-margin--vertical"
+            class="tw-u-margin--vertical tw-width--full"
             :time="realStartTime"
             :diffTime="expectedStartTime"
             :theme="startDiffFeedback.theme">
@@ -31,7 +31,7 @@
       <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
-            class="tw-u-margin--vertical"
+            class="tw-u-margin--vertical tw-width--full"
             :time="expectedEndTime"
             :diffTime="realEndTime">
             <span slot="header">Epected End Time</span>
@@ -40,7 +40,7 @@
       <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
-            class="tw-u-margin--vertical"
+            class="tw-u-margin--vertical tw-width--full"
             :time="realEndTime"
             :diffTime="expectedEndTime"
             :theme="endDiffFeedback.theme">
@@ -58,7 +58,7 @@
       <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
-            class="tw-u-margin--vertical"
+            class="tw-u-margin--vertical tw-width--full"
             type="duration"
             :time="expectedEndTime"
             :diffTime="expectedStartTime"
@@ -69,7 +69,7 @@
       <tw-col class="tw-u-display--flex">
           <tw-time-display
             size="md"
-            class="tw-u-margin--vertical"
+            class="tw-u-margin--vertical tw-width--full"
             type="duration"
             :theme="durationDiffFeedback.theme"
             :time="realEndTime"
