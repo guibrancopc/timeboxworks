@@ -29,7 +29,6 @@ export default {
 <style scoped>
 .tw-the-header {
   background-color: #E8E8E8;
-  margin-bottom: 45px;
 }
 
 .tw-the-header__content {
