@@ -3,15 +3,18 @@
     <tw-box>
       <tw-row>
         <tw-col>
-          <div class="tw-u-margin--bottom tw-u-text-align--right">
-            <tw-button
-              @click="onToggleAutomaticBehavior"
-              theme="info"
-              :outline="!automaticBehavior"
-              size="sm">{{ automaticBehaviorButtonLabel }}</tw-button>
-            <tw-button
-              @click="onToggleAllCollapses"
-              size="sm">{{ toggleAllButtonLabel }}</tw-button>
+          <div class="tw-u-margin--bottom tw-u-display--flex tw-u-justify-content--space-between">
+            <div>
+              <tw-switch
+                :checked="automaticBehavior"
+                @change="onToggleAutomaticBehavior" />
+              <tw-label text="Automatic" />
+            </div>
+            <div>
+              <tw-button
+                @click="onToggleAllCollapses"
+                size="sm">{{ toggleAllButtonLabel }}</tw-button>
+            </div>
           </div>
           <tw-collapse
             v-for="(goal, index) in goals"
@@ -48,6 +51,7 @@ export default {
   data() {
     return {
       toggleAll: false,
+      checked: false,
     };
   },
   props: {
@@ -72,7 +76,7 @@ export default {
     toggleAllButtonLabel() {
       return this.toggleAll ? 'Close all' : 'Open all';
     },
-    automaticBehaviorButtonLabel() {
+    automaticBehaviorLabel() {
       return this.automaticBehavior ? 'Automatic' : 'Manual';
     },
   },

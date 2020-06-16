@@ -44,7 +44,6 @@ import { getUid } from '../../services/uidGenerator/uidGenerator';
 import TwFormInput from '../formInput/FormInput.vue';
 import TwButton from '../button/Button.vue';
 import TwFormField from '../formField/FormField.vue';
-import TwGutter from '../gutter/Gutter.vue';
 
 export default {
   name: 'TwFormInputsList',
@@ -52,7 +51,6 @@ export default {
     TwFormInput,
     TwButton,
     TwFormField,
-    TwGutter,
   },
   data() {
     return {

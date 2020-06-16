@@ -105,6 +105,8 @@ export default {
   border: none;
   box-shadow: none;
   color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 .tw-post-it__read-mode {

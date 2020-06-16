@@ -21,7 +21,6 @@ const mountComponent = () => mount(meetingForm, {
     TwRow: true,
     TwCol: true,
     TwHeading: true,
-    TwGutter: true,
     TwForm: TwFormStub,
     TwFormField: true,
     TwFormInput: true,
