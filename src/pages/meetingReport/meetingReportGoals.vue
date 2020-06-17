@@ -13,8 +13,10 @@
             :time="goal.finishedAt" />
           <span v-else>&#9888; Item has not been completed</span>
         </tw-heading>
-        <tw-heading size="xs">Notes</tw-heading>
-        <tw-article v-if="goal.decisions" :text="goal.decisions" />
+        <div v-if="goal.decisions">
+          <tw-heading v-if="goal.decisions" size="xs">Notes</tw-heading>
+          <tw-article v-if="goal.decisions" :text="goal.decisions" />
+        </div>
       </div>
     </tw-list-item>
   </tw-list>

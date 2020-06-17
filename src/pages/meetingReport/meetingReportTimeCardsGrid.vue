@@ -34,7 +34,7 @@
             class="tw-u-margin--vertical tw-width--full"
             :time="expectedEndTime"
             :diffTime="realEndTime">
-            <span slot="header">Epected End Time</span>
+            <span slot="header">Expected End Time</span>
           </tw-time-display>
       </tw-col>
       <tw-col class="tw-u-display--flex">

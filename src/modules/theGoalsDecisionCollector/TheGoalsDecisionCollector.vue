@@ -42,11 +42,13 @@
 </template>
 
 <script>
+const ONE_SECOND = 1000;
+
 export default {
   name: 'TwTheGoalsDecisionCollector',
   mounted() {
     this.initModelProperties();
-    setTimeout(this.openFirstUncheckedGoal, 2000);
+    setTimeout(this.openFirstUncheckedGoal, ONE_SECOND);
   },
   data() {
     return {
