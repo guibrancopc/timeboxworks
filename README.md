@@ -1,8 +1,11 @@
 # Timebox Works :hourglass_flowing_sand:
 
-> This is going to be a tool to manage meetings and increase their efficiency. Also, from it will born a separated NPM UI components library using Vue.js.
+> This is a tool to manage events in general, including meetings and can increase its's efficiency. Also, from it will born a separated NPM UI components library using Vue.js.
 
 :warning: This application is not done yet, neither the components library. I'll inform here when it's available to use.
+
+It can be tested under [http://timebox.works](http://timebox.works).
+
 
 ## Project setup
 
