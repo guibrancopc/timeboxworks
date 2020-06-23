@@ -48,9 +48,10 @@ export default {
         const { inputsGroupKey, name, value } = formField.input;
         if (inputsGroupKey) {
           this.initInputGroupArrayWhenNeeded(acumulator, inputsGroupKey);
-          acumulator[inputsGroupKey].push({ name, value });
+          // acumulator[inputsGroupKey].push({ name, value });
+          this.manageListItems(acumulator, formField);
         } else {
-          acumulator[formField.input.name] = formField.input.value;
+          acumulator[name] = value;
         }
         return acumulator;
       }, {});
@@ -58,6 +59,25 @@ export default {
     initInputGroupArrayWhenNeeded(acumulator, inputsGroupKey) {
       if (!Array.isArray(acumulator[inputsGroupKey])) {
         acumulator[inputsGroupKey] = [];
+      }
+    },
+    manageListItems(acumulator, formField) {
+      const {
+        inputsGroupKey, inputsGroupId, name, value,
+      } = formField.input;
+
+      const inputsGroupList = acumulator[inputsGroupKey];
+
+      const inputsGroupFound = inputsGroupList
+        .find(inputsGroup => inputsGroup.id === inputsGroupId);
+
+      if (inputsGroupFound) {
+        inputsGroupFound[name] = value;
+      } else {
+        inputsGroupList.push({
+          id: inputsGroupId,
+          [name]: value,
+        });
       }
     },
     onReset(event) {
@@ -68,6 +88,7 @@ export default {
         confirmButtonText: 'Yes, do it',
         cancelButtonText: 'Not anymore',
         callback: isConfirmed => {
+          console.log('formFields', this.formFields);
           if (isConfirmed) {
             this.cleanFormUp();
             this.runResetCallbacks();

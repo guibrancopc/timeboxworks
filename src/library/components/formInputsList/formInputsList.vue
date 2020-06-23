@@ -1,31 +1,55 @@
 <template>
   <div class="tw-form-inputs-list">
-    <tw-form-field
+    <tw-row
       v-for="(item, index) in inputsList"
-      :key="item.id"
-      :label="`${label} ${index + 1}`">
-      <div class="tw-form-inputs-list__input-wrapper">
-        <tw-form-input
-          required
-          :ref="`formInput-${item.id}`"
-          :id="item.id"
-          :name="`${inputName}-${index}`"
-          :value="item.value"
-          :type="type"
-          :maxLength="maxLength"
-          :minLength="minLength"
-          :placeholder="placeholder"
-          :inputsGroupKey="inputsGroupKey"
-          @input="onInput($event, index)"
-          @keydown="onKeydown($event, index)"/>
-          <tw-button
-            size="lg"
-            class="tw-form-inputs-list__delete-button"
-            theme="link"
-            v-if="inputsListHasMoreThanOneItem()"
-            @click="deleteInputWithDelayedFocus(index)">&times;</tw-button>
-        </div>
-    </tw-form-field>
+      :key="item.id">
+      <tw-col size="8">
+        <tw-form-field
+          :label="`${label} ${index + 1}`">
+          <div class="tw-form-inputs-list__input-wrapper">
+            <tw-form-input
+              required
+              :ref="`formInput-${item.id}`"
+              :id="item.id"
+              name="name"
+              :value="item.value"
+              :type="type"
+              :maxLength="maxLength"
+              :minLength="minLength"
+              :placeholder="placeholder"
+              :inputsGroupKey="inputsGroupKey"
+              :inputsGroupId="`${inputName}-${index}`"
+              @input="onInput($event, index)"
+              @keydown="onKeydown($event, index)" />
+            </div>
+        </tw-form-field>
+      </tw-col>
+      <tw-col size="3">
+        <tw-form-field
+          label="Weight">
+          <div class="tw-form-inputs-list__input-wrapper">
+            <tw-form-input
+              required
+              name="weight"
+              :value="item.weight"
+              type="number"
+              :maxLength="10"
+              :inputsGroupKey="inputsGroupKey"
+              :inputsGroupId="`${inputName}-${index}`"
+              @input="onInput($event, index)"
+              @keydown="onKeydown($event, index)"/>
+            </div>
+        </tw-form-field>
+      </tw-col>
+      <tw-col size="1">
+        <tw-button
+          size="lg"
+          class="tw-form-inputs-list__delete-button"
+          theme="link"
+          v-if="inputsListHasMoreThanOneItem()"
+          @click="deleteInputWithDelayedFocus(index)">&times;</tw-button>
+      </tw-col>
+    </tw-row>
     <div class="tw-u-margin--bottom">
       <tw-button
         class="tw-form-inputs-list__add-button"
@@ -202,6 +226,6 @@ function getPreviousInputId(inputsList, index) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './FormInputsList.scss';
 </style>

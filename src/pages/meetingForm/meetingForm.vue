@@ -127,6 +127,7 @@ export default {
       }
     },
     onSubmit(formData) {
+      console.log('formData', formData);
       this.$store.dispatch('asyncUpdateCurrentMeeting', { ...formData });
       this.goForDashboard();
     },

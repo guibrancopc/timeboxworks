@@ -40,6 +40,7 @@ export default {
         isRequired: false,
         isBlurred: false,
         inputsGroupKey: '',
+        inputsGroupId: '',
       },
     };
   },

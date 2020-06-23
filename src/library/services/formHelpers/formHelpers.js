@@ -75,6 +75,10 @@ const bindInputName = scope => {
   scope.formFieldVm.input.name = scope.name;
 };
 
+const bindinputsGroupId = scope => {
+  scope.formFieldVm.input.inputsGroupId = scope.inputsGroupId;
+};
+
 const bindInputsGroupKey = scope => {
   scope.formFieldVm.input.inputsGroupKey = scope.inputsGroupKey;
 };
@@ -93,6 +97,7 @@ export const initForm = (initialValue, scope) => {
   bindRequiredValidation(scope);
   bindInputName(scope);
   bindInputsGroupKey(scope);
+  bindinputsGroupId(scope);
   bindInputInFormList(scope);
   bindInputId(scope);
   runValidation(event, scope);

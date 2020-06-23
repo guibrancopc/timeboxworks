@@ -1,5 +1,7 @@
 <template>
-  <div class="tw-col">
+  <div
+    :style="styles"
+    class="tw-col">
     <slot></slot>
   </div>
 </template>
@@ -7,6 +9,19 @@
 <script>
 export default {
   name: 'TwCol',
+  props: {
+    size: {
+      type: [Number, String],
+      default: 1,
+    },
+  },
+  computed: {
+    styles() {
+      return {
+        'flex-grow': this.size,
+      };
+    },
+  },
 };
 </script>
 
