@@ -16,16 +16,21 @@ function getTimeOffset(startTimestamp, endTimestamp, scaleX) {
   return (endTimestamp - startTimestamp) / scaleX;
 }
 
+export function getTotalWeight(dataset = []) {
+  return dataset
+    .reduce((acc, item) => acc + (Number(item.weight) || 1), 0);
+}
+
 export function updateProgressData(dataset, progressData) {
   const orderedDatasetByEndTime = getOrderedDatasetByEndTime([...dataset]);
-  let finishedTaskCounter = dataset.length;
+  let finishedTaskCounter = getTotalWeight(dataset);
 
   orderedDatasetByEndTime
     .forEach(datasetItem => {
       if (!datasetItem.finishedAt) {
         removeItemFromProgressData(progressData, datasetItem.id);
       } else {
-        finishedTaskCounter -= 1;
+        finishedTaskCounter -= datasetItem.weight;
         const { id, title, finishedAt } = datasetItem;
         const item = getProgressDataItemById(progressData, id);
         if (item) {

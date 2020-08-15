@@ -103,8 +103,8 @@ export default {
     },
     burndownDataset() {
       return this.currentMeeting.goals.map(goal => ({
-        id: goal.name,
-        title: goal.value,
+        id: goal.id,
+        title: goal.name,
         finishedAt: goal.finishedAt || null,
       }));
     },

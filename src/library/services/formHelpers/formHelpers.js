@@ -1,53 +1,53 @@
 import { getUid } from '../uidGenerator/uidGenerator';
 
-const errorMessages = {
-  invalidValue: 'Invalid value',
-  requiredField: 'Required field',
-  minLength: 'Min of %s digits',
+const ERROR_MESSAGES = {
+  INVALID_VALUE: 'Invalid value',
+  REQUIRED_FIELD: 'Required field',
+  MIN_LENGTH: 'Min of %s digits',
 };
 
-const setupErrorMessage = (shouldShow, message, scope) => {
-  if (shouldShow) { scope.formFieldVm.errorMessage = message; }
+const setupErrorMessage = (shouldShow, message, vm) => {
+  if (shouldShow) { vm.formFieldVm.errorMessage = message; }
 };
 
-const isRequiredValidationValid = (value, scope) => {
-  const isValid = !scope.required || !!value;
-  setupErrorMessage(!isValid, errorMessages.requiredField, scope);
+const isRequiredValidationValid = (value, vm) => {
+  const isValid = !vm.required || !!value;
+  setupErrorMessage(!isValid, ERROR_MESSAGES.REQUIRED_FIELD, vm);
   return isValid;
 };
 
 const buildCustomErrorMessage = income => {
   const customErrorMessage = typeof income === 'string' ? income : null;
-  return customErrorMessage || errorMessages.invalidValue;
+  return customErrorMessage || ERROR_MESSAGES.INVALID_VALUE;
 };
 
-const isCustomValidationValid = (value, scope, event) => {
-  if (!scope.customValidation) { return true; }
-  const income = scope.customValidation(value, event);
+const isCustomValidationValid = (value, vm, event) => {
+  if (!vm.customValidation) { return true; }
+  const income = vm.customValidation(value, event);
   const isValid = income === true;
-  setupErrorMessage(!isValid, buildCustomErrorMessage(income), scope);
+  setupErrorMessage(!isValid, buildCustomErrorMessage(income), vm);
   return isValid;
 };
 
 const replaceParam = (string, param) => string.replace('%s', param);
 
-const isMinLengthValid = (value, scope) => {
-  if (!scope.minLength || !value) { return true; }
-  const isValid = value.length >= scope.minLength;
-  setupErrorMessage(!isValid, replaceParam(errorMessages.minLength, scope.minLength), scope);
+const isMinLengthValid = (value, vm) => {
+  if (!vm.minLength || !value) { return true; }
+  const isValid = value.length >= vm.minLength;
+  setupErrorMessage(!isValid, replaceParam(ERROR_MESSAGES.MIN_LENGTH, vm.minLength), vm);
   return isValid;
 };
 
-const cleanInputErrorMessage = scope => {
-  scope.formFieldVm.errorMessage = '';
+const cleanInputErrorMessage = vm => {
+  vm.formFieldVm.errorMessage = '';
 };
 
-const applyRules = (value, scope, event) => isMinLengthValid(value, scope)
-&& isCustomValidationValid(value, scope, event)
-&& isRequiredValidationValid(value, scope);
+const applyRules = (value, vm, event) => isMinLengthValid(value, vm)
+&& isCustomValidationValid(value, vm, event)
+&& isRequiredValidationValid(value, vm);
 
-const bindInputValue = (value, scope) => {
-  scope.formFieldVm.setInputValue(value);
+const bindInputValue = (value, vm) => {
+  vm.formFieldVm.setInputValue(value && vm.type === 'number' ? Number(value) : value);
 };
 
 function getEventValue(event) {
@@ -56,91 +56,96 @@ function getEventValue(event) {
   return value;
 }
 
-export const runValidation = (event, scope) => {
-  if (!scope.formVm || !scope.formFieldVm) { return; }
+export const runValidation = (event, vm) => {
+  if (!vm.formVm || !vm.formFieldVm) { return; }
   const value = getEventValue(event);
-  const isInputValid = applyRules(value, scope, event);
-  scope.formFieldVm.input.isValid = isInputValid;
-  bindInputValue(value, scope);
+  const isInputValid = applyRules(value, vm, event);
+  vm.formFieldVm.input.isValid = isInputValid;
+  bindInputValue(value, vm);
   if (isInputValid) {
-    cleanInputErrorMessage(scope);
+    cleanInputErrorMessage(vm);
   }
 };
 
-const bindRequiredValidation = scope => {
-  scope.formFieldVm.input.isRequired = !!scope.required;
+const bindRequiredValidation = vm => {
+  vm.formFieldVm.input.isRequired = !!vm.required;
 };
 
-const bindInputName = scope => {
-  scope.formFieldVm.input.name = scope.name;
+const bindInputName = vm => {
+  vm.formFieldVm.input.name = vm.name;
 };
 
-const bindInputsGroupKey = scope => {
-  scope.formFieldVm.input.inputsGroupKey = scope.inputsGroupKey;
+const bindInputsGroupKey = vm => {
+  vm.formFieldVm.input.inputsGroupKey = vm.inputsGroupKey;
 };
 
-const bindInputInFormList = scope => {
-  scope.formVm.formFields.push(scope.formFieldVm);
+const bindInputsSubGroupKey = vm => {
+  vm.formFieldVm.input.inputsSubGroupKey = vm.inputsSubGroupKey;
 };
 
-const bindInputId = scope => {
-  scope.formFieldVm.input.id = scope.id || getUid();
+const bindInputInFormList = vm => {
+  vm.formVm.formFields.push(vm.formFieldVm);
 };
 
-export const initForm = (initialValue, scope) => {
-  if (!scope.formVm || !scope.formFieldVm) { return; }
+const bindInputId = vm => {
+  vm.formFieldVm.input.id = vm.id || getUid();
+};
+
+export const initForm = (initialValue, vm) => {
+  if (!vm.formVm || !vm.formFieldVm) { return; }
   const event = { target: { value: initialValue } };
-  bindRequiredValidation(scope);
-  bindInputName(scope);
-  bindInputsGroupKey(scope);
-  bindInputInFormList(scope);
-  bindInputId(scope);
-  runValidation(event, scope);
+  bindRequiredValidation(vm);
+  bindInputName(vm);
+  bindInputsGroupKey(vm);
+  bindInputsSubGroupKey(vm);
+  bindInputInFormList(vm);
+  bindInputId(vm);
+  runValidation(event, vm);
 };
 
-export const setIsBlurred = scope => {
-  if (!scope.formFieldVm) { return; }
-  scope.formFieldVm.input.isBlurred = true;
+export const setIsBlurred = vm => {
+  if (!vm.formFieldVm) { return; }
+  vm.formFieldVm.input.isBlurred = true;
 };
 
-const getComponentName = scope => scope.$vnode.tag.split('-').pop();
+const getComponentName = vm => vm.$vnode.tag.split('-').pop();
 
-function getInputId(scope) {
-  const id = scope.id || scope.formFieldVm.input.id || getUid();
+function getInputId(vm) {
+  const id = vm.id || vm.formFieldVm.input.id || getUid();
   if (id) { return id; }
-  console.error(`${getComponentName(scope)} component received invalid id: ${id}`);
+  console.error(`${getComponentName(vm)} component received invalid id: ${id}`);
   return 'ID_ERROR';
 }
 
-export const setupInputHtmlId = scope => {
-  const inputHtmlId = `input-${getInputId(scope)}`;
-  if (scope.formFieldVm) { scope.formFieldVm.input.htmlId = inputHtmlId; }
+export const setupInputHtmlId = vm => {
+  const inputHtmlId = `input-${getInputId(vm)}`;
+  if (vm.formFieldVm) { vm.formFieldVm.input.htmlId = inputHtmlId; }
   return inputHtmlId;
 };
 
-export const setInputAndFormDirty = scope => {
-  if (!scope.formVm || !scope.formFieldVm) { return; }
-  scope.formVm.isDirty = true;
-  scope.formFieldVm.input.isDirty = true;
+export const setInputAndFormDirty = vm => {
+  if (!vm.formVm || !vm.formFieldVm) { return; }
+  vm.formVm.isDirty = true;
+  vm.formFieldVm.input.isDirty = true;
 };
 
-function getFormFieldIndexById(scope, inputIdToBeRemoved) {
-  return scope.formVm.formFields.findIndex(value => value.input.id === inputIdToBeRemoved);
+function getFormFieldIndexById(vm, inputIdToBeRemoved) {
+  return vm.formVm.formFields.findIndex(value => value.input.id === inputIdToBeRemoved);
 }
 
 export const deleteItemFromListByIndex = ({ list, itemIndex }) => {
   list.splice(itemIndex, 1);
 };
 
-export const removeFormFieldByInputId = ({ scope, inputIdToBeRemoved }) => {
-  if (!scope.formVm || !scope.formFieldVm) { return; }
-  const indexFormFieldToBeRemoved = getFormFieldIndexById(scope, inputIdToBeRemoved);
+export const removeFormFieldByInputId = ({ vm, inputIdToBeRemoved }) => {
+  if (!vm.formVm || !vm.formFieldVm) { return; }
+  const indexFormFieldToBeRemoved = getFormFieldIndexById(vm, inputIdToBeRemoved);
   if (indexFormFieldToBeRemoved > -1) {
     deleteItemFromListByIndex({
-      list: scope.formVm.formFields,
+      list: vm.formVm.formFields,
       itemIndex: indexFormFieldToBeRemoved,
     });
   } else {
-    console.error(`Dynamic input could not be deleted from form model list from ${getComponentName(scope)} component!`);
+    console.error(`Dynamic input could not be deleted from form model list from ${getComponentName(vm)} component!`);
   }
 };
