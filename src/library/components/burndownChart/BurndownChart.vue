@@ -13,7 +13,7 @@
 
 <script>
 import {
-  getLabels, getCustomLabels, updateProgressData,
+  getLabels, getCustomLabels, getTotalWeight, updateProgressData,
 } from './BurndownChartService';
 import { momentFactory, getTimestampOf, getNow } from '../../services/timeService/timeService';
 
@@ -46,6 +46,17 @@ export default {
     },
     showProjection: Boolean,
   },
+  beforeMount() {
+    this.insertFirstDotInProgressData();
+    updateProgressData(this.dataset, this.progressData);
+    this.initProjection();
+  },
+  mounted() {
+    this.datasetsFromChart = this.$refs.chart.datasets;
+  },
+  beforeDestroy() {
+    this.stopCounter();
+  },
   watch: {
     dataset(value) {
       updateProgressData(value, this.progressData);
@@ -61,11 +72,12 @@ export default {
     },
   },
   computed: {
-    totalItems() {
-      return this.dataset.length;
+    totalWeight() {
+      return getTotalWeight(this.dataset);
     },
     totalCompletedItens() {
-      return this.dataset.filter(data => data.finishedAt).length;
+      return this.dataset
+        .filter(data => data.finishedAt).length;
     },
     labels() {
       return getLabels({
@@ -103,7 +115,7 @@ export default {
     },
     getTendencyData() {
       const data = [];
-      data[0] = this.totalItems;
+      data[0] = this.totalWeight;
       data[scaleX] = 0;
       return data;
     },
@@ -130,7 +142,7 @@ export default {
         id: 'first-dot',
         title: 'No task is done yet.',
         x: momentFactory(this.startTime),
-        y: this.totalItems,
+        y: this.totalWeight,
       });
     },
     initProjection() {
@@ -149,7 +161,7 @@ export default {
         id: '_projection-now',
         title: 'Projection',
         x: this.timeNow,
-        y: progressDataLastItem.y - 1,
+        y: progressDataLastItem.y - getAvgOfRemainingGoalWeights(this.dataset),
       });
     },
     updateProjectionDatasetExibition(shouldShowProjection) {
@@ -163,18 +175,17 @@ export default {
       clearInterval(this.intervalId);
     },
   },
-  beforeMount() {
-    this.insertFirstDotInProgressData();
-    updateProgressData(this.dataset, this.progressData);
-    this.initProjection();
-  },
-  mounted() {
-    this.datasetsFromChart = this.$refs.chart.datasets;
-  },
-  beforeDestroy() {
-    this.stopCounter();
-  },
 };
+
+function getAvgOfRemainingGoalWeights(dataset = []) {
+  return getAvgOfNumberList(dataset
+    .filter(item => !item.finishedAt)
+    .map(item => item.weight));
+}
+
+function getAvgOfNumberList(list = []) {
+  return list.length && list.reduce((acc, item) => acc + item) / list.length;
+}
 
 function cleanUpArray(array) {
   array.splice(0, array.length);

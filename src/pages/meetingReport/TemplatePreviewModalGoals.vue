@@ -5,14 +5,17 @@
       <div
         v-for="(goal, index) in goals"
         style="margin-bottom: 50px"
-        :key="goal.name">
-          <h3 :style="styles.h3">{{ index + 1 }}. {{ goal.value }}</h3>
+        :key="goal.id">
+          <h3 :style="styles.h3">{{ index + 1 }}. {{ goal.name }}</h3>
           <label :style="styles.label">
             <span v-if="goal.finishedAt">&#9989; Done at </span>
             <tw-time-format
               v-if="goal.finishedAt"
               :time="goal.finishedAt" />
             <span v-else>&#9888; Item has not been completed</span>
+            <p v-if="shouldShowWeight">
+              <small>Weight: {{ goal.weight || 1 }}</small>
+            </p>
           </label>
           <div v-if="goal.decisions">
             <h4 :style="styles.h4">Notes</h4>
@@ -38,6 +41,11 @@ export default {
   },
   components: {
     TwTemplatePreviewModalArticle,
+  },
+  computed: {
+    shouldShowWeight() {
+      return this.goals.some(item => item.weight !== 1);
+    },
   },
 };
 </script>

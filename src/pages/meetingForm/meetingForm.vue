@@ -127,6 +127,7 @@ export default {
       }
     },
     onSubmit(formData) {
+      fillWeightValuesWhenSomeIsFilled(formData);
       this.$store.dispatch('asyncUpdateCurrentMeeting', { ...formData });
       this.goForDashboard();
     },
@@ -168,4 +169,14 @@ export default {
     },
   },
 };
+
+function fillWeightValuesWhenSomeIsFilled({ goals }) {
+  if (goals.some(item => !item.weight)) {
+    goals
+      .filter(item => !item.weight)
+      .forEach(item => {
+        item.weight = 1;
+      });
+  }
+}
 </script>

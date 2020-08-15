@@ -107,8 +107,9 @@ export default {
     },
     burndownDataset() {
       return this.goals.map(goal => ({
-        id: goal.name,
-        title: goal.value,
+        id: goal.id,
+        title: goal.name,
+        weight: goal.weight,
         finishedAt: goal.finishedAt || null,
       }));
     },
@@ -122,14 +123,14 @@ export default {
       }
     },
     redirectAlert(pageTitle, pageName) {
-      const scope = this;
+      const vm = this;
       this.$twDialog.alert({
         title: 'Oops!',
         text: `You have not completed this event yet to see a report. We will redirect to the ${pageTitle}  page.`,
         buttonTheme: 'info',
         buttonText: 'Understood',
         callback() {
-          scope.$router.push({ name: pageName });
+          vm.$router.push({ name: pageName });
         },
       });
     },

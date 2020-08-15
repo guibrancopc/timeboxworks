@@ -68,6 +68,10 @@ export default {
       type: String,
       default: '',
     },
+    inputsSubGroupKey: {
+      type: String,
+      default: '',
+    },
     customValidation: Function,
     required: Boolean,
   },

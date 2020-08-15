@@ -19,8 +19,8 @@
           <tw-collapse
             v-for="(goal, index) in goals"
             :ref="`goal-${index}`"
-            :key="goal.name"
-            :title="goal.value"
+            :key="goal.id"
+            :title="goal.name"
             :is-opened="toggleAll"
             :checkbox-disabled="disabled"
             checkbox-label="Done"
@@ -31,9 +31,10 @@
               <tw-form-textarea
                 :ref="`textarea-${index}`"
                 :readonly="disabled || isGoalChecked(goal)"
-                :name="goal.name"
+                :name="goal.id"
                 v-model="goal.decisions"/>
             </tw-form-field>
+            <small v-if="shouldShowWeight">Weight: {{ goal.weight || 1 }}</small>
           </tw-collapse>
         </tw-col>
       </tw-row>
@@ -42,13 +43,13 @@
 </template>
 
 <script>
-const ONE_SECOND = 1000;
+const HALF_SECOND = 500;
 
 export default {
   name: 'TwTheGoalsDecisionCollector',
   mounted() {
     this.initModelProperties();
-    setTimeout(this.openFirstUncheckedGoal, ONE_SECOND);
+    setTimeout(this.openFirstUncheckedGoal, HALF_SECOND);
   },
   data() {
     return {
@@ -80,6 +81,9 @@ export default {
     },
     automaticBehaviorLabel() {
       return this.automaticBehavior ? 'Automatic' : 'Manual';
+    },
+    shouldShowWeight() {
+      return this.goals.some(item => item.weight !== 1);
     },
   },
   methods: {

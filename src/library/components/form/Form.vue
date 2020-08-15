@@ -41,24 +41,21 @@ export default {
       this.isSubmitted = !!(this.enableSubmitButtonWhenInvalid || this.isValid);
     },
     emitSubmitEventWhenFormIsValid() {
-      if (this.isValid) { this.$emit('submit', this.buildOutput()); }
+      if (this.isValid) {
+        this.$emit('submit', this.buildOutput());
+      }
     },
     buildOutput() {
       return this.formFields.reduce((acumulator, formField) => {
         const { inputsGroupKey, name, value } = formField.input;
         if (inputsGroupKey) {
-          this.initInputGroupArrayWhenNeeded(acumulator, inputsGroupKey);
-          acumulator[inputsGroupKey].push({ name, value });
+          initInputGroupArrayWhenNeeded(acumulator, inputsGroupKey);
+          pushHandler(acumulator[inputsGroupKey], formField);
         } else {
-          acumulator[formField.input.name] = formField.input.value;
+          acumulator[name] = value;
         }
         return acumulator;
       }, {});
-    },
-    initInputGroupArrayWhenNeeded(acumulator, inputsGroupKey) {
-      if (!Array.isArray(acumulator[inputsGroupKey])) {
-        acumulator[inputsGroupKey] = [];
-      }
     },
     onReset(event) {
       event.preventDefault();
@@ -92,6 +89,33 @@ export default {
     },
   },
 };
+
+function pushHandler(group = [], formField) {
+  const { inputsSubGroupKey, name, value } = formField.input;
+  const subGroupModel = findSubGroupModel(group, inputsSubGroupKey);
+
+  if (subGroupModel) {
+    subGroupModel[name] = value;
+  } else {
+    group.push({
+      id: inputsSubGroupKey,
+      [name]: value,
+    });
+  }
+}
+
+function findSubGroupModel(group, id) {
+  return group.find(item => {
+    if (item.id === id) { return item; }
+    return false;
+  });
+}
+
+function initInputGroupArrayWhenNeeded(acumulator, inputsGroupKey) {
+  if (!Array.isArray(acumulator[inputsGroupKey])) {
+    acumulator[inputsGroupKey] = [];
+  }
+}
 </script>
 
 <style lang="scss">

@@ -12,7 +12,7 @@
         {{ isNegative ? 'overdue time' : 'time left'}}
       </div>
       <div slot="footer">
-        should finish at {{ endTimeFormatted }}
+        <small>should finish at {{ endTimeFormatted }}</small>
       </div>
     </tw-time-display>
   </div>

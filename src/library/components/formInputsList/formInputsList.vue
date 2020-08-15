@@ -1,31 +1,56 @@
 <template>
   <div class="tw-form-inputs-list">
-    <tw-form-field
+    <tw-row
+      class="tw-form-inputs-list--item"
       v-for="(item, index) in inputsList"
-      :key="item.id"
-      :label="`${label} ${index + 1}`">
-      <div class="tw-form-inputs-list__input-wrapper">
-        <tw-form-input
-          required
-          :ref="`formInput-${item.id}`"
-          :id="item.id"
-          :name="`${inputName}-${index}`"
-          :value="item.value"
-          :type="type"
-          :maxLength="maxLength"
-          :minLength="minLength"
-          :placeholder="placeholder"
-          :inputsGroupKey="inputsGroupKey"
-          @input="onInput($event, index)"
-          @keydown="onKeydown($event, index)"/>
-          <tw-button
-            size="lg"
-            class="tw-form-inputs-list__delete-button"
-            theme="link"
-            v-if="inputsListHasMoreThanOneItem()"
-            @click="deleteInputWithDelayedFocus(index)">&times;</tw-button>
-        </div>
-    </tw-form-field>
+      :key="item.id">
+      <tw-col :grow="9">
+        <tw-form-field
+          :label="`${label} ${index + 1}`">
+          <div class="tw-form-inputs-list__input-wrapper">
+            <tw-form-input
+              required
+              :ref="`formInput-${item.id}`"
+              name="name"
+              :id="item.id"
+              :value="item.name"
+              :type="type"
+              :maxLength="maxLength"
+              :minLength="minLength"
+              :placeholder="placeholder"
+              :inputsGroupKey="inputsGroupKey"
+              :inputsSubGroupKey="item.id"
+              @input="onGoalInput($event, index)"
+              @keydown="onKeydown($event, index)" />
+            </div>
+        </tw-form-field>
+      </tw-col>
+      <tw-col :grow="2">
+        <tw-form-field
+          label="Weight">
+          <div class="tw-form-inputs-list__input-wrapper">
+            <tw-form-input
+              name="weight"
+              :value="item.weight"
+              type="number"
+              placeholder="1"
+              :customValidation="weightValidator"
+              :inputsGroupKey="inputsGroupKey"
+              :inputsSubGroupKey="item.id"
+              @input="onWeightInput($event, index)"
+              @keydown="onKeydown($event, index)"/>
+            </div>
+        </tw-form-field>
+      </tw-col>
+      <tw-col :grow="1">
+        <tw-button
+          size="lg"
+          class="tw-form-inputs-list__delete-button"
+          theme="link"
+          :disabled="!inputsListHasMoreThanOneItem()"
+          @click="deleteInputWithDelayedFocus(index)">&times;</tw-button>
+      </tw-col>
+    </tw-row>
     <div class="tw-u-margin--bottom">
       <tw-button
         class="tw-form-inputs-list__add-button"
@@ -36,6 +61,11 @@
 </template>
 
 <script>
+/**
+ * This component need refactory to extract business logic and keep being generic
+ * Issue #5
+ */
+
 import {
   removeFormFieldByInputId,
   deleteItemFromListByIndex,
@@ -101,12 +131,19 @@ export default {
     this.initFieldModel();
   },
   methods: {
-    onInput(value, index) {
+    weightValidator(item) {
+      return !item || item > 0 || 'Value must be positive';
+    },
+    onGoalInput(value, index) {
       this.inputsList[index].value = value;
       this.$emit('input', this.inputsList);
     },
+    onWeightInput(weight, index) {
+      this.inputsList[index].weight = Number(weight);
+      this.$emit('input', this.inputsList);
+    },
     onKeydown(event, inputIndex) {
-      this.backspaceHotkeyHandler(event, inputIndex);
+      // this.backspaceHotkeyHandler(event, inputIndex);
       this.enterHotkeyHandler(event, inputIndex);
     },
     backspaceHotkeyHandler(event, inputIndex) {
@@ -137,7 +174,7 @@ export default {
     deleteInputModelFromFormVm(index) {
       const itemId = this.inputsList[index].id;
       removeFormFieldByInputId({
-        scope: this.$refs[`formInput-${itemId}`][0],
+        vm: this.$refs[`formInput-${itemId}`][0],
         inputIdToBeRemoved: itemId,
       });
     },
@@ -202,6 +239,6 @@ function getPreviousInputId(inputsList, index) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './FormInputsList.scss';
 </style>

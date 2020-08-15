@@ -102,8 +102,9 @@ export default {
     },
     burndownDataset() {
       return this.goals.map(goal => ({
-        id: goal.name,
-        title: goal.value,
+        id: goal.id,
+        title: goal.name,
+        weight: goal.weight,
         finishedAt: goal.finishedAt || null,
       }));
     },

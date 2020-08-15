@@ -22,7 +22,15 @@ function isStringAndRequired(model, propName) {
 function isString(value, propName) {
   const isValid = typeof value === 'string';
   if (!isValid) {
-    console.error(`Expected "string" type and got "${typeof prop}" of prop "${propName || 'N/A'}"`);
+    console.error(`Expected "string" type and got "${typeof value}" of prop "${propName || 'N/A'}"`);
+  }
+  return isValid;
+}
+
+function isNumber(value, propName) {
+  const isValid = typeof value === 'number';
+  if (!isValid) {
+    console.error(`Expected "number" type and got "${typeof value}" of prop "${propName || 'N/A'}"`);
   }
   return isValid;
 }
@@ -34,7 +42,8 @@ function isStringWhenExists(model, propName) {
 
 function isGoalValid(goal) {
   return isStringAndRequired(goal, 'name')
-    && isStringAndRequired(goal, 'value');
+    && isStringAndRequired(goal, 'id')
+    && (!goal.weight || isNumber(goal.weight, 'weight'));
 }
 
 function isGoalsValid(model, propName) {
