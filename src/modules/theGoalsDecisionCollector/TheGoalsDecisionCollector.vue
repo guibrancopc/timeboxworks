@@ -20,13 +20,17 @@
             v-for="(goal, index) in goals"
             :ref="`goal-${index}`"
             :key="goal.id"
-            :title="goal.name"
+            :title="getGoalTitle(goal)"
             :is-opened="toggleAll"
             :checkbox-disabled="disabled"
             checkbox-label="Done"
             :checkbox-value="isGoalChecked(goal)"
             :close-when-checked="automaticBehavior"
             @checkbox-change="onCheckboxChange($event, goal, index)">
+            <div v-if="isGoalTitleTooLong(goal)">
+              <tw-label bold>Goal</tw-label>
+              <tw-p>{{ goal.name }}</tw-p>
+            </div>
             <tw-form-field label="Notes">
               <tw-form-textarea
                 :ref="`textarea-${index}`"
@@ -43,6 +47,7 @@
 </template>
 
 <script>
+const GOAL_TITLE_MAX_LENGTH = 50;
 const HALF_SECOND = 500;
 
 export default {
@@ -87,6 +92,12 @@ export default {
     },
   },
   methods: {
+    getGoalTitle(goal) {
+      return `${goal.name.substring(0, GOAL_TITLE_MAX_LENGTH)}${this.isGoalTitleTooLong(goal) ? '...' : ''}`;
+    },
+    isGoalTitleTooLong(goal) {
+      return goal.name.length > GOAL_TITLE_MAX_LENGTH;
+    },
     openFirstUncheckedGoal() {
       if (!this.disabled) {
         this.toggleNextUncheckedGoal(-1, true);

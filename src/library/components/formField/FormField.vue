@@ -3,6 +3,7 @@
     class="tw-form-field"
     :class="classes">
     <tw-label
+      bold
       v-if="prependLabel"
       :for="input.htmlId"
       :text="label"
