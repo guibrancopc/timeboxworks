@@ -28,8 +28,7 @@ export default {
   },
   computed: {
     isValid() {
-      return !this.formFields.some(formField => formField.input.isRequired
-        && !formField.input.isValid);
+      return !this.formFields.some(formField => !formField.input.isValid);
     },
   },
   methods: {
