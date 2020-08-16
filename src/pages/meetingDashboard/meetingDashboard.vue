@@ -1,13 +1,5 @@
 <template>
   <tw-container full-width>
-    <div class="tw-u-margin--vertical">
-      <tw-card theme="info" v-if="!isMeetingActive">
-        <strong>Ready to go!</strong>
-        <span>
-          Now you can start your event pressing the "Start event" button below this dashboard. :)
-        </span>
-      </tw-card>
-    </div>
     <tw-page>
       <tw-form>
         <tw-meeting-dashboard-header :name="name" :description="description" />
@@ -95,7 +87,7 @@ export default {
       return this.$store.getters.currentMeeting.realStartTime;
     },
     isMeetingActive() {
-      return !!this.$store.getters.currentMeeting.realStartTime;
+      return !!this.realStartTime;
     },
     isMeetingFinished() {
       return !!this.$store.getters.currentMeeting.realEndTime;
@@ -119,7 +111,24 @@ export default {
     this.verifyIfMeetingIsFinishedAlready();
     this.initDashboardSetup();
   },
+  mounted() {
+    if (!this.isMeetingActive) {
+      this.startModal();
+    }
+  },
   methods: {
+    startModal() {
+      this.$twDialog.confirm({
+        text: 'Are you ready to start?',
+        confirmButtonTheme: 'success',
+        confirmButtonText: 'Yes, let\'s go!',
+        cancelButtonText: 'Not yet',
+        disableCloseButton: true,
+        callback: isConfirmed => {
+          if (isConfirmed) { this.onStartMeeting(); } else { this.onGoToMeetingForm(); }
+        },
+      });
+    },
     onGoToMeetingForm() {
       this.$router.push({ name: 'meetingForm' });
     },
@@ -136,7 +145,10 @@ export default {
         confirmButtonText: 'Yes, do it',
         cancelButtonText: 'Not anymore',
         callback: isConfirmed => {
-          if (isConfirmed) { this.$store.dispatch('asyncUpdateRealStartTime', ''); }
+          if (isConfirmed) {
+            this.$store.dispatch('asyncUpdateRealStartTime', '');
+            this.onGoToMeetingForm();
+          }
         },
       });
     },

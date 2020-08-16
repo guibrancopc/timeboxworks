@@ -71,12 +71,14 @@
                 </tw-form-field>
               </tw-col>
             </tw-row>
-            <tw-footer justify-content="flex-end">
-              <div class="tw-u-margin--bottom tw-u-display--inline-block">
-                <tw-form-reset-button>Clean Form</tw-form-reset-button>
+            <tw-footer justify-content="space-between">
+              <div>
+                <tw-p v-if="shouldShowTotalWeight">Total weight: {{ totalWeight }}</tw-p>
               </div>
-              <div class="tw-u-margin--bottom tw-u-margin--left tw-u-display--inline-block">
-                <tw-form-submit-button>Open Dashboard</tw-form-submit-button>
+              <div>
+                <tw-form-reset-button>Clean Form</tw-form-reset-button>
+                <tw-form-submit-button
+                  class="tw-u-margin--left">Open Dashboard</tw-form-submit-button>
               </div>
             </tw-footer>
           </tw-col>
@@ -108,6 +110,13 @@ export default {
     },
     isMeetingActive() {
       return !!this.$store.getters.currentMeeting.realStartTime;
+    },
+    shouldShowTotalWeight() {
+      return !this.goals.every(goal => !goal.weight);
+    },
+    totalWeight() {
+      return this.shouldShowTotalWeight
+        && this.goals.reduce((acc, goal) => acc + (goal.weight || 1), 0);
     },
   },
   methods: {

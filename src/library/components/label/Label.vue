@@ -1,8 +1,9 @@
 <template>
   <label
     class="tw-label"
+    :class="{'tw-u-font-weight--bold': this.bold }"
     @click="onClick">
-    {{ text }}
+    <slot>{{ text }}</slot>
     <span
       v-if="required"
       class="tw-label__required form-control__color--danger">*</span>
@@ -15,6 +16,7 @@ export default {
   props: {
     text: String,
     required: Boolean,
+    bold: Boolean,
   },
   methods: {
     onClick(event) {

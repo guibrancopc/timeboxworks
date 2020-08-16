@@ -4,20 +4,16 @@
       v-if="isMeetingActive"
       theme="secondary"
       @click="onCancelMeeting"
-      outline>Cancel it</tw-button>
+      outline>Cancel event</tw-button>
     <tw-button
       v-else
       theme="secondary"
       @click="onGoStepBack"
       outline>Go back</tw-button>
     <tw-button
-      v-if="isMeetingActive"
+      :disabled="!isMeetingActive"
       theme="success"
       @click="onFinishMeeting">Finish event</tw-button>
-    <tw-button
-      v-else
-      theme="success"
-      @click="onStartMeeting">Start event</tw-button>
   </tw-footer>
 </template>
 
@@ -30,9 +26,6 @@ export default {
   methods: {
     onGoStepBack() {
       this.$emit('go-step-back');
-    },
-    onStartMeeting() {
-      this.$emit('start-meeting');
     },
     onCancelMeeting() {
       this.$emit('cancel-meeting');

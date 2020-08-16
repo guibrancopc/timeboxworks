@@ -5,7 +5,7 @@
     <div class="tw-collapse__header" @click="onHeaderClick">
       <button class="tw-collapse__toggle-button">
         <span class="tw-collapse__header-arrow">&#10095;</span>
-        <strong size="xs">{{ title }}</strong>
+        <span size="xs">{{ title }}</span>
       </button>
       <tw-slim-checkbox
         class="tw-collapse__checkbox"

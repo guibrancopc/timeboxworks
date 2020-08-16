@@ -26,4 +26,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "meetingReport" */ './pages/meetingReport/meetingReport.vue'),
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition || { x: 0, y: 0 };
+  },
 });
