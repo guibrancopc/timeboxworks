@@ -91,6 +91,27 @@ const bindInputId = vm => {
   vm.formFieldVm.input.id = vm.id || getUid();
 };
 
+
+export const deleteItemFromListByIndex = ({ list, itemIndex }) => {
+  list.splice(itemIndex, 1);
+};
+
+const installSelfUnbindFormModel = vm => {
+  vm.$on('hook:beforeDestroy', () => {
+    if (!vm.formVm || !vm.formFieldVm) { return; }
+
+    const indexToBeRemoved = vm
+      .formVm
+      .formFields
+      .findIndex(formField => formField === vm.formFieldVm);
+
+    deleteItemFromListByIndex({
+      list: vm.formVm.formFields,
+      itemIndex: indexToBeRemoved,
+    });
+  });
+};
+
 export const initForm = (initialValue, vm) => {
   if (!vm.formVm || !vm.formFieldVm) { return; }
   const event = { target: { value: initialValue } };
@@ -100,6 +121,7 @@ export const initForm = (initialValue, vm) => {
   bindInputsSubGroupKey(vm);
   bindInputInFormList(vm);
   bindInputId(vm);
+  installSelfUnbindFormModel(vm);
   runValidation(event, vm);
 };
 
@@ -127,25 +149,4 @@ export const setInputAndFormDirty = vm => {
   if (!vm.formVm || !vm.formFieldVm) { return; }
   vm.formVm.isDirty = true;
   vm.formFieldVm.input.isDirty = true;
-};
-
-function getFormFieldIndexById(vm, inputIdToBeRemoved) {
-  return vm.formVm.formFields.findIndex(value => value.input.id === inputIdToBeRemoved);
-}
-
-export const deleteItemFromListByIndex = ({ list, itemIndex }) => {
-  list.splice(itemIndex, 1);
-};
-
-export const removeFormFieldByInputId = ({ vm, inputIdToBeRemoved }) => {
-  if (!vm.formVm || !vm.formFieldVm) { return; }
-  const indexFormFieldToBeRemoved = getFormFieldIndexById(vm, inputIdToBeRemoved);
-  if (indexFormFieldToBeRemoved > -1) {
-    deleteItemFromListByIndex({
-      list: vm.formVm.formFields,
-      itemIndex: indexFormFieldToBeRemoved,
-    });
-  } else {
-    console.error(`Dynamic input could not be deleted from form model list from ${getComponentName(vm)} component!`);
-  }
 };

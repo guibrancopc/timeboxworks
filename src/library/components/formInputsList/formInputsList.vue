@@ -10,7 +10,6 @@
           <div class="tw-form-inputs-list__input-wrapper">
             <tw-form-input
               required
-              :ref="`formInput-${item.id}`"
               name="name"
               :id="item.id"
               :value="item.name"
@@ -21,7 +20,7 @@
               :inputsGroupKey="inputsGroupKey"
               :inputsSubGroupKey="item.id"
               @input="onGoalInput($event, index)"
-              @keydown="onKeydown($event, index)" />
+              @keydown="onFirstFieldKeydown($event, index)" />
             </div>
         </tw-form-field>
       </tw-col>
@@ -38,7 +37,7 @@
               :inputsGroupKey="inputsGroupKey"
               :inputsSubGroupKey="item.id"
               @input="onWeightInput($event, index)"
-              @keydown="onKeydown($event, index)"/>
+              @keydown="onSecondFieldKeydown($event, index)"/>
             </div>
         </tw-form-field>
       </tw-col>
@@ -67,7 +66,6 @@
  */
 
 import {
-  removeFormFieldByInputId,
   deleteItemFromListByIndex,
 } from '../../services/formHelpers/formHelpers';
 import { getUid } from '../../services/uidGenerator/uidGenerator';
@@ -142,8 +140,11 @@ export default {
       this.inputsList[index].weight = Number(weight);
       this.$emit('input', this.inputsList);
     },
-    onKeydown(event, inputIndex) {
-      // this.backspaceHotkeyHandler(event, inputIndex);
+    onFirstFieldKeydown(event, inputIndex) {
+      this.backspaceHotkeyHandler(event, inputIndex);
+      this.enterHotkeyHandler(event, inputIndex);
+    },
+    onSecondFieldKeydown(event, inputIndex) {
       this.enterHotkeyHandler(event, inputIndex);
     },
     backspaceHotkeyHandler(event, inputIndex) {
@@ -167,16 +168,8 @@ export default {
     },
     deleteInput(index) {
       if (!this.inputsListHasMoreThanOneItem()) { return false; }
-      this.deleteInputModelFromFormVm(index);
       this.deleteInputFromLocalList(index);
       return true;
-    },
-    deleteInputModelFromFormVm(index) {
-      const itemId = this.inputsList[index].id;
-      removeFormFieldByInputId({
-        vm: this.$refs[`formInput-${itemId}`][0],
-        inputIdToBeRemoved: itemId,
-      });
     },
     deleteInputFromLocalList(itemIndex) {
       deleteItemFromListByIndex({
