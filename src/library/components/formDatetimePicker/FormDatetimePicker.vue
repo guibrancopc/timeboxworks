@@ -7,7 +7,8 @@
     :placeholder="placeholder"
     :minute-step="5"
     :input-id="getInputHtmlId(this)"
-    :use12-hour="true"
+    :use12-hour="false"
+    :format="format"
     :value="valueModel"
     @input="onInput"
     @close="onClose">
@@ -68,6 +69,7 @@ export default {
       type: String,
       default: '',
     },
+    format: String,
     required: Boolean,
     customValidation: Function,
   },
@@ -115,6 +117,22 @@ function convertToEventFormat(value) {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   @import "../../../../node_modules/vue-datetime/dist/vue-datetime.css";
+
+  .tw-form-datetime-picker {
+    /deep/ .vdatetime-popup__header {
+      background-color: var(--blue);
+    }
+
+    /deep/ .vdatetime-calendar__month__day--selected > span > span,
+    /deep/ .vdatetime-calendar__month__day--selected:hover > span > span {
+      background-color: var(--blue);
+    }
+
+    /deep/ .vdatetime-popup__actions__button,
+    /deep/ .vdatetime-time-picker__item--selected {
+      color: var(--blue);
+    }
+  }
 </style>
