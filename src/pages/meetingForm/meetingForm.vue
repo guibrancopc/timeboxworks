@@ -32,6 +32,7 @@
                     name="expectedStartTime"
                     v-model="expectedStartTime"
                     type="datetime"
+                    :format="dateTimeFormat"
                     :customValidation="timeGapCustomValidation"
                     @input="syncStartAndEndTimeValidation('expectedEndTime')"/>
                 </tw-form-field>
@@ -45,6 +46,7 @@
                     name="expectedEndTime"
                     v-model="expectedEndTime"
                     type="datetime"
+                    :format="dateTimeFormat"
                     :customValidation="timeGapCustomValidation"
                     @input="syncStartAndEndTimeValidation('expectedStartTime')"/>
                 </tw-form-field>
@@ -117,6 +119,19 @@ export default {
     totalWeight() {
       return this.shouldShowTotalWeight
         && this.goals.reduce((acc, goal) => acc + (goal.weight || 1), 0);
+    },
+    dateTimeFormat() {
+      if (this.isStartAndEndTimeDuringSameDay) {
+        return 'HH:mm';
+      }
+      return 'cccc, d LLL yyyy, HH:mm';
+    },
+    isStartAndEndTimeDuringSameDay() {
+      return this.expectedStartTime
+        && this.expectedEndTime
+        && this.expectedStartTime
+          .substring(0, 10) === this.expectedEndTime
+          .substring(0, 10);
     },
   },
   methods: {

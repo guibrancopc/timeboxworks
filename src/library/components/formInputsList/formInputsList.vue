@@ -83,7 +83,6 @@ export default {
   data() {
     return {
       id: getUid(),
-      inputsList: [],
     };
   },
   props: {
@@ -128,6 +127,9 @@ export default {
   mounted() {
     this.initFieldModel();
   },
+  computed: {
+    inputsList() { return this.value; },
+  },
   methods: {
     weightValidator(item) {
       return !item || item > 0 || 'Value must be positive';
@@ -137,7 +139,7 @@ export default {
       this.$emit('input', this.inputsList);
     },
     onWeightInput(weight, index) {
-      this.inputsList[index].weight = Number(weight);
+      this.$set(this.inputsList[index], 'weight', Number(weight));
       this.$emit('input', this.inputsList);
     },
     onFirstFieldKeydown(event, inputIndex) {
@@ -182,7 +184,6 @@ export default {
     },
     initFieldModel() {
       if (this.value.length > 0) {
-        this.inputsList = [...this.value];
         this.addIdWhenNoIdIsFound();
       } else {
         this.addNewInput();
@@ -224,6 +225,7 @@ function inputFactory(shouldFocus = false) {
   return {
     id: inputId,
     value: '',
+    weight: null,
   };
 }
 
