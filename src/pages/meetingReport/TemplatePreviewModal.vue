@@ -13,7 +13,7 @@
           <h1 :style="styles.h1">{{ currentMeeting.name }}</h1>
           <template v-if="isStartAndEndTimeDuringSameDay">
             <label :style="styles.label">
-              &#9200; Happened <tw-time-format
+              &#9200;&nbsp;Happened <tw-time-format
                 :time="currentMeeting.realStartTime"
                 precision="day"
               /> from {{
@@ -26,13 +26,13 @@
           <template v-else>
             <div style="margin-bottom: 5px;">
               <label :style="styles.label">
-                &#9200; Started at <tw-time-format
+                &#9200;&nbsp;Started at <tw-time-format
                   :time="currentMeeting.realStartTime" />
               </label>
             </div>
             <div>
               <label :style="styles.label">
-                &#9200; Ended at <tw-time-format
+                &#9200;&nbsp;Ended at <tw-time-format
                   :time="currentMeeting.realEndTime" />
               </label>
             </div>

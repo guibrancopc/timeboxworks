@@ -108,14 +108,8 @@ export default {
     },
   },
   beforeMount() {
-    this.verifyRequiredDataInStore();
-    this.verifyIfMeetingIsFinishedAlready();
     this.initDashboardSetup();
-  },
-  mounted() {
-    if (!this.isMeetingActive) {
-      this.startModal();
-    }
+    this.setupAutomaticBehavior();
   },
   methods: {
     startModal() {
@@ -157,17 +151,6 @@ export default {
       this.$store.dispatch('asyncUpdateRealEndTime', this.getNowISOString());
       this.onGoToMeetingReport();
     },
-    verifyRequiredDataInStore() {
-      if (!this.name) {
-        this.$twDialog.alert('You must setup your event before open your dashboard. :)');
-        this.onGoToMeetingForm();
-      }
-    },
-    verifyIfMeetingIsFinishedAlready() {
-      if (this.isMeetingFinished) {
-        this.onGoToMeetingReport();
-      }
-    },
     getNowISOString() {
       return this.$twServices.time.getNowISOString();
     },
@@ -175,6 +158,17 @@ export default {
       this.decisionsAutomaticBehaviorIsEnabled = value;
     },
     initDashboardSetup() {
+      if (!this.name) {
+        this.$twDialog.alert('You must setup your event before open your dashboard.');
+        this.onGoToMeetingForm();
+      } else if (this.isMeetingFinished) {
+        this.$twDialog.alert('Your event is already completed.');
+        this.onGoToMeetingReport();
+      } else if (!this.isMeetingActive) {
+        this.startModal();
+      }
+    },
+    setupAutomaticBehavior() {
       const storedValue = this.localStorageSetup.getProp('decisionsAutomaticBehavior');
       this.decisionsAutomaticBehaviorIsEnabled = storedValue === null ? true : storedValue;
     },

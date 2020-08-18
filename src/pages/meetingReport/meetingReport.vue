@@ -5,7 +5,7 @@
         <tw-heading size="xl" :title="name" />
         <template v-if="isStartAndEndTimeDuringSameDay">
           <tw-heading size="xxs">
-            &#9200; Happened <tw-time-format
+            &#9200;&nbsp;Happened <tw-time-format
               :time="realStartTime"
               precision="day"
             /> from {{ getTimeFormatted(realStartTime) }} to {{ getTimeFormatted(realEndTime) }}.
@@ -13,10 +13,10 @@
         </template>
         <template v-else>
           <tw-heading size="xxs">
-            &#9200; Started at <tw-time-format :time="realStartTime" />
+            &#9200;&nbsp;Started at <tw-time-format :time="realStartTime" />
           </tw-heading>
           <tw-heading size="xxs">
-            &#9200; Finished at <tw-time-format :time="realEndTime" />
+            &#9200;&nbsp;Finished at <tw-time-format :time="realEndTime" />
           </tw-heading>
         </template>
         <tw-article v-if="description" :text="description" />
