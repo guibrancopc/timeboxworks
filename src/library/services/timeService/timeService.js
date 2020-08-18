@@ -23,7 +23,11 @@ export function getTimestampOf(value) {
 }
 
 export function getFullFormatOf(value) {
-  return momentFactory(value).format('dddd, MMMM Do YYYY, HH:mm a');
+  return momentFactory(value).format('dddd, MMMM Do YYYY, HH:mm\\h');
+}
+
+export function getTimeFormatOf(value) {
+  return momentFactory(value).format('HH:mm\\h');
 }
 
 export function getISOStringOf(value) {
@@ -51,4 +55,12 @@ export function durationFactory(value) {
 
 export function isDuration(value) {
   return Moment.isDuration(value);
+}
+
+export function isSameDay(rawDateOne, rawDateTwo) {
+  const dateOne = momentFactory(rawDateOne);
+  const dateTwo = momentFactory(rawDateTwo);
+  return dateOne.year() === dateTwo.year()
+    && dateOne.month() === dateTwo.month()
+    && dateOne.date() === dateTwo.date();
 }

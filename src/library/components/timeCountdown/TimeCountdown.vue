@@ -12,7 +12,7 @@
         {{ isNegative ? 'overdue time' : 'time left'}}
       </div>
       <div slot="footer">
-        <small>should finish at {{ endTimeFormatted }}</small>
+        <small>should be finished at {{ endTimeFormatted }}</small>
       </div>
     </tw-time-display>
   </div>
@@ -23,6 +23,8 @@ import TwTimeDisplay from '../timeDisplay/TimeDisplay.vue';
 import {
   momentFactory,
   getFullFormatOf,
+  getTimeFormatOf,
+  isSameDay,
 } from '../../services/timeService/timeService';
 
 function getIntervalInMiliseconds(precision) {
@@ -36,6 +38,9 @@ function getIntervalInMiliseconds(precision) {
 export default {
   name: 'TwTimeCountdown',
   props: {
+    timeFrom: {
+      type: [String, Object, Number],
+    },
     timeTarget: {
       type: [String, Object, Number],
       required: true,
@@ -64,7 +69,12 @@ export default {
       return 'primary';
     },
     endTimeFormatted() {
-      return getFullFormatOf(this.timeTarget);
+      return this.shouldShowFullDate
+        ? getTimeFormatOf(this.timeTarget)
+        : getFullFormatOf(this.timeTarget);
+    },
+    shouldShowFullDate() {
+      return !this.timeFrom || isSameDay(this.timeFrom, this.timeTarget);
     },
   },
   watch: {

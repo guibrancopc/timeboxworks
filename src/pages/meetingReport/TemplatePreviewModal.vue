@@ -11,18 +11,32 @@
       <tr>
         <td>
           <h1 :style="styles.h1">{{ currentMeeting.name }}</h1>
-          <div style="margin-bottom: 5px;">
+          <template v-if="isStartAndEndTimeDuringSameDay">
             <label :style="styles.label">
-              &#9200; Started at <tw-time-format
-                :time="currentMeeting.realStartTime" />
+              &#9200; Happened <tw-time-format
+                :time="currentMeeting.realStartTime"
+                precision="day"
+              /> from {{
+                getTimeFormatted('realStartTime')
+              }} to {{
+                getTimeFormatted('realEndTime')
+              }}.
             </label>
-          </div>
-          <div>
-            <label :style="styles.label">
-              &#9200; Ended at <tw-time-format
-                :time="currentMeeting.realEndTime" />
-            </label>
-          </div>
+          </template>
+          <template v-else>
+            <div style="margin-bottom: 5px;">
+              <label :style="styles.label">
+                &#9200; Started at <tw-time-format
+                  :time="currentMeeting.realStartTime" />
+              </label>
+            </div>
+            <div>
+              <label :style="styles.label">
+                &#9200; Ended at <tw-time-format
+                  :time="currentMeeting.realEndTime" />
+              </label>
+            </div>
+          </template>
           <tw-template-preview-modal-article
             v-if="currentMeeting.description"
             :text="currentMeeting.description" />
@@ -32,6 +46,7 @@
         <td>
           <tw-template-preview-modal-goals
             :styles="styles"
+            :should-show-full-date="!isStartAndEndTimeDuringSameDay"
             :goals="currentMeeting.goals" />
         </td>
       </tr>
@@ -129,6 +144,11 @@ export default {
         anchor: 'cursor: pointer; color: #967f30; text-decoration: none;',
       };
     },
+    isStartAndEndTimeDuringSameDay() {
+      const { expectedStartTime, expectedEndTime } = this.currentMeeting;
+      return this.$twServices
+        .time.isSameDay(expectedStartTime, expectedEndTime);
+    },
   },
   methods: {
     onClose() {
@@ -141,6 +161,10 @@ export default {
     },
     onCopyBlur() {
       this.copied = false;
+    },
+    getTimeFormatted(timeKey) {
+      return this.$twServices
+        .time.getTimeFormatOf(this.currentMeeting[timeKey]);
     },
   },
   components: {
