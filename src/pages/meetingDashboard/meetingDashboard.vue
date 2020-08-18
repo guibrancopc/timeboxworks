@@ -10,6 +10,7 @@
                 <tw-box>
                   <tw-time-countdown
                     size="lg"
+                    :time-from="expectedStartTime"
                     :time-target="expectedEndTime"
                     :disabled="!isMeetingActive" />
                 </tw-box>

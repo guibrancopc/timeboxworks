@@ -3,19 +3,31 @@
     <tw-page>
       <tw-header>
         <tw-heading size="xl" :title="name" />
-        <tw-heading size="xxs">
-          &#9200; Started at <tw-time-format :time="realStartTime" />
-        </tw-heading>
-        <tw-heading size="xxs">
-          &#9200; Finished at <tw-time-format :time="realEndTime" />
-        </tw-heading>
+        <template v-if="isStartAndEndTimeDuringSameDay">
+          <tw-heading size="xxs">
+            &#9200; Happened <tw-time-format
+              :time="realStartTime"
+              precision="day"
+            /> from {{ getTimeFormatted(realStartTime) }} to {{ getTimeFormatted(realEndTime) }}.
+          </tw-heading>
+        </template>
+        <template v-else>
+          <tw-heading size="xxs">
+            &#9200; Started at <tw-time-format :time="realStartTime" />
+          </tw-heading>
+          <tw-heading size="xxs">
+            &#9200; Finished at <tw-time-format :time="realEndTime" />
+          </tw-heading>
+        </template>
         <tw-article v-if="description" :text="description" />
       </tw-header>
       <main>
         <tw-row>
           <tw-col>
             <tw-heading size="lg" title="Goals" />
-            <tw-meeting-report-goals :goals="goals" />
+            <tw-meeting-report-goals
+              :goals="goals"
+              :should-show-full-date="!isStartAndEndTimeDuringSameDay" />
           </tw-col>
         </tw-row>
         <tw-row v-if="sideTopics.length">
@@ -113,6 +125,10 @@ export default {
         finishedAt: goal.finishedAt || null,
       }));
     },
+    isStartAndEndTimeDuringSameDay() {
+      return this.$twServices
+        .time.isSameDay(this.expectedStartTime, this.expectedEndTime);
+    },
   },
   methods: {
     validateRequiredData() {
@@ -162,6 +178,9 @@ export default {
           chartImageSrc: this.getChartImageSrc(),
         },
       }).open();
+    },
+    getTimeFormatted(time) {
+      return this.$twServices.time.getTimeFormatOf(time);
     },
   },
   mounted() {

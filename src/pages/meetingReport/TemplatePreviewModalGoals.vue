@@ -8,10 +8,13 @@
         :key="goal.id">
           <h3 :style="styles.h3">{{ index + 1 }}. {{ goal.name }}</h3>
           <label :style="styles.label">
-            <span v-if="goal.finishedAt">&#9989; Done at </span>
-            <tw-time-format
-              v-if="goal.finishedAt"
-              :time="goal.finishedAt" />
+            <template v-if="goal.finishedAt">
+              <span>&#9989; Done at </span>
+              <tw-time-format
+                v-if="shouldShowFullDate"
+                :time="goal.finishedAt" />
+              <span v-else>{{ getTimeFormatted(goal.finishedAt) }}</span>
+            </template>
             <span v-else>&#9888; Item has not been completed</span>
             <p v-if="shouldShowWeight">
               <small>Weight: {{ goal.weight || 1 }}</small>
@@ -38,6 +41,7 @@ export default {
       required: true,
     },
     styles: Object,
+    shouldShowFullDate: Boolean,
   },
   components: {
     TwTemplatePreviewModalArticle,
@@ -45,6 +49,11 @@ export default {
   computed: {
     shouldShowWeight() {
       return this.goals.some(item => item.weight !== 1);
+    },
+  },
+  methods: {
+    getTimeFormatted(time) {
+      return this.$twServices.time.getTimeFormatOf(time);
     },
   },
 };

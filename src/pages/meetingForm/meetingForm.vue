@@ -127,11 +127,7 @@ export default {
       return 'cccc, d LLL yyyy, HH:mm';
     },
     isStartAndEndTimeDuringSameDay() {
-      return this.expectedStartTime
-        && this.expectedEndTime
-        && this.expectedStartTime
-          .substring(0, 10) === this.expectedEndTime
-          .substring(0, 10);
+      return this.$twServices.time.isSameDay(this.expectedStartTime, this.expectedEndTime);
     },
   },
   methods: {

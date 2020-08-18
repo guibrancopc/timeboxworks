@@ -57,12 +57,12 @@ export default {
       const month = this.shouldShowMonth ? 'MMMM ' : '';
       const weekDay = this.shouldShowDay ? 'ddd, ' : '';
       const day = this.shouldShowDay ? 'Do ' : '';
-      const hour = this.shouldShowHour ? 'h' : '';
+      const hour = this.shouldShowHour ? 'HH' : '';
       const min = this.shouldShowMin ? ':mm' : '';
       const sec = this.shouldShowSec ? ':ss' : '';
-      const ampm = this.shouldShowHour ? ' a' : '';
+      const h = this.shouldShowHour ? '\\h' : '';
 
-      return `${weekDay}${month}${day}${year}${hour}${min}${sec}${ampm}`;
+      return `${weekDay}${month}${day}${year}${hour}${min}${sec}${h}`;
     },
   },
 };
