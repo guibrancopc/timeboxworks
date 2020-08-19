@@ -1,14 +1,19 @@
 <template>
-  <tw-chart
-    ref="chart"
-    type="line"
-    axe-x-type="time"
-    axe-y-begin-at-zero
-    :tooltips-setup="customTooltips"
-    :labels="labels"
-    v-bind="$attrs"
-    v-on="$listeners"
-    :datasets="getDatasets()" />
+  <div class="tw-burndown-chart tw-u-position--relative">
+    <tw-chart
+      ref="chart"
+      type="line"
+      axe-x-type="time"
+      axe-y-begin-at-zero
+      :tooltips-setup="customTooltips"
+      :labels="labels"
+      v-bind="$attrs"
+      v-on="$listeners"
+      :datasets="getDatasets()" />
+      <tw-info-button
+        class="tw-burndown-chart__info-button"
+        @click="onInfoButtonClick">&#8505;</tw-info-button>
+    </div>
 </template>
 
 <script>
@@ -173,6 +178,19 @@ export default {
     },
     stopCounter() {
       clearInterval(this.intervalId);
+    },
+    onInfoButtonClick() {
+      this.$twDialog.alert({
+        title: 'This is your Burndown Chart 📉👀',
+        text: `It helps you to know wether you are on track or not.
+        Each dot of Your Progress line represents a complete goals.
+        Tendency line is just a reference, to let you know when event tend do be late or not.
+        Projection line is just a supposition of next goal to be finished.
+        Vertical axis is the remaining goal's weight and horizontal is the event interval in time.
+        As soon as a goal is finished above tendency line, the event tend do be late. So, you can decide to speed up next goals or even inform participants in advance that some goal(s) will not be completed.`,
+        buttonText: 'Got it',
+        closeOnOverlayClick: true,
+      });
     },
   },
 };

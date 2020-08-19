@@ -73,6 +73,10 @@ export default {
           },
           scales: {
             yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Remaining Effort',
+              },
               ticks: {
                 beginAtZero: this.axeYBeginAtZero,
                 stepSize: 1,
@@ -82,6 +86,10 @@ export default {
               },
             }],
             xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Event Interval',
+              },
               type: this.axeXType,
               ticks: {
                 maxTicksLimit: 20,

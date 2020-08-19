@@ -4,9 +4,10 @@
     width="xs"
     ref="modal"
     footer-justify-content="flex-end"
+    :close-on-overlay-click="closeOnOverlayClick"
     :disable-close-button="disableCloseButton"
     @closed="onClose">
-    {{ text }}
+    <tw-article :text="text" />
     <tw-button
       slot="footer"
       ref="okButton"
@@ -29,6 +30,7 @@ export default {
       default: 'Ok',
     },
     disableCloseButton: Boolean,
+    closeOnOverlayClick: Boolean,
     callback: {
       type: Function,
       default: () => {},
