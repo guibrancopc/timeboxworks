@@ -112,6 +112,12 @@ export default {
         this.toggleNextUncheckedGoal(index, false);
         this.focusOnTextAreaByIndex(index);
       }
+      this.handleAllDoneEvent();
+    },
+    handleAllDoneEvent() {
+      if (this.goals.every(goal => goal.finishedAt)) {
+        this.$emit('all-goals-completed');
+      }
     },
     toggleNextUncheckedGoal(index, value) {
       if (!this.automaticBehavior) { return; }

@@ -38,7 +38,8 @@
               :goals="goals"
               :disabled="!isMeetingActive"
               :automatic-behavior="decisionsAutomaticBehaviorIsEnabled"
-              @update-automatic-behavior="onUpdateDecisionsAutomaticBehavior"/>
+              @update-automatic-behavior="onUpdateDecisionsAutomaticBehavior"
+              @all-goals-completed="onAllGoalsCompleted" />
           </tw-col>
         </tw-row>
         <tw-meeting-dashboard-footer
@@ -150,6 +151,18 @@ export default {
     onFinishMeeting() {
       this.$store.dispatch('asyncUpdateRealEndTime', this.getNowISOString());
       this.onGoToMeetingReport();
+    },
+    onAllGoalsCompleted() {
+      this.$twDialog.confirm({
+        text: 'All done! Do you want to finish this event?',
+        confirmButtonTheme: 'success',
+        confirmButtonText: 'Yes, finish it!',
+        cancelButtonText: 'Not yet',
+        closeOnOverlayClick: true,
+        callback: isConfirmed => {
+          if (isConfirmed) { this.onFinishMeeting(); }
+        },
+      });
     },
     getNowISOString() {
       return this.$twServices.time.getNowISOString();

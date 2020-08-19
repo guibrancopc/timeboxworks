@@ -3,6 +3,7 @@
     :title="title"
     width="xs"
     ref="modal"
+    :close-on-overlay-click="closeOnOverlayClick"
     :disable-close-button="disableCloseButton">
     {{ text }}
     <tw-button
@@ -28,10 +29,8 @@ export default {
   props: {
     text: String,
     title: String,
-    disableCloseButton: {
-      type: Boolean,
-      default: false,
-    },
+    disableCloseButton: Boolean,
+    closeOnOverlayClick: Boolean,
     callback: {
       type: Function,
       required: true,
