@@ -5,7 +5,7 @@
     ref="modal"
     :close-on-overlay-click="closeOnOverlayClick"
     :disable-close-button="disableCloseButton">
-    {{ text }}
+    <tw-article :text="text" />
     <tw-button
       slot="footer"
       @click="onDismiss"
