@@ -145,9 +145,9 @@ export default {
       };
     },
     isStartAndEndTimeDuringSameDay() {
-      const { expectedStartTime, expectedEndTime } = this.currentMeeting;
+      const { realStartTime, realEndTime } = this.currentMeeting;
       return this.$twServices
-        .time.isSameDay(expectedStartTime, expectedEndTime);
+        .time.isSameDay(realStartTime, realEndTime);
     },
   },
   methods: {

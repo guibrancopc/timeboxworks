@@ -128,7 +128,7 @@ export default {
     },
     isStartAndEndTimeDuringSameDay() {
       return this.$twServices
-        .time.isSameDay(this.expectedStartTime, this.expectedEndTime);
+        .time.isSameDay(this.realStartTime, this.realEndTime);
     },
   },
   methods: {
