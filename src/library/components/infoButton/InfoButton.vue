@@ -2,8 +2,7 @@
   <button
     v-bind="$attrs"
     v-on="$listeners"
-    class="tw-info-button"
-    @click="onInfoButtonClick">&#8505;</button>
+    class="tw-info-button">&#8505;</button>
 </template>
 
 <script>

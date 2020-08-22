@@ -6,12 +6,12 @@
       axe-x-type="time"
       axe-y-begin-at-zero
       :tooltips-setup="customTooltips"
+      :showAllTooltips="showAllTooltips"
       :labels="labels"
       v-bind="$attrs"
       v-on="$listeners"
       :datasets="getDatasets()" />
       <tw-info-button
-        class="tw-burndown-chart__info-button"
         @click="onInfoButtonClick">&#8505;</tw-info-button>
     </div>
 </template>
@@ -49,6 +49,7 @@ export default {
       type: Array,
       required: true,
     },
+    showAllTooltips: Boolean,
     showProjection: Boolean,
   },
   beforeMount() {
