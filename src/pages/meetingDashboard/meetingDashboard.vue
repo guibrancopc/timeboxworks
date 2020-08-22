@@ -154,7 +154,8 @@ export default {
     },
     onAllGoalsCompleted() {
       this.$twDialog.confirm({
-        text: 'All done! Do you want to finish this event?',
+        text: `All done! ✅
+        Do you want to finish this event?`,
         confirmButtonTheme: 'success',
         confirmButtonText: 'Yes, finish it!',
         cancelButtonText: 'Not yet',

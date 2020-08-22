@@ -14,6 +14,7 @@ import {
   getBase64Image,
   getCanvasWithBackgroundColor,
 } from '../../services/canvas/canvasService';
+import { installShowAllTooltipsPlugin } from './chartService';
 
 export default {
   name: 'TwChart',
@@ -42,6 +43,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    showAllTooltips: Boolean,
     axeXType: {
       type: String,
       default: 'linear',
@@ -50,6 +52,14 @@ export default {
       },
     },
     axeYBeginAtZero: Boolean,
+  },
+  mounted() {
+    this.chartSetup();
+  },
+  beforeDestroy() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
   },
   watch: {
     datasets: {
@@ -61,6 +71,7 @@ export default {
   },
   methods: {
     chartSetup() {
+      installShowAllTooltipsPlugin(Chart);
       this.chart = new Chart(this.$refs.canvas, {
         type: this.type,
         data: {
@@ -68,6 +79,7 @@ export default {
           datasets: this.datasets,
         },
         options: {
+          showAllTooltips: this.showAllTooltips,
           tooltips: {
             ...this.tooltipsSetup,
           },
@@ -91,6 +103,14 @@ export default {
                 labelString: 'Event Interval',
               },
               type: this.axeXType,
+              time: {
+                tooltipFormat: 'ddd, MMM Do YYYY, HH:mm\\h',
+                displayFormats: {
+                  minute: 'HH:mm\\h',
+                  hour: 'HH',
+                  day: 'MMM DD',
+                },
+              },
               ticks: {
                 maxTicksLimit: 20,
               },
@@ -111,14 +131,6 @@ export default {
         getBase64Image: this.getBase64Image,
       };
     },
-  },
-  mounted() {
-    this.chartSetup();
-  },
-  beforeDestroy() {
-    if (this.chart) {
-      this.chart.destroy();
-    }
   },
 };
 </script>

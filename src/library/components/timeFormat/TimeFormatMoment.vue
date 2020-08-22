@@ -53,9 +53,9 @@ export default {
         && this.momentModel[part]() === this.diffModel[part]();
     },
     getFormatMoment() {
+      const weekDay = this.shouldShowDay ? 'ddd, ' : '';
       const year = this.shouldShowYear ? 'YYYY, ' : '';
       const month = this.shouldShowMonth ? 'MMMM ' : '';
-      const weekDay = this.shouldShowDay ? 'ddd, ' : '';
       const day = this.shouldShowDay ? 'Do ' : '';
       const hour = this.shouldShowHour ? 'HH' : '';
       const min = this.shouldShowMin ? ':mm' : '';

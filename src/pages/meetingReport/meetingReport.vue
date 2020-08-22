@@ -41,6 +41,7 @@
             <tw-heading size="lg" title="Performance" />
             <tw-burndown-chart
               ref="burndown"
+              show-all-tooltips
               :start-time="expectedStartTime"
               :end-time="expectedEndTime"
               :dataset="burndownDataset"/>
