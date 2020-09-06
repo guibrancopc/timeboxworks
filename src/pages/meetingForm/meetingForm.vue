@@ -103,7 +103,7 @@ export default {
     };
   },
   beforeMount() {
-    this.syncFormWithStore();
+    this.syncForm(this.storeCurrentMeeting);
     this.verifyIfActiveMeetingExists();
   },
   computed: {
@@ -130,11 +130,19 @@ export default {
       return this.$twServices.time.isSameDay(this.realStartTime, this.realEndTime);
     },
   },
+  watch: {
+    storeCurrentMeeting: {
+      deep: true,
+      handler(newCurrentMeeting) {
+        console.log('newCurrentMeeting.name', newCurrentMeeting.name);
+        this.syncForm(newCurrentMeeting);
+      },
+    },
+  },
   methods: {
-    syncFormWithStore() {
-      const {
-        name, expectedStartTime, expectedEndTime, goals, description,
-      } = this.storeCurrentMeeting;
+    syncForm({
+      name, expectedStartTime, expectedEndTime, goals, description,
+    }) {
       this.name = name;
       this.expectedStartTime = expectedStartTime || this.getNowISOString();
       this.expectedEndTime = expectedEndTime || this.getNowISOStringOffsetHour(1);

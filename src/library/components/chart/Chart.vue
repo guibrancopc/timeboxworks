@@ -106,8 +106,9 @@ export default {
               time: {
                 tooltipFormat: 'ddd, MMM Do YYYY, HH:mm\\h',
                 displayFormats: {
+                  second: 'HH:mm\\h',
                   minute: 'HH:mm\\h',
-                  hour: 'HH',
+                  hour: 'HH:mm\\h',
                   day: 'MMM DD',
                 },
               },

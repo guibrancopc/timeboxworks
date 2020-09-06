@@ -80,6 +80,11 @@ export default {
       return this.formFieldVm.input.value;
     },
   },
+  watch: {
+    value(value) {
+      this.formFieldVm.input.value = value;
+    },
+  },
   methods: {
     onInput(event) {
       if (event && event.target) {

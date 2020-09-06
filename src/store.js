@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { getEvent } from './resources/eventResource';
 import { BrowserStorage } from './plugins/browserStorage/BrowserStorage';
 import { browserStorageSetup } from './servicesApp/constants/browserStorageSetup';
 import { isMeetingModelValid } from './servicesApp/meetingValidator/meetingValidatorService';
@@ -16,12 +17,13 @@ function setCurrentMeetingInLocalStorage(newValue) {
   currentMeetingLocalStorage.content = newValue;
 }
 
-function getCurrentMeetingFromLocalStorage() {
-  return currentMeetingLocalStorage.content;
-}
+// function getCurrentMeetingFromLocalStorage() {
+//   return currentMeetingLocalStorage.content;
+// }
 
 const store = new Vuex.Store({
   state: {
+    isFetching: false,
     currentMeeting: {
       name: '',
       expectedStartTime: '',
@@ -73,6 +75,9 @@ const store = new Vuex.Store({
     updateRealEndTime(state, payload) {
       state.currentMeeting.realEndTime = payload;
     },
+    updateIsFetching(state, payload) {
+      state.isFetching = payload;
+    },
   },
   actions: {
     asyncUpdateCurrentMeeting({ commit, state, dispatch }, payload) {
@@ -108,12 +113,12 @@ const store = new Vuex.Store({
   },
 });
 
-function initStoreWithDataFromLocalStorage() {
-  const initialCurrentMeeting = getCurrentMeetingFromLocalStorage();
-  if (initialCurrentMeeting) {
-    store.dispatch('asyncUpdateCurrentMeeting', { ...initialCurrentMeeting });
-  }
-}
+// function initStoreWithDataFromLocalStorage() {
+//   const initialCurrentMeeting = getCurrentMeetingFromLocalStorage();
+//   if (initialCurrentMeeting) {
+//     store.dispatch('asyncUpdateCurrentMeeting', { ...initialCurrentMeeting });
+//   }
+// }
 
 // TODO: Analyse possible performance impact here
 function setupWatcher() {
@@ -130,7 +135,25 @@ function setupWatcher() {
   );
 }
 
-initStoreWithDataFromLocalStorage();
+// initStoreWithDataFromLocalStorage();
 setupWatcher();
+
+async function initStore() {
+  store.commit('updateIsFetching', true);
+  try {
+    const response = await getEvent({ eventId: 1 });
+    console.log('Response: ', response);
+    const { data } = response.data;
+    if (data) {
+      console.log('data', data);
+      store.dispatch('asyncUpdateCurrentMeeting', { ...data });
+    }
+  } catch (error) {
+    console.log('error', error);
+  }
+  store.commit('updateIsFetching', false);
+}
+
+initStore();
 
 export default store;

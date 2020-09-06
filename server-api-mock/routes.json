@@ -1,0 +1,6 @@
+{
+  "/api/v1/*": "/$1",
+  "/events": "/events?_embed=goals&_embed=side-topics",
+  "/events/:id": "/events/:id?_embed=goals&_embed=side-topics",
+  "/events/:id/side-topics": "/side-topics?eventId=:id"
+}

@@ -1,0 +1,56 @@
+{
+  "events": [
+    {
+      "id": "1",
+      "name": "A sample name for an event",
+      "description": "A sample description for an event.",
+      "expectedStartTime": "2020-08-18T21:00:00.000Z",
+      "expectedEndTime": "2020-08-18T22:00:00.000Z",
+      "realStartTime": "2020-08-18T21:05:01.474Z",
+      "realEndTime": "2020-08-18T23:25:27.729Z"
+    }
+  ],
+  "goals": [
+    {
+      "id": "1",
+      "eventId": "1",
+      "name": "A sample name for a goal 1",
+      "decisions": "A sample decisions for an goal 1.",
+      "weight": "5",
+      "finishedAt": "2020-08-18T21:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "eventId": "1",
+      "name": "A sample name for a goal 2",
+      "decisions": "A sample decisions for an goal 2.",
+      "weight": "5",
+      "finishedAt": "2020-08-18T21:00:00.000Z"
+    },
+    {
+      "id": "3" ,
+      "eventId": "1",
+      "name": "A sample name for a goal 3",
+      "decisions": "A sample decisions for an goal 3.",
+      "weight": "5",
+      "finishedAt": "2020-08-18T21:00:00.000Z"
+    },
+    {
+      "name": "teste 1",
+      "id": "4"
+    },
+    {
+      "name": "teste 1",
+      "eventId": "1",
+      "decisions": "awefoaiwejfoiawef awefawefawefawe awe f ef afawef.a wef wae f\na wefa wef awef",
+      "id": "5"
+    }
+  ],
+  "side-topics": [
+    {
+      "id": "1",
+      "eventId": "1",
+      "value": "A sample description for an side topic."
+    }
+  ]
+}

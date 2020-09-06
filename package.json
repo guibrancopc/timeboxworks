@@ -12,7 +12,9 @@
     "cov": "node static-server.js tests/unit/coverage/lcov-report 8090",
     "dist": "node static-server.js dist 8091",
     "format": "eslint \"src/**/*.{js,vue}\"",
-    "format:fix": "eslint --fix \"src/**/*.{js,vue}\""
+    "format:fix": "eslint --fix \"src/**/*.{js,vue}\"",
+    "api:cli": "json-server --watch server-api-mock/db.json --port 3000 --routes server-api-mock/routes.json --middlewares server-api-mock/middleware.js",
+    "api": "node server-api-mock/server.js --watch"
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,7 @@
   "homepage": "https://github.com/guibrancopc/timeboxworks#readme",
   "dependencies": {
     "await-to-js": "^2.1.1",
+    "axios": "^0.20.0",
     "chart.js": "^2.9.3",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
@@ -77,6 +80,7 @@
     "jest-serializer-vue": "^2.0.2",
     "jest-transform-stub-named": "^1.0.1",
     "jest-watch-typeahead": "^0.4.0",
+    "json-server": "^0.16.1",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",

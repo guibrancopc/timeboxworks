@@ -16,24 +16,27 @@ export function isMeetingModelValid(meeting) {
 
 function isStringAndRequired(model, propName) {
   const prop = model[propName];
-  return prop && isString(prop);
+  return prop && isString(prop, propName);
 }
 
 function isString(value, propName) {
   const isValid = typeof value === 'string';
   if (!isValid) {
-    console.error(`Expected "string" type and got "${typeof value}" of prop "${propName || 'N/A'}"`);
+    console.error(
+      `Expected "string" type and got "${typeof value}" of prop "${propName || 'N/A'}"`,
+    );
   }
   return isValid;
 }
 
-function isNumber(value, propName) {
-  const isValid = typeof value === 'number';
-  if (!isValid) {
-    console.error(`Expected "number" type and got "${typeof value}" of prop "${propName || 'N/A'}"`);
-  }
-  return isValid;
-}
+// function isNumber(value, propName) {
+//   const isValid = typeof value === 'number';
+//   if (!isValid) {
+//     console.error(`
+// Expected "number" type and got "${typeof value}" of prop "${propName || 'N/A'}"`);
+//   }
+//   return isValid;
+// }
 
 function isStringWhenExists(model, propName) {
   const value = model[propName];
@@ -41,9 +44,9 @@ function isStringWhenExists(model, propName) {
 }
 
 function isGoalValid(goal) {
-  return isStringAndRequired(goal, 'name')
-    && isStringAndRequired(goal, 'id')
-    && (!goal.weight || isNumber(goal.weight, 'weight'));
+  return isStringAndRequired(goal, 'name');
+  // && isStringAndRequired(goal, 'id')
+  // && (!goal.weight || isNumber(goal.weight, 'weight'));
 }
 
 function isGoalsValid(model, propName) {
