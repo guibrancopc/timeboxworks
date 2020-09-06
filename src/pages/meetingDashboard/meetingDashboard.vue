@@ -1,5 +1,5 @@
 <template>
-  <tw-container full-width>
+  <tw-container full-width ref="container">
     <tw-page>
       <tw-form>
         <tw-meeting-dashboard-header :name="name" :description="description" />
@@ -27,7 +27,7 @@
                 </tw-box>
               </tw-col>
             </tw-row>
-            <tw-row>
+            <tw-row v-if="!isMobileWidth">
               <tw-col>
                 <tw-meeting-dashboard-side-topics :items="sideTopics" />
               </tw-col>
@@ -40,6 +40,7 @@
               :automatic-behavior="decisionsAutomaticBehaviorIsEnabled"
               @update-automatic-behavior="onUpdateDecisionsAutomaticBehavior"
               @all-goals-completed="onAllGoalsCompleted" />
+            <tw-meeting-dashboard-side-topics v-if="isMobileWidth" :items="sideTopics" />
           </tw-col>
         </tw-row>
         <tw-meeting-dashboard-footer
@@ -58,10 +59,13 @@ import TwMeetingDashboardHeader from './meetingDashboardHeader.vue';
 import TwMeetingDashboardFooter from './meetingDashboardFooter.vue';
 import TwMeetingDashboardSideTopics from './meetindDashboardSideTopics.vue';
 
+const MOBILE_WIDTH_BOUNDARY = 700;
+
 export default {
   name: 'TwMeetingDashboard',
   data() {
     return {
+      isMobileWidth: false,
       localStorageSetup: new this.$BrowserStorage('meeting-dashboard-setup'),
       decisionsAutomaticBehaviorIsEnabled: true,
     };
@@ -112,7 +116,13 @@ export default {
     this.initDashboardSetup();
     this.setupAutomaticBehavior();
   },
+  mounted() {
+    this.calcMobileWidth();
+  },
   methods: {
+    calcMobileWidth() {
+      this.isMobileWidth = this.$refs.container.$el.offsetWidth < MOBILE_WIDTH_BOUNDARY;
+    },
     startModal() {
       this.$twDialog.confirm({
         text: 'Are you ready to start?',
