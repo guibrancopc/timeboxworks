@@ -92,6 +92,7 @@ export default {
               ticks: {
                 beginAtZero: this.axeYBeginAtZero,
                 stepSize: 1,
+                maxTicksLimit: 10,
               },
               gridLines: {
                 color: '#F8F8F8',
@@ -112,7 +113,7 @@ export default {
                 },
               },
               ticks: {
-                maxTicksLimit: 20,
+                maxTicksLimit: 10,
               },
               gridLines: {
                 color: '#F8F8F8',

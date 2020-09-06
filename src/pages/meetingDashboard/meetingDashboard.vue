@@ -1,56 +1,54 @@
 <template>
-  <tw-container full-width ref="container">
-    <tw-page>
-      <tw-form>
-        <tw-meeting-dashboard-header :name="name" :description="description" />
-        <tw-row>
-          <tw-col>
-            <tw-row>
-              <tw-col>
-                <tw-box>
-                  <tw-time-countdown
-                    size="lg"
-                    :time-from="expectedStartTime"
-                    :time-target="expectedEndTime"
-                    :disabled="!isMeetingActive" />
-                </tw-box>
-              </tw-col>
-            </tw-row>
-            <tw-row>
-              <tw-col>
-                <tw-box>
-                  <tw-burndown-chart
-                    :start-time="expectedStartTime"
-                    :end-time="expectedEndTime"
-                    :dataset="burndownDataset"
-                    :show-projection="isMeetingActive" />
-                </tw-box>
-              </tw-col>
-            </tw-row>
-            <tw-row v-if="!isMobileWidth">
-              <tw-col>
-                <tw-meeting-dashboard-side-topics :items="sideTopics" />
-              </tw-col>
-            </tw-row>
-          </tw-col>
-          <tw-col>
-            <tw-the-goals-decision-collector
-              :goals="goals"
-              :disabled="!isMeetingActive"
-              :automatic-behavior="decisionsAutomaticBehaviorIsEnabled"
-              @update-automatic-behavior="onUpdateDecisionsAutomaticBehavior"
-              @all-goals-completed="onAllGoalsCompleted" />
-            <tw-meeting-dashboard-side-topics v-if="isMobileWidth" :items="sideTopics" />
-          </tw-col>
-        </tw-row>
-        <tw-meeting-dashboard-footer
-          :isMeetingActive="isMeetingActive"
-          @go-step-back="onGoToMeetingForm"
-          @start-meeting="onStartMeeting"
-          @cancel-meeting="onCancelMeeting"
-          @finish-meeting="onFinishMeeting" />
-      </tw-form>
-    </tw-page>
+  <tw-container full-width ref="container" class="tw-u-padding--top">
+    <tw-form>
+      <tw-meeting-dashboard-header :name="name" :description="description" />
+      <tw-row>
+        <tw-col>
+          <tw-row>
+            <tw-col>
+              <tw-box>
+                <tw-time-countdown
+                  size="lg"
+                  :time-from="expectedStartTime"
+                  :time-target="expectedEndTime"
+                  :disabled="!isMeetingActive" />
+              </tw-box>
+            </tw-col>
+          </tw-row>
+          <tw-row>
+            <tw-col>
+              <tw-box>
+                <tw-burndown-chart
+                  :start-time="expectedStartTime"
+                  :end-time="expectedEndTime"
+                  :dataset="burndownDataset"
+                  :show-projection="isMeetingActive" />
+              </tw-box>
+            </tw-col>
+          </tw-row>
+          <tw-row v-if="!isMobileWidth">
+            <tw-col>
+              <tw-meeting-dashboard-side-topics :items="sideTopics" />
+            </tw-col>
+          </tw-row>
+        </tw-col>
+        <tw-col>
+          <tw-the-goals-decision-collector
+            :goals="goals"
+            :disabled="!isMeetingActive"
+            :automatic-behavior="decisionsAutomaticBehaviorIsEnabled"
+            @update-automatic-behavior="onUpdateDecisionsAutomaticBehavior"
+            @all-goals-completed="onAllGoalsCompleted" />
+          <tw-meeting-dashboard-side-topics v-if="isMobileWidth" :items="sideTopics" />
+        </tw-col>
+      </tw-row>
+      <tw-meeting-dashboard-footer
+        :isMeetingActive="isMeetingActive"
+        @go-step-back="onGoToMeetingForm"
+        @start-meeting="onStartMeeting"
+        @cancel-meeting="onCancelMeeting"
+        @finish-meeting="onFinishMeeting" />
+    </tw-form>
   </tw-container>
 </template>
 

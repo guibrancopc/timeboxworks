@@ -9,7 +9,8 @@
   color: var(--text);
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  // border: 1px solid #ced4da;
+  border: 1px solid var(--gray-ice);
   border-radius: var(--border-radius);
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
@@ -41,9 +42,10 @@
 
 .form-control:focus {
   background-color: #fff;
-  border-color: #8bbafe;
+  // border-color: #8bbafe;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  // box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0px 0px 12px var(--gray-light);
 }
 
 .form-control::-webkit-input-placeholder {

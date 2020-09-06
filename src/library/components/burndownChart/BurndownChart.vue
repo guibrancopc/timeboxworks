@@ -113,8 +113,8 @@ export default {
       return {
         label: 'Tendency',
         data: this.getTendencyData(),
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(200, 200, 200, 0.2)',
+        borderColor: 'rgba(200, 200, 200, 1)',
         borderWidth: 1,
         spanGaps: true,
       };
@@ -129,18 +129,18 @@ export default {
       return {
         label: 'Your progress',
         data: this.progressData,
-        backgroundColor: 'rgba(0, 0, 200, 0.2)',
-        borderColor: 'rgba(99, 99, 255, 1)',
-        borderWidth: 1,
+        backgroundColor: 'transparent',
+        borderColor: '#0d6efd',
+        borderWidth: 2,
       };
     },
     getProjectionDataset() {
       return {
         label: 'Projection',
         data: this.projectionData,
-        backgroundColor: 'rgba(0, 200, 0, 0.2)',
-        borderColor: 'rgba(99, 255, 99, 1)',
-        borderWidth: 1,
+        backgroundColor: 'transparent',
+        borderColor: '#28a745',
+        borderWidth: 2,
       };
     },
     insertFirstDotInProgressData() {
