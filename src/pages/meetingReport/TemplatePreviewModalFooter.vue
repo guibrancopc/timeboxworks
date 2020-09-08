@@ -12,6 +12,16 @@
         <img width="150" height="150" :src="getLogoImageSrc()" alt="Logo Timebox Works" />
       </a>
     </div>
+    <div>
+      <br>
+      <br>
+      <ds-p>Have any feedback? Feel free to <a
+        target="_blank"
+        :href="getFeedbackLink">send us a message</a> whenever you want. :)</ds-p>
+      <br>
+      <br>
+      <br>
+    </div>
   </div>
 </template>
 
@@ -29,6 +39,9 @@ export default {
     },
     getLogoImageSrc() {
       return roundedLogo;
+    },
+    getFeedbackLink() {
+      return 'https://docs.google.com/forms/d/1OZ7q7SiMusZ9wJfKTiwH-hPkG83hcUdx7emi3TlOWyI';
     },
   },
 };
