@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import DynamicHeight from '../../directives/dynamicHeight/dynamicHeight';
+import DynamicHeight from 'vue-dynamic-height';
 
 import {
   initForm,
