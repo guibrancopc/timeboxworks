@@ -3,9 +3,9 @@
     <tw-the-logo type="rounded"/>
     <br>
     <br>
-    <ds-p>Have any feedback? Feel free to <a
+    <tw-p>Have any feedback? Feel free to <tw-a
       target="_blank"
-      :href="getFeedbackLink()">send us a message</a> whenever you want. :)</ds-p>
+      :href="getFeedbackLink()">send us a message</tw-a> whenever you want. :)</tw-p>
     <br>
     <br>
     <br>
@@ -26,6 +26,7 @@ export default {
 <style scoped lang="scss">
   .tw-the-footer {
     text-align: center;
+    color: var(--gray);
     .tw-the-logo {
       width: 150px;
       opacity: 0.5;

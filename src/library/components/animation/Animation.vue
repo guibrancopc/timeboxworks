@@ -1,5 +1,6 @@
 <template>
   <transition
+    class="tw-animation"
     v-bind="$attrs"
     v-on="$listeners"
     :enter-active-class="add(enterActiveClass)"
