@@ -91,7 +91,6 @@ const bindInputId = vm => {
   vm.formFieldVm.input.id = vm.id || getUid();
 };
 
-
 export const deleteItemFromListByIndex = ({ list, itemIndex }) => {
   list.splice(itemIndex, 1);
 };

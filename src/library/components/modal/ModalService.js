@@ -1,4 +1,3 @@
-
 export function cleanDOM(el) {
   el.remove();
 }

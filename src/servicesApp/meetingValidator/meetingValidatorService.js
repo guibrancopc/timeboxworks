@@ -1,4 +1,3 @@
-
 export function isMeetingModelValid(meeting) {
   const isValid = (
     meeting
