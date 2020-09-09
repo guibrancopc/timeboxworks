@@ -10,6 +10,8 @@
       class="tw-switch__label"
       aria-label="Toggle Switch"
       for="tw-switch"></label>
+    <span v-if="checked" class="tw-switch__checked">✓</span>
+    <span v-else class="tw-switch__unchecked">&times;</span>
   </div>
 </template>
 
@@ -35,6 +37,24 @@ export default {
 </script>
 
 <style scoped>
+.tw-switch {
+  position: relative;
+  display: inline-block;
+}
+
+.tw-switch__checked {
+  position: absolute;
+  color: #fff;
+  left: 8px;
+  top: 3px;
+}
+
+.tw-switch__unchecked {
+  position: absolute;
+  color: #fff;
+  right: 9px;
+  top: 2px;
+}
 .tw-switch__input[type=checkbox]{
   height: 0;
   width: 0;
@@ -77,5 +97,4 @@ export default {
 .tw-switch__label:active:after {
   width: 23px;
 }
-
 </style>
