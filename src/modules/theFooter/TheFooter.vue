@@ -1,14 +1,12 @@
 <template>
   <footer class="tw-the-footer">
+    <br><br>
     <tw-the-logo type="rounded"/>
-    <br>
-    <br>
+    <br><br>
     <tw-p>Have any feedback? Feel free to <tw-a
       target="_blank"
       :href="getFeedbackLink()">send us a message</tw-a> whenever you want. :)</tw-p>
-    <br>
-    <br>
-    <br>
+    <br><br>
   </footer>
 </template>
 

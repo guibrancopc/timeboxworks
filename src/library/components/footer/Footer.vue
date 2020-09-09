@@ -40,3 +40,22 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../../styles/responsiveTokens.scss';
+
+@media screen and (max-width: $tw-mobile-breakpoint) {
+  .tw-footer__container {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+
+    & > * {
+      flex-basis: 100%;
+
+      &:not(:first-child) {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+</style>
