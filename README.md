@@ -4,7 +4,7 @@
 
 :warning: This application is not done yet, neither the components library. I'll inform here when it's available to use.
 
-It can be tested under [http://timebox.works](http://timebox.works).
+It can be tested under [http://timebox.guicarvalho.com.br](http://timebox.guicarvalho.com.br).
 
 
 ## Project setup
